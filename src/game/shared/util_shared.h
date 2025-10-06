@@ -702,6 +702,14 @@ const char *GetCleanMapName( const char *pszUnCleanMapName, char (&pszTmp)[256] 
 
 #ifdef BDSBASE
 const char* UTIL_GetModVersion(bool cmd = false);
+
+inline bool	MapHasPrefix(const char* pszUnCleanMapName, const char* prefix)
+{
+	char maptmp[256];
+	const char* pszCleanMapName = GetCleanMapName(pszUnCleanMapName, maptmp);
+
+	return StringHasPrefix(pszCleanMapName, prefix);
+}
 #endif
 
 #endif // UTIL_SHARED_H

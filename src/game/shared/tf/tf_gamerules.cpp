@@ -1027,7 +1027,11 @@ static bool BIsCvarIndicatingHolidayIsActive( int iCvarValue, /*EHoliday*/ int e
 #ifdef GAME_DLL
 bool IsCustomGameMode( const char *pszMapName )
 {
+#ifdef BDSBASE
+	return (MapHasPrefix(pszMapName, "vsh_") || MapHasPrefix(pszMapName, "zi_"));
+#else
 	return ( StringHasPrefix( pszMapName, "vsh_" ) || StringHasPrefix( pszMapName, "zi_" ) );
+#endif
 }
 
 bool IsCustomGameMode()
@@ -4412,7 +4416,11 @@ void CTFGameRules::Activate()
 		}
 	}
 
+#ifdef BDSBASE
+	if (MapHasPrefix(STRING(gpGlobals->mapname), "tc_"))
+#else
 	if ( !Q_strncmp( STRING( gpGlobals->mapname ), "tc_", 3 )  )
+#endif
 	{
 		tf_gamemode_tc.SetValue( 1 );
 	}
@@ -4441,7 +4449,11 @@ void CTFGameRules::Activate()
 		tf_gamemode_mvm.SetValue( 1 );
 		m_nGameType.Set( TF_GAMETYPE_MVM );
 	}
+#ifdef BDSBASE
+	else if (MapHasPrefix(STRING(gpGlobals->mapname), "sd_"))
+#else
 	else if ( StringHasPrefix( STRING( gpGlobals->mapname ), "sd_" ) )
+#endif
 	{
 		m_bPlayingSpecialDeliveryMode.Set( true );
 		tf_gamemode_sd.SetValue( 1 );
@@ -4474,8 +4486,8 @@ void CTFGameRules::Activate()
 
 #if defined(QUIVER_DLL)
 	if (m_nGameType == TF_GAMETYPE_UNDEFINED || 
-		StringHasPrefix(STRING(gpGlobals->mapname), "tdm_") || 
-		StringHasPrefix(STRING(gpGlobals->mapname), "dm_"))
+		MapHasPrefix(STRING(gpGlobals->mapname), "tdm_") || 
+		MapHasPrefix(STRING(gpGlobals->mapname), "dm_"))
 	{
 		if (qf_tdm_enable.GetBool() && gpGlobals->eLoadType != MapLoad_Background)
 		{
