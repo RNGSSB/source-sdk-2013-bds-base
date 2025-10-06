@@ -48,6 +48,9 @@
 #endif
 
 ConVar	cc_achievement_debug( "achievement_debug", "0", FCVAR_CHEAT | FCVAR_REPLICATED, "Turn on achievement debug msgs." );
+#ifdef BDSBASE
+ConVar  achievement_show_cheat_message("achievement_show_cheat_message", "1", FCVAR_REPLICATED, "Show message when achievements are disabled due to cheats.");
+#endif
 
 #ifdef CSTRIKE_DLL
 //=============================================================================
@@ -1139,7 +1142,14 @@ bool CAchievementMgr::CheckAchievementsEnabled()
 			// on Steam public
 			if ( developer.GetInt() == 0 || ( k_EUniverseInvalid == GetUniverse() ) || ( k_EUniversePublic == GetUniverse() ) )
 			{
+#ifdef BDSBASE
+				if (achievement_show_cheat_message.GetBool())
+				{
+					Msg("Achievements disabled: cheats turned on in this app session.\n");
+				}
+#else
 				Msg( "Achievements disabled: cheats turned on in this app session.\n" );
+#endif
 				return false;
 			}
 #endif
