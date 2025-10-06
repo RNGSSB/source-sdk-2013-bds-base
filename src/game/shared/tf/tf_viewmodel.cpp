@@ -138,7 +138,6 @@ ConVar viewmodel_offset_z("viewmodel_offset_z", "0", FCVAR_CLIENTDLL | FCVAR_ARC
 ConVar viewmodel_offset_pitch("viewmodel_offset_pitch", "0", FCVAR_CLIENTDLL | FCVAR_ARCHIVE);
 ConVar viewmodel_offset_yaw("viewmodel_offset_yaw", "0", FCVAR_CLIENTDLL | FCVAR_ARCHIVE);
 ConVar viewmodel_offset_roll("viewmodel_offset_roll", "0", FCVAR_CLIENTDLL | FCVAR_ARCHIVE);
-ConVar tf_viewmodel_cloak_tint("tf_viewmodel_cloak_tint", "0", FCVAR_ARCHIVE, "Allow viewmodels to be tinted while cloaked.");
 #else
 ConVar tf_viewmodels_offset_override("tf_viewmodels_offset_override", "", FCVAR_CHEAT, "If set, this will override the position of all viewmodels. Usage 'x y z'");
 #endif
