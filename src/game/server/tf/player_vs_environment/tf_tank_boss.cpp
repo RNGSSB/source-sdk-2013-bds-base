@@ -184,6 +184,13 @@ BEGIN_DATADESC( CTFTankBoss )
 	DEFINE_THINKFUNC( TankBossThink ),
 	DEFINE_INPUTFUNC( FIELD_INTEGER, "DestroyIfAtCapturePoint", InputDestroyIfAtCapturePoint ),
 	DEFINE_INPUTFUNC( FIELD_STRING, "AddCaptureDestroyPostfix", InputAddCaptureDestroyPostfix ),
+#ifdef BDSBASE
+	DEFINE_INPUTFUNC(FIELD_STRING, "SetPath", InputSetPath),
+	DEFINE_INPUTFUNC(FIELD_BOOLEAN, "CanDeploy", InputCanDeploy),
+	DEFINE_INPUTFUNC(FIELD_VOID, "ForceDeploy", InputForceDeploy),
+
+	DEFINE_OUTPUT(m_outputOnBombDeployed, "OnBombDeployed"),
+#endif
 
 END_DATADESC()
 
@@ -244,6 +251,9 @@ CTFTankBoss::CTFTankBoss()
 	m_szDeathPostfix[ 0 ] = '\0';
 	m_flDroppingStart = 0.0f;
 	m_flSpawnTime = 0.0f;
+#ifdef BDSBASE
+	m_bCanDeploy = true;
+#endif
 }
 
 
@@ -340,7 +350,14 @@ void CTFTankBoss::Spawn( void )
 	SetModelIndexOverride( VISION_MODE_ROME, modelinfo->GetModelIndex( s_TankModelRome[ m_damageModelIndex ] ) );
 	m_lastHealth = GetMaxHealth();
 
+#ifdef BDSBASE
+	if (!HasSpawnFlags(SF_TANK_NOGLOW))
+	{
+		AddGlowEffect();
+	}
+#else
 	AddGlowEffect();
+#endif
 
 	m_leftTracks = (CBaseAnimating *)CreateEntityByName( "prop_dynamic" );
 	if ( m_leftTracks )
@@ -617,6 +634,82 @@ void CTFTankBoss::SetStartingPathTrackNode( char *name )
 	m_goalNode = dynamic_cast< CPathTrack * >( gEntList.FindEntityByName( NULL, name ) );
 }
 
+#ifdef BDSBASE
+//--------------------------------------------------------------------------------------
+void CTFTankBoss::InputSetPath(inputdata_t& inputdata)
+{
+	m_goalNode = dynamic_cast<CPathTrack*>(gEntList.FindEntityByName(NULL, inputdata.value.String()));
+}
+
+
+//--------------------------------------------------------------------------------------
+void CTFTankBoss::InputCanDeploy(inputdata_t& inputdata)
+{
+	m_bCanDeploy = inputdata.value.Bool();
+}
+
+
+//--------------------------------------------------------------------------------------
+void CTFTankBoss::InputForceDeploy(inputdata_t& inputdata)
+{
+	//Already Deploying? Ignore!
+	if (m_isDroppingBomb)
+		return;
+
+	//No permission? No Deploy
+	if (!m_bCanDeploy)
+		return;
+
+	m_goalNode = NULL;
+
+	DeployBomb();
+}
+
+
+//-----------------------------------------------------------------------------------------------------
+void CTFTankBoss::DeployBomb(void)
+{
+	//DevMsg( "Tank's final position: %.2f %.2f %.2f", GetAbsOrigin().x, GetAbsOrigin().y, GetAbsOrigin().z );
+	/*if ( TFGameRules() )
+	{
+		TFGameRules()->SetBossNormalizedTravelDistance( 1.0f );
+	}*/
+	// reached end of track - deploy the bomb
+	int animSequence = m_bomb->LookupSequence("deploy");
+	if (animSequence)
+	{
+		m_bomb->SetSequence(animSequence);
+		m_bomb->SetPlaybackRate(1.0f);
+		m_bomb->SetCycle(0);
+		m_bomb->ResetSequenceInfo();
+	}
+
+	animSequence = LookupSequence("deploy");
+	if (animSequence)
+	{
+		SetSequence(animSequence);
+		SetPlaybackRate(1.0f);
+		SetCycle(0);
+		ResetSequenceInfo();
+	}
+
+	if (m_flLastTankAlert + 5.0f < gpGlobals->curtime)
+	{
+		TFGameRules()->PlayThrottledAlert(255, "Announcer.MVM_Tank_Alert_Deploying", 5.0f);
+		m_flLastTankAlert = gpGlobals->curtime;
+		m_bPlayedNearAlert = true;
+	}
+
+	m_isDroppingBomb = true;
+	m_flDroppingStart = gpGlobals->curtime;
+
+	StopSound("MVM.TankEngineLoop");
+
+	EmitSound("MVM.TankDeploy");
+
+	TFGameRules()->HaveAllPlayersSpeakConceptIfAllowed(MP_CONCEPT_MVM_TANK_DEPLOYING, TF_TEAM_PVE_DEFENDERS);
+}
+#endif
 
 //-----------------------------------------------------------------------------------------------------
 void CTFTankBoss::TankBossThink( void )
@@ -793,6 +886,12 @@ void CTFTankBoss::TankBossThink( void )
 			m_goalNode = m_goalNode->GetNext();
 			m_nNodeNumber++;
 
+#ifdef BDSBASE
+			if (m_goalNode == NULL && m_bomb && m_bCanDeploy)
+			{
+				DeployBomb();
+			}
+#else
 			if ( m_goalNode == NULL && m_bomb )
 			{
 				//DevMsg( "Tank's final position: %.2f %.2f %.2f", GetAbsOrigin().x, GetAbsOrigin().y, GetAbsOrigin().z );
@@ -837,6 +936,7 @@ void CTFTankBoss::TankBossThink( void )
 
 				TFGameRules()->HaveAllPlayersSpeakConceptIfAllowed( MP_CONCEPT_MVM_TANK_DEPLOYING, TF_TEAM_PVE_DEFENDERS );
 			}
+#endif
 		}
 
 		if ( m_goalNode )
@@ -860,6 +960,9 @@ void CTFTankBoss::TankBossThink( void )
 	if ( m_isDroppingBomb && IsSequenceFinished() )
 	{
 		FirePopFileEvent( &m_onBombDroppedEventInfo );
+#ifdef BDSBASE
+		m_outputOnBombDeployed.FireOutput(this, this);
+#endif
 		m_isDroppingBomb = false;
 
 		TFGameRules()->BroadcastSound( 255, "Announcer.MVM_Tank_Planted" );
