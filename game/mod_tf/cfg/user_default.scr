@@ -668,6 +668,14 @@ DESCRIPTION INFO_OPTIONS
 		{ "1.0" }
 	}
 	
+	"tf_mvm_play_music"
+	{
+		"#TF_MVM_music"
+		"#Tooltip_MVM_music"
+		{ BOOL }
+		{ "0" }
+	}
+	
 	"hud_takesshots"
 	{
 		"#game_takesshots"

@@ -34,6 +34,9 @@
 #include "tf_hud_statpanel.h"
 #include "tf_mann_vs_machine_stats.h"
 #include "c_tf_playerresource.h"
+#ifdef BDSBASE
+#include "soundenvelope.h"
+#endif
 
 #define UPGRADE_PANEL_LEVEL_LABEL_COUNT 10
 
@@ -42,7 +45,12 @@ extern CAchievementMgr g_AchievementMgrTF;
 
 ConVar tf_mvm_tabs_discovered( "tf_mvm_tabs_discovered", "0", FCVAR_ARCHIVE, "Remember how many times players have clicked tabs." );
 #ifdef BDSBASE
-ConVar tf_mvm_sort_upgrades("tf_mvm_sort_upgrades", "1", FCVAR_NOTIFY, "Sort upgrades by price.");
+ConVar tf_mvm_sort_upgrades("tf_mvm_sort_upgrades", "1", FCVAR_NONE, "Sort upgrades by price.");
+#if defined(QUIVER_DLL)
+ConVar tf_mvm_play_music("tf_mvm_play_music", "1", FCVAR_ARCHIVE, "Play the cut MvM upgrade station music.");
+#else
+ConVar tf_mvm_play_music("tf_mvm_play_music", "0", FCVAR_ARCHIVE, "Play the cut MvM upgrade station music.");
+#endif
 #endif
 
 Color CUpgradeBuyPanel::m_rgbaDefaultFG( 0, 0, 0, 255 );
@@ -493,6 +501,18 @@ bool CHudUpgradePanel::ShouldDraw( void )
 		{
 			if ( bInZone )
 			{
+#ifdef BDSBASE
+				if (!m_bInspectMode)
+				{
+					if (!m_pMvMUpgradeMachineLoop && tf_mvm_play_music.GetBool())
+					{
+						CSoundEnvelopeController& controller = CSoundEnvelopeController::GetController();
+						CLocalPlayerFilter filter;
+						m_pMvMUpgradeMachineLoop = controller.SoundCreate(filter, m_hPlayer->entindex(), "music.mvm_upgrade_machine");
+						controller.Play(m_pMvMUpgradeMachineLoop, 1.0, 100);
+					}
+				}
+#endif
 				m_bShowUpgradeMenu = true;
 				m_bCancelUpgrades = false;
 				m_bOpenLoadout = false;
@@ -2037,6 +2057,11 @@ void CHudUpgradePanel::OnCommand( const char *command )
 	}
 	else if ( !Q_stricmp( command, "cancel" ) )
 	{
+		if (m_pMvMUpgradeMachineLoop)
+		{
+			CSoundEnvelopeController::GetController().SoundDestroy(m_pMvMUpgradeMachineLoop);
+			m_pMvMUpgradeMachineLoop = NULL;
+		}
 		m_bShowUpgradeMenu = false;
 		m_bCancelUpgrades = true;
 		m_bOpenLoadout = false;

@@ -150,3 +150,4 @@ MvM Changes:
 - Removed resistance upgrades from MvM and condenced them into the armor upgrade.
 - Removed metal regen from MvM as it's useless.
 - Replaced health regen in MvM with a max health boost.
+- Implemented the cut Upgrade Station music.

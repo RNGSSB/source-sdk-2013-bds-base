@@ -258,6 +258,10 @@ protected:
 private:
 	void UpdateTip();
 	CHandle< C_TFPlayer > m_hPlayer;
+
+#ifdef BDSBASE
+	CSoundPatch* m_pMvMUpgradeMachineLoop;
+#endif
 };
 
 

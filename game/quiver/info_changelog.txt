@@ -218,6 +218,7 @@ Details:
 - Made it so bots' painted weapons will spawn with different paint qualities.
 - Removed the ability for Australium weapons (other than the Golden Wrench, Golden Frying Pan, and Saxxy) to turn players gold.
 - Added the ability to earn achievemnts in offline practice mode.
+- Implemented the cut Upgrade Station music.
 
 Quiver Private Alpha 1.1.0:
 Whitelists:
