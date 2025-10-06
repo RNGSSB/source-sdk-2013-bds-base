@@ -599,7 +599,11 @@ void CViewModelInvisProxy::OnBind( C_BaseEntity *pEnt )
 		return;
 	}
 	
+#ifdef BDSBASE
+	float flPercentInvisible = pPlayer->GetEffectiveInvisibilityLevel();
+#else
 	float flPercentInvisible = pPlayer->GetPercentInvisible();
+#endif
 	float flWeaponInvis = flPercentInvisible;
 
 	if ( bIsViewModel == true )
@@ -629,7 +633,7 @@ void CViewModelInvisProxy::OnBind( C_BaseEntity *pEnt )
 
 EXPOSE_INTERFACE( CViewModelInvisProxy, IMaterialProxy, "vm_invis" IMATERIAL_PROXY_INTERFACE_VERSION );
 
-
+#ifndef BDSBASE
 //-----------------------------------------------------------------------------
 // Purpose: Generic invis proxy that can handle invis for both weapons & viewmodels.
 //			Makes the vm_invis & weapon_invis proxies obsolete, do not use them.
@@ -637,41 +641,8 @@ EXPOSE_INTERFACE( CViewModelInvisProxy, IMaterialProxy, "vm_invis" IMATERIAL_PRO
 class CInvisProxy : public CBaseInvisMaterialProxy
 {
 public:
-#ifdef BDSBASE
-	CInvisProxy(void);
-	virtual bool Init(IMaterial* pMaterial, KeyValues* pKeyValues) OVERRIDE;
-#endif
 	virtual void OnBind( C_BaseEntity *pC_BaseEntity ) OVERRIDE;
-#ifdef BDSBASE
-private:
-	IMaterialVar* m_pCloakColorTint;
-#endif
 };
-
-#ifdef BDSBASE
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-CInvisProxy::CInvisProxy(void)
-{
-	m_pCloakColorTint = NULL;
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: Get pointer to the color value
-// Input  : *pMaterial - 
-//-----------------------------------------------------------------------------
-bool CInvisProxy::Init(IMaterial* pMaterial, KeyValues* pKeyValues)
-{
-	// Need to get the material var
-	bool bInvis = CBaseInvisMaterialProxy::Init(pMaterial, pKeyValues);
-
-	bool bTint;
-	m_pCloakColorTint = pMaterial->FindVar("$cloakColorTint", &bTint);
-
-	return (bInvis && bTint);
-}
-#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -685,30 +656,11 @@ void CInvisProxy::OnBind( C_BaseEntity *pC_BaseEntity )
 
 	CTFPlayer *pPlayer = NULL;
 
-#ifdef BDSBASE
-	static Vector cloakTintRed = Vector(1.0f, 0.5f, 0.4f);
-	static Vector cloakTintBlue = Vector(0.4f, 0.5f, 1.0f);
-#endif
-
 	// Check if we have a move parent and if it's a player
 	C_BaseEntity *pMoveParent = pEnt->GetMoveParent();
 	if ( pMoveParent && pMoveParent->IsPlayer() )
 	{
 		pPlayer = ToTFPlayer( pMoveParent );
-#ifdef BDSBASE
-		// Anything relating to players always tint
-		switch (pPlayer->GetTeamNumber())
-		{
-		case TF_TEAM_RED:
-			m_pCloakColorTint->SetVecValue(cloakTintRed.Base(), 3);
-			break;
-
-		case TF_TEAM_BLUE:
-		default:
-			m_pCloakColorTint->SetVecValue(cloakTintBlue.Base(), 3);
-			break;
-		}
-#endif
 	}
 
 	// If it's not a player then check for viewmodel.
@@ -720,29 +672,6 @@ void CInvisProxy::OnBind( C_BaseEntity *pC_BaseEntity )
 		if ( pVM )
 		{
 			pPlayer = ToTFPlayer( pVM->GetOwner() );
-#ifdef BDSBASE
-			// Viewmodels do not tint unless otherwise specified
-			bool bViewmodelTint = tf_viewmodel_cloak_tint.GetBool();
-
-			if (!bViewmodelTint)
-			{
-				m_pCloakColorTint->SetVecValue(1.0f, 1.0f, 1.0f);
-			}
-			else
-			{
-				switch (pPlayer->GetTeamNumber())
-				{
-				case TF_TEAM_RED:
-					m_pCloakColorTint->SetVecValue(cloakTintRed.Base(), 3);
-					break;
-
-				case TF_TEAM_BLUE:
-				default:
-					m_pCloakColorTint->SetVecValue(cloakTintBlue.Base(), 3);
-					break;
-				}
-			}
-#endif
 		}
 	}
 	
@@ -808,6 +737,6 @@ void CInvisProxy::OnBind( C_BaseEntity *pC_BaseEntity )
 //	Generic invis proxy that can handle invis for both weapons & viewmodels.
 //	Makes the vm_invis & weapon_invis proxies obsolete, do not use them.
 EXPOSE_INTERFACE( CInvisProxy, IMaterialProxy, "invis" IMATERIAL_PROXY_INTERFACE_VERSION );
-
+#endif
 
 #endif // CLIENT_DLL
