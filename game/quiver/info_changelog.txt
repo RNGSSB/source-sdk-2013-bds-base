@@ -93,7 +93,8 @@ Added the following Source SDK Pull Requests:
 	- #1539: Allow weapons with penetrating bullets to penetrate Medigun shield
 	- #1540: Fixed on-hit attributes not triggering on friendly disguises
 	- #1542: Add Convar to Remove print from having cheats on for Achievements
-	- #1543: Fix mounting of custom content in gameinfo
+	- #1544: Gamemode prefix check fails when loading map from Workshop
+	- #1547: Allow ducked air jumping as any class
 
 Details:
 - Fixed a bug where the mini-crit damage effect doesn't show up when your shield breaks.
