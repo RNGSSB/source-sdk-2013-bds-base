@@ -89,6 +89,8 @@ Added the following Source SDK Pull Requests:
 	- #1537: Fix Entrance teleporters not using "mult_teleporter_recharge_rate"
 	- #1535: Invis proxy refactor
 	- #1533: MvM Tank support for Mappers/Vscripters
+	- #1532: Fix team skins for tf_projectile_rocket
+	- #1539: Allow weapons with penetrating bullets to penetrate Medigun shield
 
 Details:
 - Fixed a bug where the mini-crit damage effect doesn't show up when your shield breaks.
