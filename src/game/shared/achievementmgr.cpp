@@ -50,6 +50,14 @@
 ConVar	cc_achievement_debug( "achievement_debug", "0", FCVAR_CHEAT | FCVAR_REPLICATED, "Turn on achievement debug msgs." );
 #ifdef BDSBASE
 ConVar  achievement_show_cheat_message("achievement_show_cheat_message", "1", FCVAR_REPLICATED, "Show message when achievements are disabled due to cheats.");
+ConVar  achievement_allow_cheats("achievement_allow_cheats", "0", FCVAR_REPLICATED | FCVAR_CHEAT, "Allow achievements if cheats are enabled.");
+#if defined(TF_DLL) || defined(TF_CLIENT_DLL)
+#ifdef QUIVER_DLL
+ConVar  tf_achievement_allow_in_offline_practice("tf_achievement_allow_in_offline_practice", "1", FCVAR_REPLICATED, "Allow achievements in offline practice mode.");
+#else
+ConVar  tf_achievement_allow_in_offline_practice("tf_achievement_allow_in_offline_practice", "0", FCVAR_REPLICATED, "Allow achievements in offline practice mode.");
+#endif
+#endif
 #endif
 
 #ifdef CSTRIKE_DLL
@@ -1122,7 +1130,11 @@ bool CAchievementMgr::CheckAchievementsEnabled()
 #endif
 
 	// no achievements for offline practice
+#ifdef BDSBASE
+	if (tf_bot_offline_practice.GetInt() != 0 && !tf_achievement_allow_in_offline_practice.GetBool())
+#else
 	if ( tf_bot_offline_practice.GetInt() != 0 )
+#endif
 	{
 		return false;
 	}
@@ -1137,6 +1149,14 @@ bool CAchievementMgr::CheckAchievementsEnabled()
 		// Don't award achievements if cheats are turned on.  
 		if ( WereCheatsEverOn() )
 		{
+#ifdef BDSBASE
+			if (achievement_allow_cheats.GetBool())
+			{
+				Warning("Cheats turned on in this app session. Allowing achievements due to override.\n");
+				return true;
+			}
+#endif
+
 #ifndef NO_STEAM
 			// Cheats get turned on automatically if you run with -dev which many people do internally, so allow cheats if developer is turned on and we're not running
 			// on Steam public

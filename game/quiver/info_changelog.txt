@@ -92,7 +92,7 @@ Added the following Source SDK Pull Requests:
 	- #1532: Fix team skins for tf_projectile_rocket
 	- #1539: Allow weapons with penetrating bullets to penetrate Medigun shield
 	- #1540: Fixed on-hit attributes not triggering on friendly disguises
-	- 
+	- #1542: Add Convar to Remove print from having cheats on for Achievements
 
 Details:
 - Fixed a bug where the mini-crit damage effect doesn't show up when your shield breaks.
@@ -215,6 +215,7 @@ Details:
 - Bots will now have a chance to spawn with Australium and/or Killstreak weapons alongside other weapon reskins.
 - Made it so bots' painted weapons will spawn with different paint qualities.
 - Removed the ability for Australium weapons (other than the Golden Wrench, Golden Frying Pan, and Saxxy) to turn players gold.
+- Added the ability to earn achievemnts in offline practice mode.
 
 Quiver Private Alpha 1.1.0:
 Whitelists:
