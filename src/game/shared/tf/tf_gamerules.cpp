@@ -22747,13 +22747,12 @@ bool CTFGameRules::CanUpgradeWithAttrib( CTFPlayer *pPlayer, int iWeaponSlot, at
 		}
 #else
 	//add syringe upgrades.
-	case 4061:
-	case 4062:
-	case 4063:
+	case 4035:
+	case 4034:
+	case 4036:
 		{
-			int iTHEDISEASE = 0;
-			CALL_ATTRIB_HOOK_INT_ON_OTHER(pEntity, iTHEDISEASE, theres_this_disease_going_around_killing_people_and_i_think_i_have_it_uh_oh);
-			return (iTHEDISEASE != 0);
+			CTFBonesaw *pBonesaw = dynamic_cast<CTFBonesaw*>(pEntity);
+			return ( pBonesaw && pBonesaw->GetBonesawType() == BONESAW_DISEASE);
 		}
 #endif
 	}
