@@ -22752,7 +22752,17 @@ bool CTFGameRules::CanUpgradeWithAttrib( CTFPlayer *pPlayer, int iWeaponSlot, at
 	case 4036:
 		{
 			CTFBonesaw *pBonesaw = dynamic_cast<CTFBonesaw*>(pEntity);
-			return ( pBonesaw && pBonesaw->GetBonesawType() == BONESAW_DISEASE);
+			bool isDiseaseSaw = ( pBonesaw && pBonesaw->GetBonesawType() == BONESAW_DISEASE);
+
+			// if any weapons have the attribute, allow them to get the upgrades from that.
+			if (!isDiseaseSaw)
+			{
+				int iTHEDISEASE = 0;
+				CALL_ATTRIB_HOOK_INT_ON_OTHER(pEntity, iTHEDISEASE, theres_this_disease_going_around_killing_people_and_i_think_i_have_it_uh_oh);
+				isDiseaseSaw = (iTHEDISEASE != 0);
+			}
+
+			return isDiseaseSaw;
 		}
 #endif
 	}
