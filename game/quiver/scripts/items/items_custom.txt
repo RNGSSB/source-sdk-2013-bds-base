@@ -769,7 +769,7 @@
 		"weapon_quiver_clusterbuster"
 		{
 			"enabled"	"1"
-			"prefab"		"quiver_customweapon"
+			"prefab"		"quiver_customweapon_staging"
 			"item_class"	"tf_weapon_rocketlauncher"
 			"craft_class"	"weapon"
 			"craft_material_type"	"weapon"
@@ -835,11 +835,6 @@
 				{
 					"attribute_class"	"mult_clipsize"
 					"value" 			"0.5"
-				}
-				"damage bonus"
-				{
-					"attribute_class"	"mult_dmg"
-					"value"	"1.15"
 				}
 			}
 			"mouse_pressed_sound"	"ui/item_heavy_gun_pickup.wav"

@@ -382,10 +382,16 @@ void CTFProjectile_RocketCluster::Detonate(void)
 	Explode(&tr, GetDamageType());
 }
 
+Vector g_vecFixedRktSpreadPellets[] =
+{
+	Vector(32,0,0),
+	Vector(32,48,0),
+	Vector(-32,0,0),
+	Vector(-32,48,0)
+};
+
 void CTFProjectile_RocketCluster::Cluster()
 {
-	Detonate();
-
 	CTFWeaponBase* pWeapon = dynamic_cast<CTFWeaponBase*>(GetOriginalLauncher());
 
 	if (pWeapon)
@@ -410,10 +416,18 @@ void CTFProjectile_RocketCluster::Cluster()
 
 		for (int i = 0; i < 4; i++)
 		{
-			Vector offset = RandomVector(-64, 64);
-			//offset.z = 0;
+			// Get the shooting angles.
+			Vector vecShootForward, vecShootRight, vecShootUp;
+			AngleVectors(GetAbsAngles(), &vecShootForward, &vecShootRight, &vecShootUp);
 
-			CTFProjectile_Rocket* pProjectile = CTFProjectile_Rocket::Create(pWeapon, vecOrigin + offset, GetAbsAngles(), pAttacker, pAttacker);
+			float x = g_vecFixedRktSpreadPellets[i].x;
+			float y = g_vecFixedRktSpreadPellets[i].y;
+
+			Vector offset = ((x * vecShootRight) + (y * vecShootUp));
+			Vector pos = (vecOrigin + offset);
+			pos.z -= 16;
+
+			CTFProjectile_Rocket* pProjectile = CTFProjectile_Rocket::Create(pWeapon, pos, GetAbsAngles(), pAttacker, pAttacker);
 
 			if (pProjectile)
 			{
@@ -421,9 +435,11 @@ void CTFProjectile_RocketCluster::Cluster()
 				pProjectile->SetCritical(IsCritical());
 				pProjectile->SetRadiusScale(0.5f);
 				pProjectile->SetScorer(pAttacker);
-				pProjectile->SetDamage(GetDamage() / 4);
+				pProjectile->SetDamage(GetDamage() / 2);
 			}
 		}
 	}
+
+	Detonate();
 }
 #endif
