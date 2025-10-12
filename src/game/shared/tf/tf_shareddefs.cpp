@@ -1044,7 +1044,9 @@ const char *g_szProjectileNames[] =
 	"projectile_bread_monster",
 	"projectile_jar_gas",
 	"tf_projectile_balloffire",
-
+#if defined(QUIVER_DLL)
+	"projectile_rocketcluster",
+#endif
 };
 COMPILE_TIME_ASSERT( ARRAYSIZE( g_szProjectileNames ) == TF_NUM_PROJECTILES );
 
@@ -1082,7 +1084,9 @@ int g_iProjectileWeapons[] =
 	TF_WEAPON_THROWABLE,
 	TF_WEAPON_JAR_GAS,
 	TF_WEAPON_FLAME_BALL,
-
+#if defined(QUIVER_DLL)
+	TF_WEAPON_ROCKETLAUNCHER,
+#endif
 };
 
 COMPILE_TIME_ASSERT( ARRAYSIZE( g_szProjectileNames ) == ARRAYSIZE( g_iProjectileWeapons ) );

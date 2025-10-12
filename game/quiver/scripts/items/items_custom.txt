@@ -765,6 +765,87 @@
 			"mouse_pressed_sound"	"ui/item_metal_weapon_pickup.wav"
 			"drop_sound"		"ui/item_metal_weapon_drop.wav"
 		}
+		
+		"weapon_quiver_clusterbuster"
+		{
+			"enabled"	"1"
+			"prefab"		"quiver_customweapon"
+			"item_class"	"tf_weapon_rocketlauncher"
+			"craft_class"	"weapon"
+			"craft_material_type"	"weapon"
+			"capabilities"
+			{
+				"nameable"		"1"
+			}
+			"tags"
+			{
+				"can_deal_damage"		"1"
+				"can_deal_gib_damage"	"1"
+				"can_be_equipped_by_soldier_or_demo"	"1"
+				"can_deal_posthumous_damage"	"1"
+				"can_deal_critical_damage"	"1"
+				"can_deal_long_distance_damage"	"1"
+			}
+			"base_item_name"	"Cluster Buster"
+			"item_logname"		"cluster_buster"
+			"item_iconname"		"tf_projectile_rocket"
+			"show_in_armory"	"1"
+			"item_type_name"	"#TF_Weapon_RocketLauncher"
+			"item_name"	"#Quiver_ClusterBuster"
+			"item_slot"	"primary"
+			"image_inventory"	"backpack/weapons/w_models/w_rocketlauncher"
+			"image_inventory_size_w"		"128"
+			"image_inventory_size_h"		"82"
+			"model_player"	"models/weapons/c_models/c_rocketlauncher/c_rocketlauncher.mdl"
+			"attach_to_hands" "1"
+			"inspect_panel_dist" "68"
+			"used_by_classes"
+			{
+				"soldier"	"1"
+			}
+			"visuals_mvm_boss"
+			{
+				"sound_single_shot"	"MVM.GiantSoldierRocketShoot"
+				"sound_burst"		"MVM.GiantSoldierRocketShootCrit"
+				"sound_special1"	"MVM.GiantSoldierRocketExplode"
+			}
+			"static_attrs"
+			{
+				"weapon_stattrak_module_scale"			"1"
+				"min_viewmodel_offset"					"10 -3 -10"
+			}
+			"attributes"
+			{
+				"cluster desc"
+				{
+					"attribute_class"	"override_projectile_type"
+					"value"				"31" 
+				}
+				"disable fancy class select anim"
+				{
+					"attribute_class"	"disable_fancy_class_select_anim"
+					"value"				"1"
+				}
+				"fire rate penalty"
+				{
+					"attribute_class"	"mult_postfiredelay"
+					"value"				"1.4"
+				}
+				"clip size penalty"
+				{
+					"attribute_class"	"mult_clipsize"
+					"value" 			"0.5"
+				}
+				"damage bonus"
+				{
+					"attribute_class"	"mult_dmg"
+					"value"	"1.15"
+				}
+			}
+			"mouse_pressed_sound"	"ui/item_heavy_gun_pickup.wav"
+			"drop_sound"		"ui/item_heavy_gun_drop.wav"
+			"particle_suffix"		"rocketlauncher"
+		}
 	}
 
 	"items"
@@ -1045,6 +1126,13 @@
 			"prefab"	"weapon_quiver_syringe"
 			"first_sale_date"	"2010/09/29"
 			"xifier_class_remap"	"weapon_quiver_syringe"
+		}
+		"34421"
+		{
+			"name"		"Cluster Buster"
+			"prefab"	"weapon_quiver_clusterbuster"
+			"first_sale_date"	"2010/09/29"
+			"xifier_class_remap"	"weapon_quiver_clusterbuster"
 		}
 	}
 	

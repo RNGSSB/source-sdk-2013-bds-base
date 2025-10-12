@@ -22701,7 +22701,13 @@ bool CTFGameRules::CanUpgradeWithAttrib( CTFPlayer *pPlayer, int iWeaponSlot, at
 	case 488:	// "rocket specialist"
 		if ( pWeaponGun )
 		{
+#if defined(QUIVER_DLL)
+			return (pWeaponGun->GetWeaponProjectileType() == TF_PROJECTILE_ROCKET || 
+				pWeaponGun->GetWeaponProjectileType() == TF_PROJECTILE_ENERGY_BALL || 
+				pWeaponGun->GetWeaponProjectileType() == QF_PROJECTILE_ROCKETCLUSTER);
+#else
 			return ( pWeaponGun->GetWeaponProjectileType() == TF_PROJECTILE_ROCKET || pWeaponGun->GetWeaponProjectileType() == TF_PROJECTILE_ENERGY_BALL );
+#endif
 		}
 	case 499:	// generate rage on heal (shield)
 	case 554:	// revive

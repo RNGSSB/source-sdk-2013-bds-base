@@ -127,6 +127,11 @@ public:
 
 	CBaseEntity		*GetOwnerPlayer( void ) const;
 
+#ifdef BDSBASE
+	virtual void	SetRadiusScale(float flScale) { m_flRadiusScale = flScale; }
+	virtual float	GetRadiusScale() { return m_flRadiusScale; }
+#endif
+
 protected:
 
 	// Not networked.
@@ -139,6 +144,10 @@ protected:
 	bool					m_bStunOnImpact;
 
 	float					m_flDamageForceScale;
+
+#ifdef BDSBASE
+	float					m_flRadiusScale;
+#endif
 
 	CHandle<CBaseEntity>	m_hEnemy;
 

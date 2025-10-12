@@ -219,6 +219,7 @@ Details:
 - Removed the ability for Australium weapons (other than the Golden Wrench, Golden Frying Pan, and Saxxy) to turn players gold.
 - Added the ability to earn achievemnts in offline practice mode.
 - Implemented the cut Upgrade Station music.
+- Added a 20% damage bonus to the Flying Guillotine.
 
 Quiver Private Alpha 1.1.0:
 Whitelists:

@@ -342,6 +342,13 @@ CBaseEntity *CTFWeaponBaseGun::FireProjectile( CTFPlayer *pPlayer )
 		}
 		break;
 
+#if defined(QUIVER_DLL)
+	case QF_PROJECTILE_ROCKETCLUSTER:
+		pProjectile = FireRocket(pPlayer, iProjectile);
+		pPlayer->DoAnimationEvent(PLAYERANIMEVENT_ATTACK_PRIMARY);
+		break;
+#endif
+
 	case TF_PROJECTILE_NONE:
 	default:
 		// do nothing!
@@ -533,7 +540,7 @@ void CTFWeaponBaseGun::FireBullet( CTFPlayer *pPlayer )
 //-----------------------------------------------------------------------------
 // Purpose: Fire a rocket
 //-----------------------------------------------------------------------------
-CBaseEntity *CTFWeaponBaseGun::FireRocket( CTFPlayer *pPlayer, int iRocketType )
+CBaseEntity* CTFWeaponBaseGun::FireRocket(CTFPlayer* pPlayer, int iRocketType)
 {
 	PlayWeaponShootSound();
 
@@ -542,18 +549,44 @@ CBaseEntity *CTFWeaponBaseGun::FireRocket( CTFPlayer *pPlayer, int iRocketType )
 
 	Vector vecSrc;
 	QAngle angForward;
-	Vector vecOffset( 23.5f, 12.0f, -3.0f );
-	if ( pPlayer->GetFlags() & FL_DUCKING )
+	Vector vecOffset(23.5f, 12.0f, -3.0f);
+	if (pPlayer->GetFlags() & FL_DUCKING)
 	{
 		vecOffset.z = 8.0f;
 	}
-	GetProjectileFireSetup( pPlayer, vecOffset, &vecSrc, &angForward, false );
+	GetProjectileFireSetup(pPlayer, vecOffset, &vecSrc, &angForward, false);
 
-	trace_t trace;	
+	trace_t trace;
 	Vector vecEye = pPlayer->EyePosition();
-	CTraceFilterSimple traceFilter( this, COLLISION_GROUP_NONE );
-	UTIL_TraceLine( vecEye, vecSrc, MASK_SOLID_BRUSHONLY, &traceFilter, &trace );
+	CTraceFilterSimple traceFilter(this, COLLISION_GROUP_NONE);
+	UTIL_TraceLine(vecEye, vecSrc, MASK_SOLID_BRUSHONLY, &traceFilter, &trace);
 
+#if defined(QUIVER_DLL)
+	if (iRocketType == TF_PROJECTILE_ROCKET)
+	{
+		CTFProjectile_Rocket* pProjectile = CTFProjectile_Rocket::Create(this, trace.endpos, angForward, pPlayer, pPlayer);
+
+		if (pProjectile)
+		{
+			pProjectile->SetCritical(IsCurrentAttackACrit());
+			pProjectile->SetDamage(GetProjectileDamage());
+		}
+
+		return pProjectile;
+	}
+	else if (iRocketType == QF_PROJECTILE_ROCKETCLUSTER)
+	{
+		CTFProjectile_RocketCluster* pProjectile = CTFProjectile_RocketCluster::Create(this, trace.endpos, angForward, pPlayer, pPlayer);
+
+		if (pProjectile)
+		{
+			pProjectile->SetCritical(IsCurrentAttackACrit());
+			pProjectile->SetDamage(GetProjectileDamage());
+		}
+
+		return pProjectile;
+	}
+#else
 	CTFProjectile_Rocket *pProjectile = CTFProjectile_Rocket::Create( this, trace.endpos, angForward, pPlayer, pPlayer );
 
 	if ( pProjectile )
@@ -563,6 +596,7 @@ CBaseEntity *CTFWeaponBaseGun::FireRocket( CTFPlayer *pPlayer, int iRocketType )
 	}
 
 	return pProjectile;
+#endif
 
 #endif
 

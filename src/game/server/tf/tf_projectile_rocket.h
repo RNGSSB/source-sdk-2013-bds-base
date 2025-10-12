@@ -57,4 +57,28 @@ private:
 	bool m_bSpell;
 };
 
+#if defined(QUIVER_DLL)
+class CTFProjectile_RocketCluster : public CTFProjectile_Rocket
+{
+public:
+
+	DECLARE_CLASS(CTFProjectile_RocketCluster, CTFProjectile_Rocket);
+	DECLARE_NETWORKCLASS();
+	DECLARE_DATADESC();
+
+	// Creation.
+	static CTFProjectile_RocketCluster* Create(CBaseEntity* pLauncher, const Vector& vecOrigin, const QAngle& vecAngles, CBaseEntity* pOwner = NULL, CBaseEntity* pScorer = NULL);
+
+	virtual void Spawn(void);
+	virtual void Precache(void);
+	virtual void ClusterThink(void);
+	virtual void Cluster(void);
+	virtual void Detonate(void);
+	virtual void Explode(trace_t* pTrace, int bitsDamageType);
+
+private:
+	float m_flCreationTime;
+};
+#endif
+
 #endif	//TF_PROJECTILE_ROCKET_H

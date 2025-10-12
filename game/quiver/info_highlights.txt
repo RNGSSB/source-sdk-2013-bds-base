@@ -144,6 +144,7 @@ Unlockable weapon balance changes:
 - The Loch-n-Load's no grenade spin attribute was changed to a 85% slower grenade spin.
 - Changed the 25% projectile speed to a 35% projectile speed on the Loch-n-Load to increase range slightly to compensate.
 - Replaced the Loch-n-Load's 20% damage bonus with a 20% damage penalty
+- Added a 20% damage bonus to the Flying Guillotine.
 
 MvM Changes:
 - Added armor-related upgrades to MvM (max armor, pierces damage resistances, and armor resistance).

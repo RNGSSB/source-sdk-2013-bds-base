@@ -172,6 +172,10 @@ void CTFBaseRocket::Spawn( void )
 	m_flDestroyableTime = gpGlobals->curtime + TF_ROCKET_DESTROYABLE_TIMER;
 	m_bCritical = false;
 
+#ifdef BDSBASE
+	m_flRadiusScale = 1.0f;
+#endif
+
 #endif
 }
 
@@ -497,7 +501,11 @@ void CTFBaseRocket::Explode( trace_t *pTrace, CBaseEntity *pOther )
 		pAttacker = pAttacker->GetOwnerEntity();
 	}
 
+#ifdef BDSBASE
+	float flRadius = GetRadius() * GetRadiusScale();
+#else
 	float flRadius = GetRadius();
+#endif
 
 	if ( pAttacker ) // No attacker, deal no damage. Otherwise we could potentially kill teammates.
 	{

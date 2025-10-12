@@ -13,6 +13,9 @@
 #include "tf_weaponbase_rocket.h"
 
 #define CTFProjectile_Rocket C_TFProjectile_Rocket
+#if defined(QUIVER_DLL)
+#define CTFProjectile_RocketCluster C_TFProjectile_RocketCluster
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: Rocket projectile.
@@ -37,5 +40,14 @@ private:
 
 	CNewParticleEffect	*pEffect;
 };
+
+#if defined(QUIVER_DLL)
+class C_TFProjectile_RocketCluster : public C_TFProjectile_Rocket
+{
+	DECLARE_CLASS(C_TFProjectile_RocketCluster, C_TFProjectile_Rocket);
+public:
+	DECLARE_NETWORKCLASS();
+};
+#endif
 
 #endif // C_TF_PROJECTILE_ROCKET_H

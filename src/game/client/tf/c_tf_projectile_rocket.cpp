@@ -161,3 +161,10 @@ const char *C_TFProjectile_Rocket::GetTrailParticleName( void )
 	
 	return "rockettrail"; 
 }
+
+#if defined(QUIVER_DLL)
+IMPLEMENT_NETWORKCLASS_ALIASED(TFProjectile_RocketCluster, DT_TFProjectile_RocketCluster)
+
+BEGIN_NETWORK_TABLE(C_TFProjectile_RocketCluster, DT_TFProjectile_RocketCluster)
+END_NETWORK_TABLE()
+#endif

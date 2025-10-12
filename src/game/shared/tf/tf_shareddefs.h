@@ -584,6 +584,9 @@ enum ProjectileType_t
 	TF_PROJECTILE_BREAD_MONSTER,
 	TF_PROJECTILE_JAR_GAS,
 	TF_PROJECTILE_FLAME_BALL,	
+#if defined(QUIVER_DLL)
+	QF_PROJECTILE_ROCKETCLUSTER,
+#endif
 
 	// Add new entries here!
 

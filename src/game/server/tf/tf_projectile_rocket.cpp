@@ -8,6 +8,11 @@
 #include "tf_weaponbase.h"
 #include "tf_projectile_rocket.h"
 #include "tf_player.h"
+#if defined(QUIVER_DLL)
+#include "tf_gamerules.h"
+#include "soundent.h"
+#include "tf_fx.h"
+#endif
 
 //=============================================================================
 //
@@ -178,3 +183,247 @@ void CTFProjectile_Rocket::Deflected( CBaseEntity *pDeflectedBy, Vector &vecDir 
 	IncrementDeflected();
 	m_nSkin = ( GetTeamNumber() == TF_TEAM_BLUE ) ? 1 : 0;
 }
+
+#if defined(QUIVER_DLL)
+#define MINI_ROCKETS_MODEL					"models/weapons/w_models/w_rocket_airstrike/w_rocket_airstrike.mdl"
+
+BEGIN_DATADESC(CTFProjectile_RocketCluster)
+DEFINE_THINKFUNC(ClusterThink),
+END_DATADESC()
+
+LINK_ENTITY_TO_CLASS(qf_projectile_rocketcluster, CTFProjectile_RocketCluster);
+PRECACHE_REGISTER(qf_projectile_rocketcluster);
+
+IMPLEMENT_NETWORKCLASS_ALIASED(TFProjectile_RocketCluster, DT_TFProjectile_RocketCluster)
+
+BEGIN_NETWORK_TABLE(CTFProjectile_RocketCluster, DT_TFProjectile_RocketCluster)
+END_NETWORK_TABLE()
+
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
+CTFProjectile_RocketCluster* CTFProjectile_RocketCluster::Create(CBaseEntity* pLauncher, const Vector& vecOrigin, const QAngle& vecAngles, CBaseEntity* pOwner, CBaseEntity* pScorer)
+{
+	CTFProjectile_RocketCluster* pRocket = static_cast<CTFProjectile_RocketCluster*>(CTFBaseRocket::Create(pLauncher, "qf_projectile_rocketcluster", vecOrigin, vecAngles, pOwner));
+
+	if (pRocket)
+	{
+		pRocket->SetScorer(pScorer);
+		pRocket->SetEyeBallRocket(false);
+		pRocket->SetSpell(false);
+
+		CTFWeaponBase* pWeapon = dynamic_cast<CTFWeaponBase*>(pLauncher);
+		bool bDirectHit = pWeapon ? (pWeapon->GetWeaponID() == TF_WEAPON_ROCKETLAUNCHER_DIRECTHIT) : false;
+		pRocket->SetDirectHit(bDirectHit);
+	}
+
+	return pRocket;
+}
+
+void CTFProjectile_RocketCluster::Spawn()
+{
+	BaseClass::Spawn();
+
+	m_flCreationTime = gpGlobals->curtime;
+
+	// Setup the think and touch functions (see CBaseEntity).
+	SetThink(&CTFProjectile_RocketCluster::ClusterThink);
+	SetNextThink(gpGlobals->curtime + 0.2);
+}
+
+void CTFProjectile_RocketCluster::Precache()
+{
+	BaseClass::Precache();
+
+	UTIL_PrecacheOther("tf_projectile_rocket");
+}
+
+//-----------------------------------------------------------------------------
+// Purpose:
+//-----------------------------------------------------------------------------
+void CTFProjectile_RocketCluster::ClusterThink(void)
+{
+	if (!IsInWorld())
+	{
+		Remove();
+		return;
+	}
+
+	if (gpGlobals->curtime > (m_flCreationTime + 0.25f))
+	{
+		Cluster();
+		return;
+	}
+
+	SetNextThink(gpGlobals->curtime + 0.2);
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CTFProjectile_RocketCluster::Explode(trace_t* pTrace, int bitsDamageType)
+{
+	if (ShouldNotDetonate())
+	{
+		Destroy(true);
+		return;
+	}
+
+	// Invisible.
+	SetModelName(NULL_STRING);
+	AddSolidFlags(FSOLID_NOT_SOLID);
+	m_takedamage = DAMAGE_NO;
+
+	// Pull out a bit.
+	if (pTrace->fraction != 1.0)
+	{
+		SetAbsOrigin(pTrace->endpos + (pTrace->plane.normal * 1.0f));
+	}
+
+	// Play explosion sound and effect.
+	Vector vecOrigin = GetAbsOrigin();
+	CPVSFilter filter(vecOrigin);
+
+	// Halloween Spell Effect Check
+	int iHalloweenSpell = 0;
+	int iCustomParticleIndex = INVALID_STRING_INDEX;
+	item_definition_index_t ownerWeaponDefIndex = INVALID_ITEM_DEF_INDEX;
+	// if the owner is a Sentry, Check its owner
+	CBaseEntity* pPlayerOwner = GetOwnerPlayer();
+
+	if (TF_IsHolidayActive(kHoliday_HalloweenOrFullMoon))
+	{
+		CALL_ATTRIB_HOOK_INT_ON_OTHER(pPlayerOwner, iHalloweenSpell, halloween_pumpkin_explosions);
+		if (iHalloweenSpell > 0)
+		{
+			iCustomParticleIndex = GetParticleSystemIndex("halloween_explosion");
+		}
+	}
+
+	int iNoSelfBlastDamage = 0;
+	CTFWeaponBase* pWeapon = dynamic_cast<CTFWeaponBase*>(GetOriginalLauncher());
+	if (pWeapon)
+	{
+		ownerWeaponDefIndex = pWeapon->GetAttributeContainer()->GetItem()->GetItemDefIndex();
+
+		CALL_ATTRIB_HOOK_INT_ON_OTHER(pWeapon, iNoSelfBlastDamage, no_self_blast_dmg);
+		if (iNoSelfBlastDamage)
+		{
+			iCustomParticleIndex = GetParticleSystemIndex("ExplosionCore_Wall_Jumper");
+		}
+	}
+
+	int iLargeExplosion = 0;
+	CALL_ATTRIB_HOOK_INT_ON_OTHER(pPlayerOwner, iLargeExplosion, use_large_smoke_explosion);
+	if (iLargeExplosion > 0)
+	{
+		DispatchParticleEffect("explosionTrail_seeds_mvm", GetAbsOrigin(), GetAbsAngles());
+		DispatchParticleEffect("fluidSmokeExpl_ring_mvm", GetAbsOrigin(), GetAbsAngles());
+	}
+
+	TE_TFExplosion(filter, 0.0f, vecOrigin, pTrace->plane.normal, GetWeaponID(), kInvalidEHandleExplosion, ownerWeaponDefIndex, SPECIAL1, iCustomParticleIndex);
+
+	CSoundEnt::InsertSound(SOUND_COMBAT, vecOrigin, 1024, 3.0);
+
+	// Damage.
+	CBaseEntity* pAttacker = GetOwnerEntity();
+	IScorer* pScorerInterface = dynamic_cast<IScorer*>(pAttacker);
+
+	if (pScorerInterface && pScorerInterface->GetScorer())
+	{
+		pAttacker = pScorerInterface->GetScorer();
+	}
+	else if (pAttacker && pAttacker->GetOwnerEntity())
+	{
+		pAttacker = pAttacker->GetOwnerEntity();
+	}
+
+	float flRadius = GetRadius() * GetRadiusScale();
+
+	if (pAttacker) // No attacker, deal no damage. Otherwise we could potentially kill teammates.
+	{
+		CTFPlayer* pTarget = ToTFPlayer(GetEnemy());
+		if (pTarget)
+		{
+			// Rocket Specialist
+			CheckForStunOnImpact(pTarget);
+
+			RecordEnemyPlayerHit(pTarget, true);
+		}
+
+		CTakeDamageInfo info(this, pAttacker, GetOriginalLauncher(), vec3_origin, vecOrigin, GetDamage(), bitsDamageType, GetDamageCustom());
+		CTFRadiusDamageInfo radiusinfo(&info, vecOrigin, flRadius, NULL, TF_ROCKET_RADIUS_FOR_RJS, GetDamageForceScale());
+		TFGameRules()->RadiusDamage(radiusinfo);
+	}
+
+	// Don't decal players with scorch.
+	if (pTrace->m_pEnt && !pTrace->m_pEnt->IsPlayer() && (iNoSelfBlastDamage == 0))
+	{
+		UTIL_DecalTrace(pTrace, "Scorch");
+	}
+
+	// Remove the rocket.
+	UTIL_Remove(this);
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+//-----------------------------------------------------------------------------
+void CTFProjectile_RocketCluster::Detonate(void)
+{
+	trace_t		tr;
+	Vector		vecSpot;// trace starts here!
+
+	SetThink(NULL);
+
+	vecSpot = GetAbsOrigin() + Vector(0, 0, 8);
+	UTIL_TraceLine(vecSpot, vecSpot + Vector(0, 0, -32), MASK_SHOT_HULL, this, COLLISION_GROUP_NONE, &tr);
+
+	Explode(&tr, GetDamageType());
+}
+
+void CTFProjectile_RocketCluster::Cluster()
+{
+	Detonate();
+
+	CTFWeaponBase* pWeapon = dynamic_cast<CTFWeaponBase*>(GetOriginalLauncher());
+
+	if (pWeapon)
+	{
+		Vector vecOrigin = GetAbsOrigin();
+
+		// Damage.
+		CBaseEntity* pAttacker = GetOwnerEntity();
+		IScorer* pScorerInterface = dynamic_cast<IScorer*>(pAttacker);
+
+		if (pScorerInterface && pScorerInterface->GetScorer())
+		{
+			pAttacker = pScorerInterface->GetScorer();
+		}
+		else if (pAttacker && pAttacker->GetOwnerEntity())
+		{
+			pAttacker = pAttacker->GetOwnerEntity();
+		}
+
+		//after we explode, spawn 4 sentry rockets from our position in a spread.
+		//each rocket that shoots out has a portion of our damage, which includes any damage bonuses/penalties
+
+		for (int i = 0; i < 4; i++)
+		{
+			Vector offset = RandomVector(-64, 64);
+			//offset.z = 0;
+
+			CTFProjectile_Rocket* pProjectile = CTFProjectile_Rocket::Create(pWeapon, vecOrigin + offset, GetAbsAngles(), pAttacker, pAttacker);
+
+			if (pProjectile)
+			{
+				pProjectile->SetModel(MINI_ROCKETS_MODEL);
+				pProjectile->SetCritical(IsCritical());
+				pProjectile->SetRadiusScale(0.5f);
+				pProjectile->SetScorer(pAttacker);
+				pProjectile->SetDamage(GetDamage() / 4);
+			}
+		}
+	}
+}
+#endif
