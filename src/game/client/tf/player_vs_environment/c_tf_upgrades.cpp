@@ -2039,6 +2039,12 @@ void CHudUpgradePanel::OnCommand( const char *command )
 {
 	if ( !Q_stricmp( command, "close" ) )
 	{
+		if (m_pMvMUpgradeMachineLoop)
+		{
+			CSoundEnvelopeController::GetController().SoundDestroy(m_pMvMUpgradeMachineLoop);
+			m_pMvMUpgradeMachineLoop = NULL;
+		}
+
 		m_bShowUpgradeMenu = false;
 		m_bCancelUpgrades = false;
 		m_bOpenLoadout = false;
