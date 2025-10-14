@@ -46,11 +46,7 @@ extern CAchievementMgr g_AchievementMgrTF;
 ConVar tf_mvm_tabs_discovered( "tf_mvm_tabs_discovered", "0", FCVAR_ARCHIVE, "Remember how many times players have clicked tabs." );
 #ifdef BDSBASE
 ConVar tf_mvm_sort_upgrades("tf_mvm_sort_upgrades", "1", FCVAR_NONE, "Sort upgrades by price.");
-#if defined(QUIVER_DLL)
 ConVar tf_mvm_play_music("tf_mvm_play_music", "1", FCVAR_ARCHIVE, "Play the cut MvM upgrade station music.");
-#else
-ConVar tf_mvm_play_music("tf_mvm_play_music", "0", FCVAR_ARCHIVE, "Play the cut MvM upgrade station music.");
-#endif
 #endif
 
 Color CUpgradeBuyPanel::m_rgbaDefaultFG( 0, 0, 0, 255 );
