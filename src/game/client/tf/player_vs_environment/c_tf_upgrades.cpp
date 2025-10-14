@@ -501,18 +501,6 @@ bool CHudUpgradePanel::ShouldDraw( void )
 		{
 			if ( bInZone )
 			{
-#ifdef BDSBASE
-				if (!m_bInspectMode)
-				{
-					if (!m_pMvMUpgradeMachineLoop && tf_mvm_play_music.GetBool())
-					{
-						CSoundEnvelopeController& controller = CSoundEnvelopeController::GetController();
-						CLocalPlayerFilter filter;
-						m_pMvMUpgradeMachineLoop = controller.SoundCreate(filter, m_hPlayer->entindex(), "music.mvm_upgrade_machine");
-						controller.Play(m_pMvMUpgradeMachineLoop, 1.0, 100);
-					}
-				}
-#endif
 				m_bShowUpgradeMenu = true;
 				m_bCancelUpgrades = false;
 				m_bOpenLoadout = false;
@@ -637,10 +625,30 @@ void CHudUpgradePanel::OnTick( void )
 
 		if ( m_hPlayer )
 		{
+#ifdef BDSBASE
+			if (!m_bInspectMode)
+			{
+				if (m_hPlayer->m_Shared.IsInUpgradeZone())
+				{
+					if (!m_pMvMUpgradeMachineLoop && tf_mvm_play_music.GetBool())
+					{
+						CSoundEnvelopeController& controller = CSoundEnvelopeController::GetController();
+						CLocalPlayerFilter filter;
+						m_pMvMUpgradeMachineLoop = controller.SoundCreate(filter, m_hPlayer->entindex(), "music.mvm_upgrade_machine");
+						controller.Play(m_pMvMUpgradeMachineLoop, 1.0, 100);
+					}
+				}
+				else
+				{
+					OnCommand("cancel");
+				}
+			}
+#else
 			if ( !m_hPlayer->m_Shared.IsInUpgradeZone() && !m_bInspectMode )
 			{
 				OnCommand( "cancel" );
 			}
+#endif
 
 			if ( m_pPlayerRespecButton && g_TF_PR && m_hPlayer )
 			{
@@ -2039,11 +2047,13 @@ void CHudUpgradePanel::OnCommand( const char *command )
 {
 	if ( !Q_stricmp( command, "close" ) )
 	{
+#ifdef BDSBASE
 		if (m_pMvMUpgradeMachineLoop)
 		{
 			CSoundEnvelopeController::GetController().SoundDestroy(m_pMvMUpgradeMachineLoop);
 			m_pMvMUpgradeMachineLoop = NULL;
 		}
+#endif
 
 		m_bShowUpgradeMenu = false;
 		m_bCancelUpgrades = false;
@@ -2063,11 +2073,13 @@ void CHudUpgradePanel::OnCommand( const char *command )
 	}
 	else if ( !Q_stricmp( command, "cancel" ) )
 	{
+#ifdef BDSBASE
 		if (m_pMvMUpgradeMachineLoop)
 		{
 			CSoundEnvelopeController::GetController().SoundDestroy(m_pMvMUpgradeMachineLoop);
 			m_pMvMUpgradeMachineLoop = NULL;
 		}
+#endif
 		m_bShowUpgradeMenu = false;
 		m_bCancelUpgrades = true;
 		m_bOpenLoadout = false;
