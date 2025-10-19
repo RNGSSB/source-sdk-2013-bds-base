@@ -220,6 +220,7 @@ Details:
 - Added the ability to earn achievemnts in offline practice mode.
 - Implemented the cut Upgrade Station music.
 - Added a 20% damage bonus to the Flying Guillotine.
+- Disabled the Dragon's Fury projectile from being reflected.
 
 Quiver Private Alpha 1.1.0:
 Whitelists:
