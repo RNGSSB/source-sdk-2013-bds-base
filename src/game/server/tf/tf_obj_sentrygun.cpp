@@ -1396,6 +1396,9 @@ bool CObjectSentrygun::FireRocket()
 			int iDamage = 100;
 			CALL_ATTRIB_HOOK_INT_ON_OTHER( GetOwner(), iDamage, mult_engy_sentry_damage );
 			pProjectile->SetDamage( iDamage );
+#ifdef BDSBASE
+			pProjectile->SetPlayerControlledSentry(m_bPlayerControlled);
+#endif
 		}
 
 		// Setup next rocket shot
@@ -2459,3 +2462,16 @@ void CTFProjectile_SentryRocket::Spawn()
 	ResetSequence( LookupSequence("idle") );
 }
 
+#ifdef BDSBASE
+int CTFProjectile_SentryRocket::GetDamageCustom()
+{
+	if (m_bPlayerControlledSentry)
+	{
+		return TF_DMG_CUSTOM_PLAYER_SENTRY;
+	}
+	else
+	{
+		return BaseClass::GetDamageCustom();
+	}
+}
+#endif

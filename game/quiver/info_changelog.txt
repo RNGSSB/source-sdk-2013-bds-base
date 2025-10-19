@@ -97,6 +97,7 @@ Added the following Source SDK Pull Requests:
 	- #1547: Allow ducked air jumping as any class
 	- #1554: Add parameter for getpos/spec_pos to copy output to clipboard
 	- #1556: Fix unspawned support wavespawns not giving their money
+	- #1555: Sentry fixes for Exorcism spell
 
 Details:
 - Fixed a bug where the mini-crit damage effect doesn't show up when your shield breaks.
