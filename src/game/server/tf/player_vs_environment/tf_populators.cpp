@@ -1433,6 +1433,14 @@ void CWaveSpawnPopulator::SetState( InternalStateType eState )
 //-----------------------------------------------------------------------
 void CWaveSpawnPopulator::OnNonSupportWavesDone( void )
 {
+#ifdef BDSBASE
+	if (TFGameRules() && (m_unallocatedCurrency > 0))
+	{
+		TFGameRules()->DistributeCurrencyAmount(m_unallocatedCurrency, NULL, true, true);
+		m_unallocatedCurrency = 0;
+	}
+#endif
+
 	if ( m_bSupportWave )
 	{
 		switch( m_state )
@@ -1449,12 +1457,12 @@ void CWaveSpawnPopulator::OnNonSupportWavesDone( void )
 #ifdef BDSBASE
 		case DONE:
 #endif
+#ifndef BDSBASE
 			if ( TFGameRules() && ( m_unallocatedCurrency > 0 ) )
 			{
 				TFGameRules()->DistributeCurrencyAmount( m_unallocatedCurrency, NULL, true, true );
 				m_unallocatedCurrency = 0;
 			}
-#ifndef BDSBASE
 			SetState( WAIT_FOR_ALL_DEAD );
  		case DONE:
 #endif
