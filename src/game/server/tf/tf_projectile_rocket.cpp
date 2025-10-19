@@ -223,7 +223,11 @@ CTFProjectile_RocketCluster* CTFProjectile_RocketCluster::Create(CBaseEntity* pL
 void CTFProjectile_RocketCluster::Spawn()
 {
 	BaseClass::Spawn();
+	ResetClusterTime();
+}
 
+void CTFProjectile_RocketCluster::ResetClusterTime()
+{
 	m_flCreationTime = gpGlobals->curtime;
 
 	// Setup the think and touch functions (see CBaseEntity).
@@ -261,7 +265,7 @@ void CTFProjectile_RocketCluster::ClusterThink(void)
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CTFProjectile_RocketCluster::Explode(trace_t* pTrace, int bitsDamageType)
+void CTFProjectile_RocketCluster::ExplodeMainRocket(trace_t* pTrace, int bitsDamageType)
 {
 	if (ShouldNotDetonate())
 	{
@@ -321,7 +325,7 @@ void CTFProjectile_RocketCluster::Explode(trace_t* pTrace, int bitsDamageType)
 		DispatchParticleEffect("fluidSmokeExpl_ring_mvm", GetAbsOrigin(), GetAbsAngles());
 	}
 
-	TE_TFExplosion(filter, 0.0f, vecOrigin, pTrace->plane.normal, GetWeaponID(), kInvalidEHandleExplosion, ownerWeaponDefIndex, SPECIAL1, iCustomParticleIndex);
+	TE_TFExplosion(filter, 0.0f, vecOrigin, pTrace->plane.normal, GetWeaponID(), kInvalidEHandleExplosion, ownerWeaponDefIndex, SPECIAL3, iCustomParticleIndex);
 
 	CSoundEnt::InsertSound(SOUND_COMBAT, vecOrigin, 1024, 3.0);
 
@@ -379,7 +383,7 @@ void CTFProjectile_RocketCluster::Detonate(void)
 	vecSpot = GetAbsOrigin() + Vector(0, 0, 8);
 	UTIL_TraceLine(vecSpot, vecSpot + Vector(0, 0, -32), MASK_SHOT_HULL, this, COLLISION_GROUP_NONE, &tr);
 
-	Explode(&tr, GetDamageType());
+	ExplodeMainRocket(&tr, GetDamageType());
 }
 
 Vector g_vecFixedRktSpreadPellets[] =
@@ -441,5 +445,12 @@ void CTFProjectile_RocketCluster::Cluster()
 	}
 
 	Detonate();
+}
+
+void CTFProjectile_RocketCluster::Deflected(CBaseEntity* pDeflectedBy, Vector& vecDir)
+{
+	SetThink(NULL);
+	ResetClusterTime();
+	BaseClass::Deflected(pDeflectedBy, vecDir);
 }
 #endif

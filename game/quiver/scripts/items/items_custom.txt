@@ -837,6 +837,10 @@
 					"value" 			"0.5"
 				}
 			}
+			"visuals"
+			{
+				"sound_special3"	"Weapon_ClusterBuster.Separate"
+			}
 			"mouse_pressed_sound"	"ui/item_heavy_gun_pickup.wav"
 			"drop_sound"		"ui/item_heavy_gun_drop.wav"
 			"particle_suffix"		"rocketlauncher"

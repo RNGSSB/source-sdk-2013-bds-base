@@ -172,6 +172,9 @@ public:
 
 	virtual float		GetDamageRadius()	const			{ return tf_fireball_radius.GetFloat(); }
 	virtual int			GetCustomDamageType() const OVERRIDE { Assert( false ); return TF_DMG_CUSTOM_DRAGONS_FURY_IGNITE; }
+#ifdef BDSBASE
+	virtual bool		IsDeflectable() OVERRIDE { return false; }
+#endif
 
 	virtual void RocketTouch( CBaseEntity *pOther ) OVERRIDE
 	{

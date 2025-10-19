@@ -83,3 +83,14 @@
 
 	"wave"	")ui/hitsound_q3.wav"
 }
+
+"Weapon_ClusterBuster.Separate"
+{
+	"channel"		"CHAN_STATIC"
+	"volume"		"VOL_NORM"
+	"pitch"			"95, 105"
+
+	"soundlevel"	"SNDLVL_GUNFIRE"
+
+	"wave"	"ambient/explosions/explode_4.wav"
+}

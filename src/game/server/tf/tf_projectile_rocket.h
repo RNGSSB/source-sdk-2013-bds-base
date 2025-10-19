@@ -74,7 +74,9 @@ public:
 	virtual void ClusterThink(void);
 	virtual void Cluster(void);
 	virtual void Detonate(void);
-	virtual void Explode(trace_t* pTrace, int bitsDamageType);
+	void ExplodeMainRocket(trace_t* pTrace, int bitsDamageType);
+	virtual void Deflected(CBaseEntity* pDeflectedBy, Vector& vecDir);
+	void ResetClusterTime(void);
 
 private:
 	float m_flCreationTime;
