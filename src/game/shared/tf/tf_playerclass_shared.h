@@ -24,6 +24,14 @@ EXTERN_SEND_TABLE( DT_TFPlayerClassShared );
 
 #endif
 
+#ifdef BDSBASE
+enum ETFArmType
+{
+	TF_ARM_GUNSLINGER = 1,
+	TF_ARM_SOLDIERHIDDEN
+};
+#endif
+
 //-----------------------------------------------------------------------------
 // TF Player Class Shared
 //-----------------------------------------------------------------------------

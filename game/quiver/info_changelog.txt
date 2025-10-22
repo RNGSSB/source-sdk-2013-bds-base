@@ -226,6 +226,7 @@ Details:
 - Implemented the cut Upgrade Station music.
 - Added a 20% damage bonus to the Flying Guillotine.
 - Disabled the Dragon's Fury projectile from being reflected.
+- Fixed a bug where the Soldier's hands show up on the side when wielding The Original on ultrawide displays/FOVs.
 
 Quiver Private Alpha 1.1.0:
 Whitelists:

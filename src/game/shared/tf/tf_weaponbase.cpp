@@ -696,7 +696,18 @@ const char *CTFWeaponBase::GetViewModel( int iViewModel ) const
 	int iHandModelIndex = 0;
 	if ( pPlayer )
 	{
-		//CALL_ATTRIB_HOOK_FLOAT_ON_OTHER( pPlayer, iHandModelIndex, override_hand_model_index );		// this is a cleaner way of doing it, but...
+#ifdef BDSBASE
+		//when we use override_hand_model_index, it should only apply to this weapon.
+		CALL_ATTRIB_HOOK_FLOAT( iHandModelIndex, override_hand_model_index );		// this is a cleaner way of doing it, but...
+
+		// if we're inspecting, use the normal soldier arms for the inspection. doesn't apply to engineer.
+		if (iHandModelIndex == TF_ARM_SOLDIERHIDDEN && (pPlayer->IsInspecting() || m_nInspectStage >= INSPECT_START))
+		{
+			iHandModelIndex = 0;
+		}
+#else
+		// CALL_ATTRIB_HOOK_FLOAT_ON_OTHER( pPlayer, iHandModelIndex, override_hand_model_index );		// this is a cleaner way of doing it, but...
+#endif
 		CALL_ATTRIB_HOOK_FLOAT_ON_OTHER( pPlayer, iHandModelIndex, wrench_builds_minisentry );			// ...the gunslinger is the only thing that uses this attribute for now
 	}
 
@@ -2780,18 +2791,21 @@ void CTFWeaponBase::HandleInspect()
 		// Don't inspect while reloading or zooming. TF_COND_ZOOMED for the Classic
 		if (IsReloading() || pPlayer->m_Shared.InCond(TF_COND_AIMING) || pPlayer->m_Shared.InCond(TF_COND_ZOOMED))
 		{
+			StopInspect();
 			return;
 		}
 
 		// Don't inspect if the player has just fired
 		if (gpGlobals->curtime < m_flNextPrimaryAttack)
 		{
+			StopInspect();
 			return;
 		}
 
 		// Don't inspect if the weapon isn't idle after reloading last bullet
 		if (gpGlobals->curtime < m_flTimeFinishReloadSingly)
 		{
+			StopInspect();
 			return;
 		}
 #endif

@@ -3130,7 +3130,10 @@ void CTFPlayer::PrecachePlayerModels( void )
 		PrecacheModel( g_pszDeathCallingCardModels[i] );
 	}
 
-	
+#ifdef BDSBASE
+	extern const char* g_HACK_HiddenSoldierArmsOverride;
+	PrecacheModel(g_HACK_HiddenSoldierArmsOverride);
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -19345,7 +19348,9 @@ void CTFPlayer::Taunt( taunts_t iTauntIndex, int iTauntConcept )
 	if (pActiveWeapon)
 	{
 		int iHandModelIndex = 0;
-		//CALL_ATTRIB_HOOK_FLOAT_ON_OTHER( pActiveWeapon, iHandModelIndex, override_hand_model_index );		// this is a cleaner way of doing it, but...
+#ifdef BDSBASE
+		CALL_ATTRIB_HOOK_FLOAT_ON_OTHER(pActiveWeapon, iHandModelIndex, override_hand_model_index);		// this is a cleaner way of doing it, but...
+#endif
 		CALL_ATTRIB_HOOK_FLOAT_ON_OTHER(pActiveWeapon, iHandModelIndex, wrench_builds_minisentry);			// ...the gunslinger is the only thing that uses this attribute for now
 
 		if (iHandModelIndex > 0)
@@ -19743,7 +19748,9 @@ void CTFPlayer::StopTaunt( bool bForceRemoveProp /* = true */ )
 	if (pActiveWeapon)
 	{
 		int iHandModelIndex = 0;
-		//CALL_ATTRIB_HOOK_FLOAT_ON_OTHER( pActiveWeapon, iHandModelIndex, override_hand_model_index );		// this is a cleaner way of doing it, but...
+#ifdef BDSBASE
+		CALL_ATTRIB_HOOK_FLOAT_ON_OTHER(pActiveWeapon, iHandModelIndex, override_hand_model_index);		// this is a cleaner way of doing it, but...
+#endif
 		CALL_ATTRIB_HOOK_FLOAT_ON_OTHER(pActiveWeapon, iHandModelIndex, wrench_builds_minisentry);			// ...the gunslinger is the only thing that uses this attribute for now
 
 		if (iHandModelIndex > 0)

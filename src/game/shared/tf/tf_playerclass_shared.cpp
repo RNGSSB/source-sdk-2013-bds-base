@@ -158,12 +158,32 @@ const char	*CTFPlayerClassShared::GetModelName( void ) const
 //-----------------------------------------------------------------------------
 const char *g_HACK_GunslingerEngineerArmsOverride = "models\\weapons\\c_models\\c_engineer_gunslinger.mdl";
 
+#ifdef BDSBASE
+const char* g_HACK_HiddenSoldierArmsOverride = "models\\weapons\\c_models\\c_soldier_arms_hidden.mdl";
+
+const char* CTFPlayerClassShared::GetHandModelName(int iHandIndex = 0) const
+{
+	if (iHandIndex > 0)
+	{
+		switch (iHandIndex)
+		{
+			case TF_ARM_GUNSLINGER:
+				return g_HACK_GunslingerEngineerArmsOverride; // this is precached in the CTFRobotArm class
+			case TF_ARM_SOLDIERHIDDEN:
+				return g_HACK_HiddenSoldierArmsOverride; // precached in CTFPlayer class
+		}
+	}
+
+	return GetPlayerClassData(m_iClass)->m_szHandModelName;
+}
+#else
 const char *CTFPlayerClassShared::GetHandModelName( int iHandIndex = 0 ) const
 {
 	return iHandIndex == 0
 		 ? GetPlayerClassData( m_iClass )->m_szHandModelName
 		 :g_HACK_GunslingerEngineerArmsOverride;				// this is precached in the CTFRobotArm class
 }
+#endif
 //-----------------------------------------------------------------------------
 // Purpose: Initialize the player class.
 //-----------------------------------------------------------------------------
