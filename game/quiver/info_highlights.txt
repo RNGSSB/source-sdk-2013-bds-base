@@ -146,7 +146,7 @@ Unlockable weapon balance changes:
 - Replaced the Loch-n-Load's 20% damage bonus with a 20% damage penalty
 - Added a 20% damage bonus to the Flying Guillotine.
 - Disabled the Dragon's Fury projectile from being reflected.
-- Fixed a bug where the Soldier's hands show up on the side when wielding The Original on ultrawide displays/FOVs.
+- Fixed a bug where the Soldier's hands show up on the side when wielding The Original on ultrawide displays/high FOVs.
 
 MvM Changes:
 - Added armor-related upgrades to MvM (max armor, pierces damage resistances, and armor resistance).
