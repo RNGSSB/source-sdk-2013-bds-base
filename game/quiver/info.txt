@@ -1,0 +1,23 @@
+INFO:
+
+Quiver Fortress is a modification for one of the greatest online shooters ever made that takes elements from older Team Fortress titles, older versions of TF2, cut content, and some changes of its own to bring a fast paced and brutal experience.
+
+CRACKIN' SHELLS
+
+Quiver Fortress gives all classes enhanced speed and agility, as well as a breakable damage resistance layer called Armor. If your armor breaks, you gain mini crits but you're also marked for death, requiring you to try and defend yourself from the attacker as quickly as possible.
+
+THE HIT LIST
+
+Quiver Fortress introduces a item whitelist, where only certain weapons are allowed to be used in combat. In addition, whitelisted items will introduce balancing changes specific to Quiver Fortress, which changes their utility while not compromising their identity. Some weapon changes will also change them to resemble past versions, bringing some weapons back to their former glory.
+
+NEW ARRIVALS!
+
+Quiver Fortress includes innovative weapon concepts built to expand class roles even further. New weapons are inspired by older TF titles and TF2 betas, alongside original weapon design concepts. Mix and match these new weapons with existing TF2 weapons to build your ideal arsenal for your favorite class.
+
+A COAT OF PAINT
+
+Quiver Fortress makes slight overhauls to the visual identity of TF2, including stock view models, main menus, and class menus. This brings TF2's user experience closer to 2007-2010, while not compromising modern features such as cosmetic weapons and weapon skins.
+
+POWERED BY BDS BASE
+
+Quiver Fortress is built on top of the regularly updated Bitl Development Studio Base (BDS BASE) fork of the Source SDK 2013, which incorporates over 200+ pull requests from the main repo, Discord RPC support, animated avatar support, and additional quality of life features and enhancements.
