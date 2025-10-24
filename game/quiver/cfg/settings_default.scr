@@ -103,4 +103,46 @@ DESCRIPTION SERVER_OPTIONS
 		{ BOOL }
 		{ "1" }
 	}
+	
+	"tf_spawn_random_birds"
+	{
+		"#TF_SpawnBirds"
+		{ BOOL }
+		{ "0" }
+	}
+	
+	"tf_spawn_extra_models"
+	{
+		"#TF_SpawnExtraProps"
+		{ BOOL }
+		{ "0" }
+	}
+	
+	"tf_spawn_extra_models_rocket"
+	{
+		"#TF_SpawnExtraProps_Rocket"
+		{ BOOL }
+		{ "0" }
+	}
+	
+	"tf_spawn_extra_models_carrier"
+	{
+		"#TF_SpawnExtraProps_Carrier"
+		{ BOOL }
+		{ "0" }
+	}
+	
+	"tf_spawn_extra_models_sign"
+	{
+		"#TF_SpawnExtraProps_Sign"
+		{ BOOL }
+		{ "0" }
+	}
+	
+	"tf_spawn_extra_models_saucer"
+	{
+		"#TF_SpawnExtraProps_Saucer"
+		{ BOOL }
+		{ "0" }
+	}
 }
