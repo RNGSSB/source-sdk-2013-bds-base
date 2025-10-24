@@ -100,6 +100,9 @@ Added the following Source SDK Pull Requests:
 	- #1555: Sentry fixes for Exorcism spell
 	- #1558: Fix spelled cosmetics not changing colors in backpack.
 	- #1559: Fix Team Spirit Footprints BLU team coloring
+Removed the following Source SDK Pull Requests:
+	- #1334: Fix being able to throw the Gas Passer through walls
+	- #1485: Fixed a bug where Gas Passer gas can cover players with gas in spawn rooms.
 
 Details:
 - Fixed a bug where the mini-crit damage effect doesn't show up when your shield breaks.
@@ -228,6 +231,7 @@ Details:
 - Disabled the Dragon's Fury projectile from being reflected.
 - Fixed a bug where the Soldier's hands show up on the side when wielding The Original on ultrawide displays/high FOVs.
 - Updated the Wrench's description to reflect its functionality.
+- Removed the "Loaned" weapon feature as that may violate the TF2 SDK guidelines.
 
 Quiver Private Alpha 1.1.0:
 Whitelists:
