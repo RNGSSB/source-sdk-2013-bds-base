@@ -111,13 +111,6 @@ DESCRIPTION SERVER_OPTIONS
 		{ "0" }
 	}
 	
-	"tf_spawn_soldier_statues"
-	{
-		"#TF_SpawnSoldierStatues"
-		{ BOOL }
-		{ "0" }
-	}
-	
 	"tf_spawn_extra_models"
 	{
 		"#TF_SpawnExtraProps"
