@@ -29,9 +29,6 @@
 #include "tf_flame.h"
 #include "dt_utlvector_send.h"
 #include "collisionutils.h"
-#ifdef QUIVER_DLL
-#include "func_respawnroom.h"
-#endif
 #endif
 
 #ifdef BDSBASE
@@ -371,23 +368,6 @@ bool CTFGasManager::ShouldCollide( CBaseEntity *pEnt ) const
 	if ( pEnt->GetTeamNumber() == GetTeamNumber() )
 		return false;
 
-#ifdef QUIVER_DLL
-	//in a spawnroom while in a pre-game state?
-	bool bIsBeforeRound = (TFGameRules()->State_Get() == GR_STATE_PREGAME ||
-		TFGameRules()->State_Get() == GR_STATE_PREROUND ||
-		TFGameRules()->InSetup() ||
-		TFGameRules()->IsInWaitingForPlayers());
-
-	if (bIsBeforeRound)
-	{
-		if (PointsCrossRespawnRoomVisualizer(GetInitialPosition(), pEnt->GetAbsOrigin()))
-			return false;
-
-		if (PointInRespawnRoom(pEnt, pEnt->GetAbsOrigin()))
-			return false;
-	}
-#endif
-
 	if ( TFGameRules() && TFGameRules()->IsTruceActive() )
 		return false;
 
@@ -448,28 +428,6 @@ void CTFGasManager::Update()
 		{
 			bShouldRemove = true;
 		}
-
-#ifdef QUIVER_DLL
-#ifdef GAME_DLL
-		//in a spawnroom while in a pre-game state?
-		bool bIsBeforeRound = (TFGameRules()->State_Get() == GR_STATE_PREGAME || 
-								TFGameRules()->State_Get() == GR_STATE_PREROUND || 
-								TFGameRules()->InSetup() || 
-								TFGameRules()->IsInWaitingForPlayers());
-		if (bIsBeforeRound)
-		{
-			if (PointsCrossRespawnRoomVisualizer(GetInitialPosition(), GetPointVec()[i]->m_vecPosition))
-			{
-				bShouldRemove = true;
-			}
-
-			if (PointInRespawnRoom(NULL, GetPointVec()[i]->m_vecPosition))
-			{
-				bShouldRemove = true;
-			}
-		}
-#endif
-#endif
 
 		if ( bShouldRemove )
 		{
