@@ -8,6 +8,13 @@
 #include "KeyValues.h"
 #include "filesystem.h"
 
+#ifdef BDSBASE
+ConVar tf_spawn_extra_models_rocket("tf_spawn_extra_models_rocket", "0", FCVAR_NOTIFY, "");
+ConVar tf_spawn_extra_models_carrier("tf_spawn_extra_models_carrier", "0", FCVAR_NOTIFY, "");
+ConVar tf_spawn_extra_models_sign("tf_spawn_extra_models_sign", "0", FCVAR_NOTIFY, "");
+ConVar tf_spawn_extra_models_saucer("tf_spawn_extra_models_saucer", "0", FCVAR_NOTIFY, "");
+#endif
+
 struct EntityWhiteList_t
 {
 	const char *pszKeyName;
@@ -17,10 +24,14 @@ struct EntityWhiteList_t
 // limit the entities that can be created using this method
 EntityWhiteList_t g_szEntityWhiteList[] =
 {
-//	{ "rocket", "entity_rocket" },
-//	{ "carrier", "entity_carrier" },
+#ifdef BDSBASE
+	{ "rocket", "entity_rocket" },
+	{ "carrier", "entity_carrier" },
+#endif
 	{ "sign", "entity_sign" },
-//	{ "saucer", "entity_saucer" },
+#ifdef BDSBASE
+	{ "saucer", "entity_saucer" },
+#endif
 };
 
 
@@ -112,6 +123,83 @@ void CExtraMapEntity::PrepareModelName( const char *szModelName )
 
 void CExtraMapEntity::SpawnExtraModel( void )
 {
+#ifdef BDSBASE
+	const char* pszMapName = STRING(gpGlobals->mapname);
+	if (!pszMapName || !pszMapName[0])
+		return;
+
+	KeyValuesAD pFileKV("models");
+	if (!pFileKV->LoadFromFile(g_pFullFileSystem, "scripts/extra_models.txt", "MOD"))
+		return;
+
+	// See if we have an entry for this map.
+	KeyValues* pMapKV = pFileKV->FindKey(pszMapName);
+	if (pMapKV)
+	{
+		FOR_EACH_SUBKEY(pMapKV, pSubKeyEnt)
+		{
+			const char* pszEntName = ValidateKeyName(pSubKeyEnt->GetName());
+			if (!pszEntName)
+				continue;
+
+			FOR_EACH_SUBKEY(pSubKeyEnt, pSubKeyCount)
+			{
+				Vector loc = vec3_origin;
+				QAngle rot(0, 0, 0);
+				char szModelName[MAX_PATH];
+				szModelName[0] = '\0';
+				float flChance = 1.0f; // assume we want to show everything unless specified in the .txt file
+
+				FOR_EACH_SUBKEY(pSubKeyCount, pSubKey)
+				{
+					if (FStrEq(pSubKey->GetName(), "location"))
+					{
+						const char* pszLoc = pSubKey->GetString();
+						UTIL_StringToVector(loc.Base(), pszLoc);
+					}
+					else if (FStrEq(pSubKey->GetName(), "rotation"))
+					{
+						const char* pszRot = pSubKey->GetString();
+						UTIL_StringToVector(rot.Base(), pszRot);
+					}
+					else if (FStrEq(pSubKey->GetName(), "model"))
+					{
+						V_strcpy_safe(szModelName, pSubKey->GetString());
+					}
+					else if (FStrEq(pSubKey->GetName(), "chance"))
+					{
+						flChance = pSubKey->GetFloat();
+						if (flChance > 1.0f)
+						{
+							flChance = 1.0f;
+						}
+					}
+				}
+
+				if ((flChance > 0.0f) && (RandomFloat(0, 1) < flChance))
+				{
+					CExtraMapEntity* pExtraMapEntity = static_cast<CExtraMapEntity*>(CBaseEntity::CreateNoSpawn(pszEntName, loc, rot));
+					if (pExtraMapEntity)
+					{
+						pExtraMapEntity->PrepareModelName(szModelName);
+#ifdef BDSBASE
+						if (pExtraMapEntity->ShouldSpawn())
+						{
+							DispatchSpawn(pExtraMapEntity);
+						}
+						else
+						{
+							pExtraMapEntity->Remove();
+						}
+#else
+						DispatchSpawn(pExtraMapEntity);
+#endif
+					}
+				}
+			}
+		}
+	}
+#else
 /*
 	const char *pszMapName = STRING( gpGlobals->mapname );
 	if ( !pszMapName || !pszMapName[0] )
@@ -180,6 +268,7 @@ void CExtraMapEntity::SpawnExtraModel( void )
 
 	pFileKV->deleteThis();
 */
+#endif
 }
 
 //-----------------------------------------------------------------------------

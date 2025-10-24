@@ -34,6 +34,10 @@ public:
 	virtual bool	ShouldAnimate( void ){ return false; }
 	void			AnimThink( void );
 
+#ifdef BDSBASE
+	virtual bool	ShouldSpawn(void) { return true; }
+#endif
+
 protected:
 	virtual void	Precache_Internal( void );
 
@@ -41,12 +45,22 @@ private:
 	static const char *ValidateKeyName( const char *pszEntName );
 };
 
+#ifdef BDSBASE
+extern ConVar tf_spawn_extra_models_rocket;
+extern ConVar tf_spawn_extra_models_carrier;
+extern ConVar tf_spawn_extra_models_sign;
+extern ConVar tf_spawn_extra_models_saucer;
+#endif
+
 class CExtraMapEntity_Rocket : public CExtraMapEntity
 {
 	DECLARE_CLASS( CExtraMapEntity_Rocket, CExtraMapEntity );
 public:
 	virtual void	Spawn( void ) OVERRIDE;
 	virtual const char *GetDefaultModel( void ) OVERRIDE { return ENTITYROCKET_DEFAULT_MODEL; }
+#ifdef BDSBASE
+	virtual bool	ShouldSpawn(void) { return tf_spawn_extra_models_rocket.GetBool(); }
+#endif
 
 protected:
 	virtual void	Precache_Internal( void ) OVERRIDE;
@@ -58,6 +72,9 @@ class CExtraMapEntity_Carrier : public CExtraMapEntity
 public:
 	virtual void	Spawn( void ) OVERRIDE;
 	virtual const char *GetDefaultModel( void ) OVERRIDE { return ENTITYCARRIER_DEFAULT_MODEL; }
+#ifdef BDSBASE
+	virtual bool	ShouldSpawn(void) { return tf_spawn_extra_models_carrier.GetBool(); }
+#endif
 };
 
 class CExtraMapEntity_Sign : public CExtraMapEntity
@@ -66,6 +83,9 @@ class CExtraMapEntity_Sign : public CExtraMapEntity
 public:
 	virtual void	Spawn( void ) OVERRIDE;
 	virtual const char *GetDefaultModel( void ) OVERRIDE { return ENTITYSIGN_DEFAULT_MODEL; }
+#ifdef BDSBASE
+	virtual bool	ShouldSpawn(void) { return tf_spawn_extra_models_sign.GetBool(); }
+#endif
 };
 
 class CExtraMapEntity_Saucer : public CExtraMapEntity
@@ -75,6 +95,9 @@ public:
 	virtual void	Spawn( void ) OVERRIDE;
 	virtual const char *GetDefaultModel( void ) OVERRIDE{ return ENTITYSAUCER_DEFAULT_MODEL; }
 	virtual bool	ShouldAnimate( void ){ return true; }
+#ifdef BDSBASE
+	virtual bool	ShouldSpawn(void) { return tf_spawn_extra_models_saucer.GetBool(); }
+#endif
 };
 
 #endif // EXTRA_MAP_ENTITY_H

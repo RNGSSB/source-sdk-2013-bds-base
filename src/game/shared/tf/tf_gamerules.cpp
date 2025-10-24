@@ -718,6 +718,7 @@ ConVar tf_mm_abandoned_players_per_team_max( "tf_mm_abandoned_players_per_team_m
 
 #ifdef BDSBASE
 ConVar tf_spawn_random_birds("tf_spawn_random_birds", "0", FCVAR_NOTIFY, "Spawn birds when the gamerules is activated.");
+ConVar tf_spawn_extra_models("tf_spawn_extra_models", "0", FCVAR_NOTIFY, "Spawn extra map assets (used for update teasers) when the gamerules is activated.");
 #endif
 
 #endif // GAME_DLL
@@ -4611,10 +4612,27 @@ void CTFGameRules::Activate()
 		}
 	}
 
+#ifdef BDSBASE
+#ifdef GAME_DLL
+	if ( !IsInTournamentMode() )
+ 	{
+		if (tf_spawn_extra_models.GetBool())
+		{
+			CExtraMapEntity::SpawnExtraModel();
+		}
+
+		if (tf_spawn_random_birds.GetBool())
+		{
+			CEntityBird::SpawnRandomBirds();
+		}
+ 	}
+#endif
+#else
 // 	if ( !IsInTournamentMode() )
 // 	{
 // 		CExtraMapEntity::SpawnExtraModel();
 // 	}
+#endif
 
 	// If leaving MvM for any other game mode, clean up any sticky UI/state
 	if ( IsInTournamentMode() && m_nGameType != TF_GAMETYPE_MVM && g_TFGameModeHistory.GetPrevState() == TF_GAMETYPE_MVM )
@@ -4663,15 +4681,6 @@ void CTFGameRules::Activate()
 		mp_tournament_readymode.SetValue( false );
 		SetAllowBetweenRounds( false );
 	}
-
-#ifdef BDSBASE
-#ifdef GAME_DLL
-	if (tf_spawn_random_birds.GetBool())
-	{
-		CEntityBird::SpawnRandomBirds();
-	}
-#endif
-#endif
 }
 
 //-----------------------------------------------------------------------------
