@@ -100,6 +100,9 @@ Added the following Source SDK Pull Requests:
 	- #1555: Sentry fixes for Exorcism spell
 	- #1558: Fix spelled cosmetics not changing colors in backpack.
 	- #1559: Fix Team Spirit Footprints BLU team coloring
+	- #1568: Revised Gas Passer spawnroom fixes.
+Removed  the following Source SDK Pull Requests:
+	- #1485: Fixed a bug where Gas Passer gas can cover players with gas in spawn rooms.
 
 Details:
 - Fixed a bug where the mini-crit damage effect doesn't show up when your shield breaks.
