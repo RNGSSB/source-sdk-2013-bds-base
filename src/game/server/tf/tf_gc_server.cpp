@@ -4444,12 +4444,7 @@ void CTFGCServerSystem::SDK_ApplyLocalLoadout(CGCClientSharedObjectCache* pCache
 #ifdef BDSBASE
 #ifdef BDSBASE_CUSTOM_SCHEMA
 			CEconItemDefinition* pItemDef = GetItemSchema()->GetItemDefinition(uItemId);
-
-#if (defined(BDSBASE_CURATED_ITEMS) && defined(BDSBASE_CURATED_ITEMS_GIVEWHITELISTEDITEMS))
-			if (!pItemDef->IsSoloItem() && !pItemDef->IsWhitelisted())
-#else
 			if (!pItemDef->IsSoloItem())
-#endif
 			{
 				CEconItem* pItem = (CEconItem*)pItemCache->FindSharedObject(soIndex);
 				if (pItem) {
