@@ -144,7 +144,9 @@ void CEntityBird::SpawnRandomBirds( void )
 		}
 	}
 
+#ifndef BDSBASE
 	pFileKV->deleteThis();
+#endif
 }
 
 

@@ -130,6 +130,7 @@
 #ifdef BDSBASE
 	#include "pointhurt.h"
 	#include "func_croc.h"
+	#include "entity_bird.h"
 #endif
 #endif
 
@@ -714,6 +715,10 @@ ConVar mp_spectators_restricted( "mp_spectators_restricted", "0", FCVAR_NONE, "P
 ConVar tf_test_special_ducks( "tf_test_special_ducks", "1", FCVAR_DEVELOPMENTONLY );
 
 ConVar tf_mm_abandoned_players_per_team_max( "tf_mm_abandoned_players_per_team_max", "1", FCVAR_DEVELOPMENTONLY );
+
+#ifdef BDSBASE
+ConVar tf_spawn_random_birds("tf_spawn_random_birds", "0", FCVAR_NOTIFY, "Spawn birds when the gamerules is activated.");
+#endif
 
 #endif // GAME_DLL
 #ifdef BDSBASE
@@ -4658,6 +4663,15 @@ void CTFGameRules::Activate()
 		mp_tournament_readymode.SetValue( false );
 		SetAllowBetweenRounds( false );
 	}
+
+#ifdef BDSBASE
+#ifdef GAME_DLL
+	if (tf_spawn_random_birds.GetBool())
+	{
+		CEntityBird::SpawnRandomBirds();
+	}
+#endif
+#endif
 }
 
 //-----------------------------------------------------------------------------
