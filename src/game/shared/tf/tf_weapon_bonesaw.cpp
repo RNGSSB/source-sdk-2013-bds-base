@@ -444,12 +444,6 @@ bool CTFDiseaseManager::ShouldCollide(CBaseEntity* pEnt) const
 	if (pEnt->GetTeamNumber() == GetTeamNumber())
 		return false;
 
-	if (PointsCrossRespawnRoomVisualizer(GetInitialPosition(), pEnt->GetAbsOrigin()))
-		return false;
-
-	if (PointInRespawnRoom(pEnt, pEnt->GetAbsOrigin()))
-		return false;
-
 	if (TFGameRules() && TFGameRules()->IsTruceActive())
 		return false;
 
@@ -512,6 +506,26 @@ void CTFDiseaseManager::Update()
 		{
 			bShouldRemove = true;
 		}
+
+#ifdef GAME_DLL
+		//in a spawnroom while in a pre-game state?
+		bool bIsBeforeRound = (TFGameRules()->State_Get() == GR_STATE_PREGAME ||
+			TFGameRules()->State_Get() == GR_STATE_PREROUND ||
+			TFGameRules()->InSetup() ||
+			TFGameRules()->IsInWaitingForPlayers());
+		if (bIsBeforeRound)
+		{
+			if (PointsCrossRespawnRoomVisualizer(GetInitialPosition(), GetPointVec()[i]->m_vecPosition))
+			{
+				bShouldRemove = true;
+			}
+
+			if (PointInRespawnRoom(NULL, GetPointVec()[i]->m_vecPosition))
+			{
+				bShouldRemove = true;
+			}
+		}
+#endif
 
 		if (bShouldRemove)
 		{
