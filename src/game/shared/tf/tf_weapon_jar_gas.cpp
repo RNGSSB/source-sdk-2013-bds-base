@@ -29,7 +29,7 @@
 #include "tf_flame.h"
 #include "dt_utlvector_send.h"
 #include "collisionutils.h"
-#ifdef BDSBASE
+#ifdef QUIVER_DLL
 #include "func_respawnroom.h"
 #endif
 #endif
@@ -371,7 +371,7 @@ bool CTFGasManager::ShouldCollide( CBaseEntity *pEnt ) const
 	if ( pEnt->GetTeamNumber() == GetTeamNumber() )
 		return false;
 
-#ifdef BDSBASE
+#ifdef QUIVER_DLL
 	//in a spawnroom while in a pre-game state?
 	bool bIsBeforeRound = (TFGameRules()->State_Get() == GR_STATE_PREGAME ||
 		TFGameRules()->State_Get() == GR_STATE_PREROUND ||
@@ -449,7 +449,7 @@ void CTFGasManager::Update()
 			bShouldRemove = true;
 		}
 
-#ifdef BDSBASE
+#ifdef QUIVER_DLL
 #ifdef GAME_DLL
 		//in a spawnroom while in a pre-game state?
 		bool bIsBeforeRound = (TFGameRules()->State_Get() == GR_STATE_PREGAME || 
