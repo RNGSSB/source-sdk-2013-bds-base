@@ -719,6 +719,7 @@ ConVar tf_mm_abandoned_players_per_team_max( "tf_mm_abandoned_players_per_team_m
 #ifdef BDSBASE
 ConVar tf_spawn_random_birds("tf_spawn_random_birds", "0", FCVAR_NOTIFY, "Spawn birds when the gamerules is activated. Should be set before starting a map.");
 ConVar tf_spawn_extra_models("tf_spawn_extra_models", "0", FCVAR_NOTIFY, "Spawn extra map assets (used for update teasers) when the gamerules is activated. Should be set before starting a map.");
+ConVar tf_spawn_soldier_statues("tf_spawn_soldier_statues", "0", FCVAR_NOTIFY, "Spawn soldier statues");
 #endif
 
 #endif // GAME_DLL
@@ -22974,7 +22975,11 @@ void CTFGameRules::CreateSoldierStatue()
 	if ( m_hSoldierStatue )
 		return;
 
+#ifdef BDSBASE
+	if ( !IsHolidayActive(kHoliday_Soldier) || tf_spawn_soldier_statues.GetBool() )
+#else
 	if ( !IsHolidayActive( kHoliday_Soldier ) )
+#endif
 		return;
 
 	if ( IsMatchTypeCompetitive() )
