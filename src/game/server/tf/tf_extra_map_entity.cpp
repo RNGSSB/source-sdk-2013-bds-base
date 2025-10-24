@@ -9,10 +9,10 @@
 #include "filesystem.h"
 
 #ifdef BDSBASE
-ConVar tf_spawn_extra_models_rocket("tf_spawn_extra_models_rocket", "0", FCVAR_NOTIFY, "");
-ConVar tf_spawn_extra_models_carrier("tf_spawn_extra_models_carrier", "0", FCVAR_NOTIFY, "");
-ConVar tf_spawn_extra_models_sign("tf_spawn_extra_models_sign", "0", FCVAR_NOTIFY, "");
-ConVar tf_spawn_extra_models_saucer("tf_spawn_extra_models_saucer", "0", FCVAR_NOTIFY, "");
+ConVar tf_spawn_extra_models_rocket("tf_spawn_extra_models_rocket", "0", FCVAR_NOTIFY, "Allows the spawning of Grordbort rockets. Requires tf_spawn_extra_models to be enabled. Should be set before starting a map.");
+ConVar tf_spawn_extra_models_carrier("tf_spawn_extra_models_carrier", "0", FCVAR_NOTIFY, "Allows the spawning of MvM carriers. Requires tf_spawn_extra_models to be enabled. Should be set before starting a map.");
+ConVar tf_spawn_extra_models_sign("tf_spawn_extra_models_sign", "0", FCVAR_NOTIFY, "Allows the spawning of Invasion signs. Requires tf_spawn_extra_models to be enabled. Should be set before starting a map.");
+ConVar tf_spawn_extra_models_saucer("tf_spawn_extra_models_saucer", "0", FCVAR_NOTIFY, "Allows the spawning of Invasion saucers. Requires tf_spawn_extra_models to be enabled. Should be set before starting a map.");
 #endif
 
 struct EntityWhiteList_t

@@ -717,8 +717,8 @@ ConVar tf_test_special_ducks( "tf_test_special_ducks", "1", FCVAR_DEVELOPMENTONL
 ConVar tf_mm_abandoned_players_per_team_max( "tf_mm_abandoned_players_per_team_max", "1", FCVAR_DEVELOPMENTONLY );
 
 #ifdef BDSBASE
-ConVar tf_spawn_random_birds("tf_spawn_random_birds", "0", FCVAR_NOTIFY, "Spawn birds when the gamerules is activated.");
-ConVar tf_spawn_extra_models("tf_spawn_extra_models", "0", FCVAR_NOTIFY, "Spawn extra map assets (used for update teasers) when the gamerules is activated.");
+ConVar tf_spawn_random_birds("tf_spawn_random_birds", "0", FCVAR_NOTIFY, "Spawn birds when the gamerules is activated. Should be set before starting a map.");
+ConVar tf_spawn_extra_models("tf_spawn_extra_models", "0", FCVAR_NOTIFY, "Spawn extra map assets (used for update teasers) when the gamerules is activated. Should be set before starting a map.");
 #endif
 
 #endif // GAME_DLL
