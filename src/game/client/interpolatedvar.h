@@ -1390,6 +1390,11 @@ inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::TimeFixup2_Hermite(
 
 		for ( int i = 0; i < m_nMaxCount; i++ )
 		{
+#if BDSBASE
+			// HACK: this seems to fix large errors when theres a lack of samples
+			 // observable by having a moving entity on a rail that teleports back (and sets no interp frame)
+			fixup.GetValue()[i] = prev->GetValue()[i];
+#else
 			if ( m_bLooping[i] )
 			{
 				fixup.GetValue()[i] = LoopingLerp( 1-frac, prev->GetValue()[i], start->GetValue()[i] );
@@ -1398,6 +1403,7 @@ inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::TimeFixup2_Hermite(
 			{
 				fixup.GetValue()[i] = Lerp( 1-frac, prev->GetValue()[i], start->GetValue()[i] );
 			}
+#endif
 		}
 
 		// Point previous sample at fixed version
