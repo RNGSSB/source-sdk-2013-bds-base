@@ -50,7 +50,7 @@ public:
 
 	virtual void		SecondaryAttack();
 
-#ifdef BDSBASE
+#if defined(QUIVER_DLL)
 	virtual void		Precache() OVERRIDE;
 #endif
 

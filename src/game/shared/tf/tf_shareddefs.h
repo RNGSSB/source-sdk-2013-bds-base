@@ -842,15 +842,15 @@ enum ETFCond
 
 #ifdef BDSBASE
 	TF_COND_MINICRITBOOSTED					= 131,
+	TF_COND_POWERPLAY						= 132,
+
+	//new idea: QF conds start with 200
 #if defined(QUIVER_DLL)
-	QF_COND_ARMORJUSTBROKE					= 132,
-	QF_COND_ARMOR							= 133,
-	QF_COND_UNBREAKABLE_ARMOR				= 134,
-	QF_COND_ARMOR_BUFF						= 135,
-#endif
-	TF_COND_POWERPLAY						= 136,
-#if defined(QUIVER_DLL)
-	QF_COND_INFECTED						= 137,
+	QF_COND_ARMORJUSTBROKE					= 201,
+	QF_COND_ARMOR							= 202,
+	QF_COND_UNBREAKABLE_ARMOR				= 203,
+	QF_COND_ARMOR_BUFF						= 204,
+	QF_COND_INFECTED						= 205,
 #endif
 #endif
 
@@ -1876,8 +1876,8 @@ extern const char *TranslateWeaponEntForClass( const char *pszName, int iClass )
 #define TF_PLAYER_ROCKET_JUMPED		( 1 << 0 )
 #define TF_PLAYER_STICKY_JUMPED		( 1 << 1 )
 #define TF_PLAYER_ENEMY_BLASTED_ME	( 1 << 2 )
-#if defined(QUIVER_DLL)
-#define QF_PLAYER_AIRBLAST_JUMPED	( 1 << 3 )
+#ifdef BDSBASE
+#define TF_PLAYER_AIRBLAST_JUMPED	( 1 << 3 )
 #endif
 
 enum taunts_t

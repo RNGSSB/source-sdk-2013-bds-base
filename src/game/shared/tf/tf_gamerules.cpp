@@ -13594,7 +13594,7 @@ void CTFGameRules::DeathNotice( CBasePlayer *pVictim, const CTakeDamageInfo &inf
 			if ( !FStrEq( eventName, "fish_notice" ) && !FStrEq( eventName, "fish_notice__arm" ) && !FStrEq( eventName, "slap_notice" ) && !FStrEq( eventName, "throwable_hit" ) )
 			{
 #ifndef _DEBUG
-#ifdef BDSBASE
+#if defined(QUIVER_DLL)
 				if ((IsInTDMMode() && BTDMHavePlayers()) || (GetGlobalTeam(pVictim->GetTeamNumber()) && GetGlobalTeam(pVictim->GetTeamNumber())->GetNumPlayers() > 1))
 #else
 				if ( GetGlobalTeam( pVictim->GetTeamNumber() ) && GetGlobalTeam( pVictim->GetTeamNumber() )->GetNumPlayers() > 1 )

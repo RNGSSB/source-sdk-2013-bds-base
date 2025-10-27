@@ -9363,8 +9363,8 @@ void CTFPlayer::SetBlastJumpState( int iState, bool bPlaySound /*= false*/ )
 	{
 		pszEvent = "rocket_jump";
 	}
-#if defined(QUIVER_DLL)
-	else if (iState == QF_PLAYER_AIRBLAST_JUMPED)
+#ifdef BDSBASE
+	else if (iState == TF_PLAYER_AIRBLAST_JUMPED)
 	{
 		pszEvent = "airblast_jump";
 	}
