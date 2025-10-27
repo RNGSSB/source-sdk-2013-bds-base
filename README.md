@@ -15,8 +15,6 @@ This base is specific to multiplayer mod projects.
 ## Features:
 - Restored game project generator scripts. No more having to generate every project!
 - Implements various pull requests (200+) from the master repo, allowing for a stable and reliable mod base.
-- Build scripts for Half-Life 2, Lost Coast, and HL2 episodes, with NextBot support.
-    - NOTE: You may need to do some tinkering to make these singleplayer projects work well with the new SDK base. There are some bugs and crashes that won't be addressed by this base.
 - NPC NextBot sensing support from FIREFIGHT RELOADED with the BDSBASE_NPC preprocessor definition.
 - Integrated Python binaries (on Windows) for more simple buiding.
 - Implemented Discord RPC support with the BDSBASE_DISCORD preprocessor definition.
