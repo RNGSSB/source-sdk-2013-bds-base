@@ -228,6 +228,18 @@ public:
 
 public:
 
+#ifdef BDSBASE
+#ifdef TF_DLL
+	struct ResponseRules_t
+	{
+		CUtlVector<IResponseSystem*> m_ResponseSystems;
+	};
+	CUtlVector<ResponseRules_t>	m_ResponseRules;
+
+	virtual void InitCustomResponseRulesDicts() {}
+	virtual void ShutdownCustomResponseRulesDicts() {}
+#endif
+#else
 	struct ResponseRules_t
 	{
 		CUtlVector<IResponseSystem*> m_ResponseSystems;
@@ -236,6 +248,7 @@ public:
 
 	virtual void InitCustomResponseRulesDicts()	{}
 	virtual void ShutdownCustomResponseRulesDicts() {}
+#endif
 
 	// NVNT virtual to check for haptic device 
 	virtual void ClientSettingsChanged( CBasePlayer *pPlayer );

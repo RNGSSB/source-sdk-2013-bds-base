@@ -329,11 +329,22 @@ CMultiplayRules::CMultiplayRules()
 
 bool CMultiplayRules::Init()
 {
+#ifdef BDSBASE
+#ifdef TF_DLL
 #ifdef GAME_DLL
 
 	// Initialize the custom response rule dictionaries.
 	InitCustomResponseRulesDicts();
 
+#endif
+#endif
+#else
+#ifdef GAME_DLL
+
+	// Initialize the custom response rule dictionaries.
+	InitCustomResponseRulesDicts();
+
+#endif
 #endif
 
 	return BaseClass::Init();
