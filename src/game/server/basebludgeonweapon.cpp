@@ -174,11 +174,6 @@ void CBaseHLBludgeonWeapon::Hit( trace_t &traceHit, Activity nHitActivity, bool 
 		{
 			gamestats->Event_WeaponHit( pPlayer, !bIsSecondary, GetClassname(), info );
 		}
-
-#ifdef BDSBASE
-		// Play hit sound
-		WeaponSound(MELEE_HIT);
-#endif
 	}
 
 	// Apply an impact effect
@@ -367,15 +362,22 @@ void CBaseHLBludgeonWeapon::Swing( int bIsSecondary )
 		nHitActivity = bIsSecondary ? ACT_VM_MISSCENTER2 : ACT_VM_MISSCENTER;
 
 #ifdef BDSBASE
-		// Play swing sound
-		WeaponSound(SINGLE);
-#endif
+		// We want to test the first swing again
+		Vector testEnd = swingStart + forward * GetRange();
 
+		// See if we happened to hit water
+		if (!ImpactWater(swingStart, testEnd))
+		{
+			// Play swing sound only if nothing impacted.
+			WeaponSound(SINGLE);
+		}
+#else
 		// We want to test the first swing again
 		Vector testEnd = swingStart + forward * GetRange();
 		
 		// See if we happened to hit water
 		ImpactWater( swingStart, testEnd );
+#endif
 	}
 	else
 	{
