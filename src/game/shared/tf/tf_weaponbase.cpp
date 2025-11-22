@@ -2609,14 +2609,11 @@ void CTFWeaponBase::ItemPostFrame( void )
 	if ( !AutoFiresFullClip() && pOwner->ShouldAutoReload() && UsesClipsForAmmo1() && !(pOwner->m_nButtons & (IN_ATTACK|IN_ATTACK2)) && bNeedsReload )
 	{
 #ifdef QUIVER_DLL
-		float fMinToReload = GetMaxClip1() * pOwner->GetAutoReloadThreshold();
+		int iMinToReload = ceil(GetMaxClip1() * pOwner->GetAutoReloadThreshold());
 
-		if (fMinToReload)
+		if (Clip1() <= iMinToReload)
 		{
-			if (Clip1() <= fMinToReload)
-			{
-				pOwner->m_nButtons |= IN_RELOAD;
-			}
+			pOwner->m_nButtons |= IN_RELOAD;
 		}
 #else
 		pOwner->m_nButtons |= IN_RELOAD;

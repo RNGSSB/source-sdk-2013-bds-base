@@ -20948,6 +20948,42 @@ float CTFPlayer::PlayScene( const char *pszScene, float flDelay, AI_Response *re
 	}
 }
 
+#if defined(QUIVER_DLL)
+float CTFPlayer::GetAutoReloadThreshold(void)
+{
+	// hacky as fuck.
+	float threshold = 0.0f;
+
+	if (IsFakeClient())
+	{
+		//see if we're a nextbot
+		CTFBot* bot = ToTFBot(this);
+		if (bot)
+		{
+			float threshold = 1.0f;
+
+			switch (bot->GetDifficulty())
+			{
+				case SKILL_MEDIUM:
+					threshold = 0.5f;
+					break;
+				case SKILL_EASY:
+					threshold = 0.25f;
+					break;
+				default:
+					break;
+			}
+		}
+	}
+	else
+	{
+		threshold = Q_atof(engine->GetClientConVarValue(entindex(), "cl_autoreload_activatethreshold"));
+	}
+
+	return threshold;
+}
+#endif
+
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
