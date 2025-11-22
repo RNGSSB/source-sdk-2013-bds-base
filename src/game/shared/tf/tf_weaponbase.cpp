@@ -92,6 +92,7 @@ ConVar tf_weapon_criticals_nopred( "tf_weapon_criticals_nopred", "1.0", FCVAR_RE
 
 #if defined(QUIVER_DLL)
 ConVar viewmodel_goldsource_stylebob("viewmodel_goldsource_stylebob", "0", FCVAR_ARCHIVE | FCVAR_REPLICATED);
+ConVar autoreload_activatethreshold("autoreload_activatethreshold", "0.25", FCVAR_REPLICATED | FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY);
 #endif
 
 #ifdef _DEBUG
@@ -2608,7 +2609,19 @@ void CTFWeaponBase::ItemPostFrame( void )
 	// If we're not shooting, and we want to autoreload, press our reload key
 	if ( !AutoFiresFullClip() && pOwner->ShouldAutoReload() && UsesClipsForAmmo1() && !(pOwner->m_nButtons & (IN_ATTACK|IN_ATTACK2)) && bNeedsReload )
 	{
+#ifdef QUIVER_DLL
+		float fMinToReload = GetMaxClip1() * autoreload_activatethreshold.GetFloat();
+
+		if (fMinToReload)
+		{
+			if (Clip1() <= fMinToReload)
+			{
+				pOwner->m_nButtons |= IN_RELOAD;
+			}
+		}
+#else
 		pOwner->m_nButtons |= IN_RELOAD;
+#endif
 	}
 
 	// debounce InAttack flags
