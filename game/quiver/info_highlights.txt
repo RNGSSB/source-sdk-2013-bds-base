@@ -147,6 +147,7 @@ Unlockable weapon balance changes:
 - Added a 20% damage bonus to the Flying Guillotine.
 - Disabled the Dragon's Fury projectile from being reflected.
 - Fixed a bug where the Soldier's hands show up on the side when wielding The Original on ultrawide displays/high FOVs.
+- Auto reloading is now only activated if your weapon only has below or around 25% of its ammo capacity.
 
 MvM Changes:
 - Added armor-related upgrades to MvM (max armor, pierces damage resistances, and armor resistance).
