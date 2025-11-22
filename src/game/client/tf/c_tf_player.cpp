@@ -211,6 +211,10 @@ ConVar cl_autoreload( "cl_autoreload", "1", FCVAR_USERINFO | FCVAR_ARCHIVE, "Whe
 ConVar cl_holdzoom("cl_holdzoom", "0", FCVAR_USERINFO | FCVAR_ARCHIVE, "When set to 1, sniper rifle will zoom as long as you hold the zoom button.");
 #endif
 
+#if defined(QUIVER_DLL)
+ConVar cl_autoreload_activatethreshold("cl_autoreload_activatethreshold", "0.25", FCVAR_USERINFO | FCVAR_ARCHIVE, "Setting this will adjust how far your clip must be empty before an automatic reload happens.", true, 0.25f, true, 1.0f);
+#endif
+
 #ifdef BDSBASE
 ConVar tf_respawn_on_loadoutchanges("tf_respawn_on_loadoutchanges", "1", FCVAR_CLIENTDLL | FCVAR_ARCHIVE | FCVAR_USERINFO, "When set to 1, you will automatically respawn whenever you change loadouts inside a respawn zone.");
 #else

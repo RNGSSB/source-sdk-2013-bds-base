@@ -540,6 +540,10 @@ public:
 	void SetAutoRezoom( bool bAutoRezoom ) { m_bAutoRezoom = bAutoRezoom; }
 	bool ShouldAutoReload( void ){ return m_bAutoReload; }
 	void SetAutoReload( bool bAutoReload ) { m_bAutoReload = bAutoReload; }
+#if defined(QUIVER_DLL)
+	float GetAutoReloadThreshold(void) { return m_fAutoReloadThreshold; }
+	void SetAutoReloadThreshold(float fVal) { m_fAutoReloadThreshold = fVal; }
+#endif
 #ifdef BDSBASE
 	bool ShouldHoldZoom(void) { return m_bHoldZoom; }
 	void SetHoldZoom(bool bHoldZoom) { m_bHoldZoom = bHoldZoom; }
@@ -1407,6 +1411,9 @@ private:
 	bool 				m_bMedigunAutoHeal;
 	bool				m_bAutoRezoom;	// does the player want to re-zoom after each shot for sniper rifles
 	bool				m_bAutoReload;
+#if defined(QUIVER_DLL)
+	bool				m_fAutoReloadThreshold;
+#endif
 #ifdef BDSBASE
 	bool				m_bHoldZoom;
 #endif

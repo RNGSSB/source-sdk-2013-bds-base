@@ -283,6 +283,24 @@ ActionResult< CTFBot >	CTFBotMainAction::Update( CTFBot *me, float interval )
 	FireWeaponAtEnemy( me );
 	Dodge( me );
 
+#if defined(QUIVER_DLL)
+	float threshold = 1.0f;
+
+	switch (me->GetDifficulty())
+	{
+	case SKILL_MEDIUM:
+		threshold = 0.5f;
+		break;
+	case SKILL_HARD:
+		threshold = 0.25f;
+		break;
+	default:
+		break;
+	}
+
+	me->SetAutoReloadThreshold(1.0f);
+#endif
+
 	if ( me->IsPlayerClass( TF_CLASS_DEMOMAN ) )
 	{
 		// dont auto reload, so we fire stickies fast

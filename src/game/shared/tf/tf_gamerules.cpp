@@ -10836,6 +10836,9 @@ void CTFGameRules::ClientSettingsChanged( CBasePlayer *pPlayer )
 	// keep track of their cl_autorezoom value
 	pTFPlayer->SetAutoRezoom( Q_atoi( engine->GetClientConVarValue( pPlayer->entindex(), "cl_autorezoom" ) ) > 0 );
 	pTFPlayer->SetAutoReload( Q_atoi( engine->GetClientConVarValue( pPlayer->entindex(), "cl_autoreload" ) ) > 0 );
+#if defined(QUIVER_DLL)
+	pTFPlayer->SetAutoReloadThreshold(Q_atof(engine->GetClientConVarValue(pPlayer->entindex(), "cl_autoreload_activatethreshold")) > 0);
+#endif
 #ifdef BDSBASE
 	pTFPlayer->SetHoldZoom(Q_atoi(engine->GetClientConVarValue(pPlayer->entindex(), "cl_holdzoom")) > 0);
 #endif

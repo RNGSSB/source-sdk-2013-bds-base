@@ -43,6 +43,9 @@ class C_PasstimeAskForBallReticle;
 extern ConVar tf_medigun_autoheal;
 extern ConVar cl_autorezoom;
 extern ConVar cl_autoreload;
+#if defined(QUIVER_DLL)
+extern ConVar cl_autoreload_activatethreshold;
+#endif
 #ifdef BDSBASE
 extern ConVar cl_holdzoom;
 #endif
@@ -322,6 +325,9 @@ public:
 	bool			GetMedigunAutoHeal( void ){ return tf_medigun_autoheal.GetBool(); }
 	bool			ShouldAutoRezoom( void ){ return cl_autorezoom.GetBool(); }
 	bool			ShouldAutoReload( void ){ return cl_autoreload.GetBool(); }
+#if defined(QUIVER_DLL)
+	float			GetAutoReloadThreshold(void) { return cl_autoreload_activatethreshold.GetFloat(); }
+#endif
 #ifdef BDSBASE
 	bool			ShouldHoldZoom(void) { return cl_holdzoom.GetBool(); }
 #endif
