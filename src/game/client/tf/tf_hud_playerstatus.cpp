@@ -1484,8 +1484,6 @@ void CTFHudPlayerArmor::OnThink()
 		{
 			SetArmor(pPlayer->ArmorValue(), pPlayer->GetMaxArmor());
 
-			int color_offset = ((int)(gpGlobals->realtime * 10)) % 5;
-
 			// Find our starting point, just above the health '+'
 			int nXOffset, y;
 			m_pArmorImage->GetPos(nXOffset, y);
