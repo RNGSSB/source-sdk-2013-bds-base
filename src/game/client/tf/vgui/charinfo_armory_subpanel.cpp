@@ -24,7 +24,7 @@
 
 ConVar tf_explanations_charinfo_armory_panel( "tf_explanations_charinfo_armory_panel", "0", FCVAR_ARCHIVE, "Whether the user has seen explanations for this panel." );
 #ifdef BDSBASE
-ConVar tf_armory_page_skip("tf_armory_page_skip", "10", FCVAR_ARCHIVE, "Number of pages to skip in the Mann Co. Catalogue.", true, 1, true, 100);
+ConVar tf_armory_page_skip("tf_armory_page_skip", "10", FCVAR_ARCHIVE, "Number of pages to skip in the Mann Co. Catalog.", true, 1, true, 100);
 #endif
 
 const char *g_szArmoryFilterStrings[ARMFILT_TOTAL] =

@@ -20227,28 +20227,12 @@ void CTFPlayer::DoTauntAttack( void )
 			}
 		}
 	}
-#ifdef BDSBASE
-	else if (iTauntAttack == TAUNTATK_HEAVY_HIGH_NOON || (tf_allow_econ_tauntkill.GetBool() && iTauntAttack == TAUNTATK_ENGINEER_TRICKSHOT))
-#else
 	else if ( iTauntAttack == TAUNTATK_HEAVY_HIGH_NOON )
-#endif
 	{
 		// Heavy "High Noon" attack
 		Vector vecForward;
  		AngleVectors( EyeAngles(), &vecForward );
-
-#ifdef BDSBASE
-		int range = 500;
-
-		if (iTauntAttack == TAUNTATK_ENGINEER_TRICKSHOT)
-		{
-			range = tf_tauntkill_trickshot_range.GetInt();
-		}
-
-		Vector vecEnd = EyePosition() + vecForward * range;
-#else
 		Vector vecEnd = EyePosition() + vecForward * 500;
-#endif
 
 		trace_t tr;
 		UTIL_TraceLine( EyePosition(), vecEnd, ( MASK_SOLID | CONTENTS_HITBOX ), this, COLLISION_GROUP_PLAYER, &tr );
@@ -20262,18 +20246,7 @@ void CTFPlayer::DoTauntAttack( void )
 			{
 				// Launch them up a little
 				AngleVectors( QAngle(-45, m_angEyeAngles[YAW], 0), &vecForward );
-#ifdef BDSBASE
-				int iCustomDamage = TF_DMG_CUSTOM_TAUNTATK_HIGH_NOON;
-
-				if (iTauntAttack == TAUNTATK_ENGINEER_TRICKSHOT)
-				{
-					iCustomDamage = TF_DMG_CUSTOM_TAUNTATK_TRICKSHOT;
-				}
-
-				pEnt->TakeDamage(CTakeDamageInfo(this, this, GetActiveTFWeapon(), vecForward * 25000, WorldSpaceCenter(), 500.0f, DMG_BULLET, iCustomDamage));
-#else
 				pEnt->TakeDamage( CTakeDamageInfo( this, this, GetActiveTFWeapon(), vecForward * 25000, WorldSpaceCenter(), 500.0f, DMG_BULLET, TF_DMG_CUSTOM_TAUNTATK_HIGH_NOON ) );
-#endif
 			}
 		}
 	}
@@ -20833,6 +20806,29 @@ void CTFPlayer::DoTauntAttack( void )
 		}
 	}
 #ifdef BDSBASE
+	else if (iTauntAttack == TAUNTATK_ENGINEER_TRICKSHOT)
+	{
+		// Engineer "Texan Trickshot" attack
+		Vector vecForward;
+		AngleVectors(EyeAngles(), &vecForward);
+		Vector vecEnd = EyePosition() + vecForward * tf_tauntkill_trickshot_range.GetInt();
+
+		trace_t tr;
+		UTIL_TraceLine(EyePosition(), vecEnd, (MASK_SOLID | CONTENTS_HITBOX), this, COLLISION_GROUP_PLAYER, &tr);
+		//		DebugDrawLine( EyePosition(), vecEnd, 0, 0, 255, true, 3.0f );
+
+		if (tr.fraction < 1.0)
+		{
+			CBaseEntity* pEnt = tr.m_pEnt;
+
+			if (pEnt && pEnt->IsPlayer() && pEnt->GetTeamNumber() > LAST_SHARED_TEAM && pEnt->GetTeamNumber() != GetTeamNumber())
+			{
+				// Launch them up a little
+				AngleVectors(QAngle(-45, m_angEyeAngles[YAW], 0), &vecForward);
+				pEnt->TakeDamage(CTakeDamageInfo(this, this, GetActiveTFWeapon(), vecForward * 25000, WorldSpaceCenter(), 500.0f, DMG_BULLET, TF_DMG_CUSTOM_TAUNTATK_TRICKSHOT));
+			}
+		}
+	}
 	else if (iTauntAttack == TAUNTATK_DEMOMAN_CABER_SWING)
 	{
 		// Find a player in front of us and knock 'em across the map.
@@ -23482,6 +23478,9 @@ static bool SelectPartnerTaunt( const GameItemDefinition_t *pItemDef, CTFPlayer 
 {
 	static CSchemaItemDefHandle pItemDef_rpsTaunt( "RPS Taunt" );
 	static CSchemaItemDefHandle pItemDef_TauntNeckSnap( "Taunt: Neck Snap" );
+#ifdef BDSBASE
+	static CSchemaItemDefHandle pItemDef_TauntBearHug("Taunt: Bear Hug");
+#endif
 
 	CTFTauntInfo *pTauntData = pItemDef->GetTauntData();
 	if ( !pTauntData )
@@ -23531,6 +23530,15 @@ static bool SelectPartnerTaunt( const GameItemDefinition_t *pItemDef, CTFPlayer 
 		iInitiator = 0;
 		iReceiver = ( iReceiverClass != TF_CLASS_SOLDIER ) ? 0 : 1;
 	}
+#ifdef BDSBASE
+	else if (pItemDef == pItemDef_TauntBearHug)
+	{
+		Assert(iInitiatorSceneCount == 2 && iReceiverSceneCount > 0);
+
+		iInitiator = 0;
+		iReceiver = (iReceiverClass != TF_CLASS_HEAVYWEAPONS) ? 0 : 1;
+	}
+#endif
 	else
 	{
 		// randomly select a player to pick 0 (could be silent taunt)

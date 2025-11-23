@@ -854,6 +854,10 @@ public:
 	// dumps info about the object to Msg()
 	virtual void			OutputDebugInfo() const = 0;
 
+#ifdef BDSBASE
+	virtual float			GetBuoyancyRatio(void) const = 0;
+#endif
+
 };
 
 

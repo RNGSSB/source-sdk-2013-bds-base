@@ -232,7 +232,8 @@ Details:
 - Fixed a bug where the Soldier's hands show up on the side when wielding The Original on ultrawide displays/high FOVs.
 - Updated the Wrench's description to reflect its functionality.
 - Removed the "Loaned" weapon feature as that may violate the TF2 SDK guidelines.
-- Auto reloading is now only activated if your weapon only has below or around 25% of its ammo capacity.
+- Auto reloading is now only activated if your weapon only has below or around 25% of its ammo capacity. 
+	- This option can be reconfigured with the new "Auto-reload threshold" option in the advanced options menu.
 
 Quiver Private Alpha 1.1.0:
 Whitelists:

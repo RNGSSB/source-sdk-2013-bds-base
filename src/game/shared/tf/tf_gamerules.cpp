@@ -429,6 +429,23 @@ static MapInfo_t s_CommunityMaps[] = {
 	{ "pl_patagonia", "Patagonia", "#Gametype_Escort" },
 	{ "plr_cutter", "Cutter", "#Gametype_EscortRace" },
 	{ "vsh_maul", " Maul", "#GameType_VSH" },
+#ifdef BDSBASE
+	{ "pl_citadel", "Citadel", "#Gametype_Escort" },
+	{ "pl_aquarius", "Aquarius", "#Gametype_Escort" },
+	{ "cp_fulgur", "Fulgur", "#TF_AttackDefend" },
+	{ "cp_cargo", "Cargo", "#TF_AttackDefend" },
+	{ "cp_conifer", "Conifer", "#TF_AttackDefend" },
+	{ "koth_boardwalk", "Boardwalk", "#Gametype_Koth" },
+	{ "koth_blowout", "Blowout", "#Gametype_Koth" },
+	{ "koth_mannhole", "Mannhole", "#Gametype_Koth" },
+	{ "koth_demolition", "Demolition", "#Gametype_Koth" },
+	{ "ctf_pressure", "Pressure", "#Gametype_CTF" },
+	{ "cp_cowerhouse", "Cowerhouse", "#Gametype_CP" },
+	{ "koth_dusker", "Dusker", "#Gametype_Koth" },
+	{ "arena_afterlife", "Afterlife", "#Gametype_Arena" },
+	{ "ctf_doublecross_event", "Devilcross", "#Gametype_CTF" },
+	{ "sd_marshlands", "Marshlands", "#GameType_HTF" },
+#endif
 };
 
 /*
@@ -608,6 +625,25 @@ static FeaturedWorkshopMap_t s_FeaturedWorkshopMaps[] = {
 	{ "pl_patagonia",			3236427113 },
 	{ "plr_cutter",				3363801747 },
 	{ "vsh_maul",				3069796653 },
+
+	// Summer 2025
+	{ "pl_citadel",				3474587494 },
+	{ "pl_aquarius",			3478583193 },
+	{ "cp_fulgur",				2068252300 },
+	{ "cp_cargo",				3488669143 },
+	{ "cp_conifer",				1419048064 },
+	{ "koth_boardwalk",			3475789229 },
+	{ "koth_blowout",			3473248257 },
+	{ "koth_mannhole",			3478225408 },
+	{ "koth_demolition",		3473618662 },
+	{ "ctf_pressure",			3480634190 },
+
+	// Halloween 2025
+	{ "cp_cowerhouse",			3028277335 },
+	{ "koth_dusker",			3562630084 },
+	{ "arena_afterlife",		3557320996 },
+	{ "ctf_doublecross_event",	3024700002 },
+	{ "sd_marshlands",			3565681202 },
 };
 
 */
@@ -7883,12 +7919,14 @@ float CTFGameRules::ApplyOnDamageAliveModifyRules( const CTakeDamageInfo &info, 
 		}
 
 #ifdef BDSBASE
-		if (pAttacker == pVictimBaseEntity &&
-			(info.GetDamageType() & DMG_BLAST || info.GetDamageCustom() == TF_DMG_CUSTOM_FLARE_EXPLOSION) &&
+		if ((pAttacker == pVictimBaseEntity) &&
+			((info.GetDamageType() & DMG_BLAST) || (info.GetDamageCustom() == TF_DMG_CUSTOM_FLARE_EXPLOSION)) &&
+			(info.GetDamagedOtherPlayers() == 0) &&
+			(info.GetDamageCustom() != TF_DMG_CUSTOM_TAUNTATK_GRENADE))
 #else
 		if ( pAttacker == pVictimBaseEntity && (info.GetDamageType() & DMG_BLAST) &&
-#endif
 			 info.GetDamagedOtherPlayers() == 0 && (info.GetDamageCustom() != TF_DMG_CUSTOM_TAUNTATK_GRENADE) )
+#endif
 		{
 			// If we attacked ourselves, hurt no other players, and it is a blast,
 			// check the attribute that reduces rocket jump damage.

@@ -5580,7 +5580,7 @@ Action< CTFBot > *CTFBot::OpportunisticallyUseWeaponAbilities( void )
 			}
 		}
 #ifdef BDSBASE
-		else if ( weapon->GetWeaponID() == TF_WEAPON_BAT_WOOD || weapon->GetWeaponID() == TF_WEAPON_BAT_GIFTWRAP)
+		else if ( ( weapon->GetWeaponID() == TF_WEAPON_BAT_WOOD ) || ( weapon->GetWeaponID() == TF_WEAPON_BAT_GIFTWRAP ) )
 #else
 		else if ( weapon->GetWeaponID() == TF_WEAPON_BAT_WOOD )
 #endif

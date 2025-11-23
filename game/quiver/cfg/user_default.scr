@@ -78,6 +78,19 @@ DESCRIPTION INFO_OPTIONS
 		{ "0" }
 	}
 	
+	"cl_autoreload_activatethreshold"
+	{
+		"#cl_autoreload_activatethreshold"
+		"#ToolTip_cl_autoreload_activatethreshold"
+		{ LIST
+			"#cl_autoreload_activatethreshold_low"            "0.25"
+			"#cl_autoreload_activatethreshold_medium"         "0.5"
+			"#cl_autoreload_activatethreshold_high"	          "0.75"
+			"#cl_autoreload_activatethreshold_max"            "1.0"
+		}
+		{ "0.25" }
+	}
+	
 	"hud_fastswitch"
 	{
 		"#GameUI_FastSwitchCheck"

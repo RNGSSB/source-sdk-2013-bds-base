@@ -1076,7 +1076,7 @@ Color CAccountPanel::GetColor(const account_delta_t::eAccountDeltaType_t& type)
 	else if ( type == account_delta_t::ACCOUNT_DELTA_HEALING )
 	{
 #ifdef BDSBASE
-		return iDeltaValue < 0 ? m_DeltaNegativeColor : m_DeltaPositiveColor;
+		return (iDeltaValue < 0) ? m_DeltaNegativeColor : m_DeltaPositiveColor;
 #else
 		return m_DeltaPositiveColor;
 #endif

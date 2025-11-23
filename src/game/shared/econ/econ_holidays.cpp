@@ -315,8 +315,12 @@ static COrHoliday	g_Holiday_Christmas		( "christmas", &g_Holiday_ChristmasPart1,
 static CDateBasedHolidayNoSpecificYear	g_Holiday_ValentinesDay	( "valentines",	"02-13", "02-15" );
 
 static CDateBasedHoliday	g_Holiday_MeetThePyro				( "meet_the_pyro",	"2012-06-26", "2012-07-05" );
+#ifdef BDSBASE
+static CCyclicalHoliday		g_Holiday_FullMoon					("fullmoon",		10, 06, 2025,		29.53f,					1.0f);
+#else
 														   /*					starting date		cycle length in days	bonus time in days on both sides */
-static CCyclicalHoliday		g_Holiday_FullMoon					( "fullmoon",		12, 15, 2024,		29.53f,					1.0f );
+static CCyclicalHoliday		g_Holiday_FullMoon					( "fullmoon",		10, 06, 2025,		29.53f,					1.0f );
+#endif
 																								 // note: the cycle length is 29.5 instead of 29.53 so that the time calculations always start at noon based on the way CCyclicalHoliday works
 static COrHoliday			g_Holiday_HalloweenOrFullMoon		( "halloween_or_fullmoon",	&g_Holiday_Halloween,	&g_Holiday_FullMoon );
 
@@ -331,7 +335,11 @@ static CDateBasedHoliday	g_Holiday_CommunityUpdate			( "community_update", "2015
 static CDateBasedHolidayNoSpecificYear	g_Holiday_Soldier		( "soldier", "04-12", "04-14" );
 
 // only setup for 2024 right now...need to figure out how we want future events to run and maybe remove the year
+#ifdef BDSBASE
+static CDateBasedHoliday	g_Holiday_Summer("summer", "2025-07-16", "2025-09-16");
+#else
 static CDateBasedHoliday	g_Holiday_Summer( "summer", "2024-07-01", "2024-09-16" );
+#endif
 
 // ORDER NEEDS TO MATCH enum EHoliday
 static IIsHolidayActive *s_HolidayChecks[] =

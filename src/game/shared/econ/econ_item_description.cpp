@@ -2833,7 +2833,9 @@ void CEconItemDescription::Generate_CollectionDesc( const CLocalizationProvider 
 		auto pPaintkitItemDef = GetItemSchema()->GetPaintKitItemDefinition( nPaintkitDefindex );
 #ifdef BDSBASE
 		if (pPaintkitItemDef == NULL)
+		{
 			bIsHatOrDecorated = true;
+		}
 #endif
 		pItemDef = pPaintkitItemDef ? pPaintkitItemDef : pItemDef;
 	}
