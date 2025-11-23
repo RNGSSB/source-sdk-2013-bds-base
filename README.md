@@ -101,6 +101,10 @@ BDSBASE_DISABLE_ITEM_DROP_PANEL
 - Games: TF2
 - This disables the panel shown for unacknowledged items in live TF2.
 
+BDSBASE_USES_LADDERS
+- Games: TF2
+- Enables the player to climb func_ladders.
+
 ## Credits:
 - TheBetaM for the custom schema code. (https://github.com/TheBetaM/tf-solo)
 - rafradek for some bot AI changes (sigsegv-mvm) (https://github.com/rafradek/sigsegv-mvm)

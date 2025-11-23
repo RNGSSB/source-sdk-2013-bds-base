@@ -30,6 +30,7 @@ $Configuration
 		//$PreprocessorDefinitions		"$BASE;BDSBASE_NPC" [$BDSBASE]
 		//$PreprocessorDefinitions		"$BASE;BDSBASE_ECON_LOADOUT_ONLY" [$BDSBASE]
 		//$PreprocessorDefinitions		"$BASE;BDSBASE_DISABLE_ITEM_DROP_PANEL" [$BDSBASE]
+		//$PreprocessorDefinitions		"$BASE;BDSBASE_USES_LADDERS" [$BDSBASE]
 		//custom schema
 		$PreprocessorDefinitions		"$BASE;BDSBASE_USE_LOCAL_SCHEMA" [$BDSBASE]
 		//$PreprocessorDefinitions		"$BASE;BDSBASE_CUSTOM_SCHEMA" [$BDSBASE]

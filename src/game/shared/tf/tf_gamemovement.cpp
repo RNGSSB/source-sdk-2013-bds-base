@@ -3228,7 +3228,11 @@ void CTFGameMovement::StepMove( Vector &vecDestination, trace_t &trace )
 //-----------------------------------------------------------------------------
 bool CTFGameMovement::GameHasLadders() const
 {
+#ifdef BDSBASE_USES_LADDERS
+	return true;
+#else
 	return false;
+#endif
 }
 
 //-----------------------------------------------------------------------------

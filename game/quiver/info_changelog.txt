@@ -4,6 +4,7 @@ Blacklists:
 Added the following Source SDK Pull Requests:
 Removed  the following Source SDK Pull Requests:
 Details:
+- Enabled ladders.
 
 ---------------------------------------------------------------------------------------------
 
