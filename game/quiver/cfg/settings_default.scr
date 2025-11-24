@@ -90,6 +90,13 @@ DESCRIPTION SERVER_OPTIONS
 		{ "0" }
 	}
 	
+	"sv_bhop"
+	{
+		"#TF_Bunnyhopping"
+		{ BOOL }
+		{ "1" }
+	}
+	
 	"tf_weapon_criticals"
 	{
 		"#TF_Quickplay_RandomCrits"
