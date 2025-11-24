@@ -5462,7 +5462,31 @@ bool CEconItemSchema::BInitItems( KeyValues *pKVItems, CUtlVector<CUtlString> *p
 
 				if (pItemDef->IsWhitelisted())
 				{
+#if (defined(BDSBASE_CURATED_ITEMS) && defined(BDSBASE_CURATED_ITEMS_GIVEWHITELISTEDITEMS))
 					bool bIsSpecial = false;
+
+					if (pItemDef->IsReskin())
+					{
+						bIsSpecial = true;
+					}
+
+					static CSchemaAttributeDefHandle pAttrDef_DefaultWear("texture_wear_default");
+					float flWearOut;
+					if (pAttrDef_DefaultWear)
+					{
+						bIsSpecial = FindAttribute_UnsafeBitwiseCast<attrib_value_t>(pItemDef, pAttrDef_DefaultWear, &flWearOut);
+					}
+
+					static CSchemaAttributeDefHandle pAttrDef_LimitedQuantity("limited quantity item");
+					float flLimitedOut;
+					if (pAttrDef_LimitedQuantity)
+					{
+						bIsSpecial = FindAttribute_UnsafeBitwiseCast<attrib_value_t>(pItemDef, pAttrDef_LimitedQuantity, &flLimitedOut);
+					}
+#else
+					bool bIsSpecial = false;
+#endif
+
 					if (!bIsSpecial)
 					{
 						m_mapWhitelistedItems.Insert(nItemIndex, pItemDef);

@@ -322,6 +322,19 @@ void CTFInventoryManager::GenerateBaseItems( void )
 		}
 	}
 #endif
+
+#if (defined(BDSBASE_CURATED_ITEMS) && defined(BDSBASE_CURATED_ITEMS_GIVEWHITELISTEDITEMS))
+	const CEconItemSchema::WhitelistedItemDefinitionMap_t& mapItemsWhitelisted = GetItemSchema()->GetWhitelistedItemDefinitionMap();
+
+	if (mapItemsWhitelisted.Count() > 0)
+	{
+		iStart = 0;
+		for (int it = iStart; it != mapItemsWhitelisted.InvalidIndex(); it = mapItemsWhitelisted.NextInorder(it))
+		{
+			AddSoloItem(mapItemsWhitelisted[it]->GetDefinitionIndex(), true);
+		}
+	}
+#endif
 #endif
 }
 
