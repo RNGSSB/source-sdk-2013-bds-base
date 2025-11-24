@@ -2,7 +2,7 @@ Quiver Private Alpha 1.3.0:
 Whitelists:
 Blacklists:
 Added the following Source SDK Pull Requests:
-Removed  the following Source SDK Pull Requests:
+Removed the following Source SDK Pull Requests:
 Details:
 - Enabled ladders.
 - Added a server setting for bunny-hopping.
