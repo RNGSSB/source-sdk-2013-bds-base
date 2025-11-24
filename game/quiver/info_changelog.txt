@@ -5,7 +5,7 @@ Added the following Source SDK Pull Requests:
 Removed the following Source SDK Pull Requests:
 Details:
 - Enabled ladders.
-- Added a server setting for bunny-hopping.
+- Added a listen server setting for bunny-hopping.
 - Removed the 20% cloak duration penalty to the Conniver's Kunai.
 - Re-added the "Loaned" weapon feature, but adhered it to TF2 SDK rules.
 	- Only weapons earned through achievements are loaned to players.
