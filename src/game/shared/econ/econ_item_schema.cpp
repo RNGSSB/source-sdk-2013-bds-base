@@ -4819,6 +4819,11 @@ bool CEconItemSchema::BInitSchema( KeyValues *pKVRawDefinition, CUtlVector<CUtlS
 	KeyValues *pKVLootlistJobTemplates = pKVRawDefinition->FindKey( "lootlist_job_template_definitions" );
 	SCHEMA_INIT_SUBSTEP( BInitLootlistJobTemplates( pKVLootlistJobTemplates, pVecErrors ) );
 
+#if (defined(BDSBASE_CURATED_ITEMS) && defined(BDSBASE_CURATED_ITEMS_GIVEWHITELISTEDITEMS))
+	KeyValues* pKVAchievementRewards = pKVRawDefinition->FindKey("achievement_rewards");
+	SCHEMA_INIT_SUBSTEP(BInitAchievementRewards(pKVAchievementRewards, pVecErrors));
+#endif
+
 	// Initialize the items block
 	KeyValues *pKVItems = pKVRawDefinition->FindKey( "items" );
 	SCHEMA_INIT_CHECK( NULL != pKVItems, "Required key \"items\" missing.\n" );
@@ -4879,8 +4884,10 @@ bool CEconItemSchema::BInitSchema( KeyValues *pKVRawDefinition, CUtlVector<CUtlS
 #endif // GC_DLL
 
 	// Parse any achievement rewards
+#if !(defined(BDSBASE_CURATED_ITEMS) && defined(BDSBASE_CURATED_ITEMS_GIVEWHITELISTEDITEMS))
 	KeyValues *pKVAchievementRewards = pKVRawDefinition->FindKey( "achievement_rewards" );
 	SCHEMA_INIT_SUBSTEP( BInitAchievementRewards( pKVAchievementRewards, pVecErrors ) );
+#endif
 
 #ifdef TF_CLIENT_DLL
 	// Compute the number of concrete items, for each item, and cache for quick access
@@ -5482,6 +5489,13 @@ bool CEconItemSchema::BInitItems( KeyValues *pKVItems, CUtlVector<CUtlString> *p
 					if (pAttrDef_LimitedQuantity)
 					{
 						bIsSpecial = FindAttribute_UnsafeBitwiseCast<attrib_value_t>(pItemDef, pAttrDef_LimitedQuantity, &flLimitedOut);
+					}
+
+					// only allow achievement items.
+					const AchievementAward_t* pAchievementAward = GetItemSchema()->GetAchievementRewardByDefIndex(pItemDef->GetDefinitionIndex());
+					if (!pAchievementAward)
+					{
+						bIsSpecial = true;
 					}
 #else
 					bool bIsSpecial = false;
