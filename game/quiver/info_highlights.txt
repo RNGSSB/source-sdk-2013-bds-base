@@ -72,7 +72,6 @@ Unlockable weapon balance changes:
 - Decreased Mini-Sentry range from 1100 hammer units to 825 hammer units.
 - The Enforcer's 20% damage bonus is now a normal 20% damage bonus.
 - The per-backstab health bonus you get with the Conniver's Kunai was decreased from 140 health to 85, reducing the maximum health per backstab kill from 210 to 155.
-- Added a 20% cloak duration penalty to the Conniver's Kunai.
 - The Flare Gun now deploys 15% faster.
 - When using the Cloak and Dagger, jumping/bunnyhopping increases cloak drain to 4x its normal speed.
 - The Quick Fix now can heal surrounding teammates with its Ubercharge.
