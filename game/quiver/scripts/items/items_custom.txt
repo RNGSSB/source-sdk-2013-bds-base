@@ -1137,6 +1137,52 @@
 			"first_sale_date"	"2010/09/29"
 			"xifier_class_remap"	"weapon_quiver_clusterbuster"
 		}
+		"34422"
+		{
+			"name"	"Armor Test"
+			"loadondemand"	"1"
+			"prefab"	"misc"
+			"item_class"	"tf_wearable"
+			"capabilities"
+			{
+				"nameable"		"1"
+				"paintable"		"1"
+			}
+			"show_in_armory"	"1"
+			"item_type_name"	"#TF_Wearable_Hat"
+			"item_name"			"#TF_WorldTraveler"
+			"item_description"	"#TF_WorldTraveler_Desc"
+			"equip_region"		"feet"
+			"item_quality"		"unique"
+			"model_player"		"models/weapons/w_pistol.mdl"
+			"drop_type"	"drop"
+			"used_by_classes"
+			{
+				"scout"	"1"
+				"sniper"	"1"
+				"soldier"	"1"
+				"demoman"	"1"
+				"medic"	"1"
+				"heavy"	"1"
+				"spy" "1"
+				"engineer" "1"
+				"pyro" "1"
+			}
+			"static_attrs"
+			{
+				"cosmetic_allow_inspect"				"1"
+			}
+			"attributes"
+			{
+				"attach particle effect"
+				{
+					"attribute_class"	"set_attached_particle"
+					"value"	"3095"
+				}
+			}
+			"mouse_pressed_sound"	"ui/item_hat_pickup.wav"
+			"drop_sound"		"ui/item_hat_drop.wav"
+		}
 	}
 	
 	// attributes are moved to items_game.txt

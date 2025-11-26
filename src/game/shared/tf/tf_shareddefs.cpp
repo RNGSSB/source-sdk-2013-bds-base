@@ -187,15 +187,15 @@ const char g_szArmorItems[][MAX_PATH] =
 {
 	"", //TF_CLASS_UNDEFINED
 
-	"Flak Jack",
-	"Airborne Attire",
-	"The Patriot's Pouches",
-	"Bushi-Dou",
-	"Bunnyhopper's Ballistics Vest",
-	"Immobile Suit Armor Version",
-	"The Steel Sixpack",
-	"Lurker's Leathers Armor Version",
-	"Iron Lung",
+	"Armor Test",
+	"Armor Test",
+	"Armor Test",
+	"Armor Test",
+	"Armor Test",
+	"Armor Test",
+	"Armor Test",
+	"Armor Test",
+	"Armor Test",
 };
 
 const char g_szArmorItems_MvM[][MAX_PATH] =
