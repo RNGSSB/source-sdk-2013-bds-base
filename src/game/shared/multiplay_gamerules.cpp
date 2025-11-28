@@ -1949,6 +1949,13 @@ ConVarRef suitcharger( "sk_suitcharger" );
 		pProximityVoice->SetString("tag", "proximity_voice");
 
 		pCvarTagList->AddSubKey(pProximityVoice);
+
+		// sv_proximity_voice_enable
+		KeyValues* pRespawnTimes = new KeyValues("mp_disable_respawn_times");
+		pRespawnTimes->SetString("convar", "mp_disable_respawn_times");
+		pRespawnTimes->SetString("tag", "norespawntime");
+
+		pCvarTagList->AddSubKey(pRespawnTimes);
 #endif
 	}
 

@@ -173,6 +173,9 @@ void ClientGamePrecache( void )
 	CBaseEntity::PrecacheScriptSound( "Geiger.BeepLow" );
 }
 
+#ifdef BDSBASE
+extern ConVar mp_disable_respawn_times;
+#endif
 
 // called by ClientKill and DeadThink
 void respawn( CBaseEntity *pEdict, bool fCopyCorpse )
@@ -181,7 +184,11 @@ void respawn( CBaseEntity *pEdict, bool fCopyCorpse )
 
 	if ( pPlayer )
 	{
+#ifdef BDSBASE
+		if (mp_disable_respawn_times.GetBool() || (gpGlobals->curtime > pPlayer->GetDeathTime() + DEATH_ANIMATION_TIME))
+#else
 		if ( gpGlobals->curtime > pPlayer->GetDeathTime() + DEATH_ANIMATION_TIME )
+#endif
 		{		
 			// respawn player
 			pPlayer->Spawn();			

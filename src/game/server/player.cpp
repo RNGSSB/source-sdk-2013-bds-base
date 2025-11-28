@@ -2185,6 +2185,9 @@ void CBasePlayer::ShowViewPortPanel( const char * name, bool bShow, KeyValues *d
 	MessageEnd();
 }
 
+#ifdef BDSBASE
+extern ConVar mp_disable_respawn_times;
+#endif
 
 void CBasePlayer::PlayerDeathThink(void)
 {
@@ -2256,7 +2259,7 @@ void CBasePlayer::PlayerDeathThink(void)
 	if (m_lifeState == LIFE_DEAD)
 	{
 #ifdef BDSBASE
-		if (fAnyButtonDown && (gpGlobals->curtime > (m_flDeathTime + 5)))
+		if (fAnyButtonDown && (mp_disable_respawn_times.GetBool() || (gpGlobals->curtime > (m_flDeathTime + 5))))
 		{
 			respawn(this, !IsObserver());// don't copy a corpse if we're in deathcam.
 			return;
@@ -2284,9 +2287,22 @@ void CBasePlayer::PlayerDeathThink(void)
 	}
 	
 // wait for any button down,  or mp_forcerespawn is set and the respawn time is up
+#ifdef BDSBASE
+	if (mp_disable_respawn_times.GetBool())
+	{
+		if (!fAnyButtonDown && !g_pGameRules->IsMultiplayer())
+			return;
+	}
+	else
+	{
+		if (!fAnyButtonDown && !(g_pGameRules->IsMultiplayer() && forcerespawn.GetInt() > 0 && (gpGlobals->curtime > (m_flDeathTime + 5))))
+			return;
+	}
+#else
 	if (!fAnyButtonDown 
 		&& !( g_pGameRules->IsMultiplayer() && forcerespawn.GetInt() > 0 && (gpGlobals->curtime > (m_flDeathTime + 5))) )
 		return;
+#endif
 
 	m_nButtons = 0;
 	m_iRespawnFrames = 0;

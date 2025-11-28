@@ -19562,7 +19562,9 @@ convar_tags_t convars_to_check_for_tags[] =
 	{ "mp_respawnwavetime", "respawntimes", NULL },
 	{ "mp_fadetoblack", "fadetoblack", NULL },
 	{ "tf_weapon_criticals", "nocrits", NULL },
+#ifndef BDSBASE
 	{ "mp_disable_respawn_times", "norespawntime", NULL },
+#endif
 	{ "tf_gamemode_arena", "arena", NULL },
 	{ "tf_gamemode_cp", "cp", NULL },
 	{ "tf_gamemode_ctf", "ctf", NULL },
@@ -19585,6 +19587,10 @@ convar_tags_t convars_to_check_for_tags[] =
 	{ "tf_powerup_mode", "powerup", NULL },
 	{ "tf_gamemode_passtime", "passtime", NULL },
 	{ "tf_gamemode_misc", "misc", NULL }, // catch-all for matchmaking to identify sd, tc, and pd servers via sv_tags
+#if defined(QUIVER_DLL)
+	{ "qf_gamemode_tdm", "tdm", NULL },
+	{ "qf_tdm_scorewar", "scorewar", NULL },
+#endif
 };
 
 //-----------------------------------------------------------------------------

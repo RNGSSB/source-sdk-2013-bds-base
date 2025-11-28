@@ -60,7 +60,8 @@ $Configuration
 
 	$Compiler
 	{
-		$AdditionalIncludeDirectories	"$BASE;.\;$SRCDIR\game\shared;$SRCDIR\utils\common;$SRCDIR\game\shared\econ;$SRCDIR\game\server\NextBot"
+		$AdditionalIncludeDirectories	"$BASE;.\;$SRCDIR\game\shared;$SRCDIR\utils\common;$SRCDIR\game\shared\econ;$SRCDIR\game\server\NextBot" [!$BDSBASE]
+		$AdditionalIncludeDirectories	"$BASE;.\;$SRCDIR\game\shared;$SRCDIR\utils\common;$SRCDIR\game\shared\econ;$SRCDIR\game\server\NextBot;$SRCDIR\game\shared\bdsbase;$SRCDIR\game\server\bdsbase" [$BDSBASE]
 		$PreprocessorDefinitions		"$BASE;GAME_DLL;VECTOR;VERSION_SAFE_STEAM_API_INTERFACES;PROTECTED_THINGS_ENABLE;sprintf=use_Q_snprintf_instead_of_sprintf;strncpy=use_Q_strncpy_instead;_snprintf=use_Q_snprintf_instead"
 		$PreprocessorDefinitions		"$BASE;INCLUDED_STEAM2_USERID_STRUCTS" 
 		$PreprocessorDefinitions		"$BASE;SWDS" [$POSIX]
@@ -740,14 +741,14 @@ $Project
 		
 		$Folder	"Admin" [$BDSBASE]
 		{
-			$File	"admin\base_serveradmin.cpp" [$BDSBASE]
-			$File	"admin\base_serveradmin.h" [$BDSBASE]
-			$File	"admin\serveradmin_core.h" [$BDSBASE]
-			$File	"admin\serveradmin_register.h" [$BDSBASE]
+			$File	"bdsbase\admin\base_serveradmin.cpp" [$BDSBASE]
+			$File	"bdsbase\admin\base_serveradmin.h" [$BDSBASE]
+			$File	"bdsbase\admin\serveradmin_core.h" [$BDSBASE]
+			$File	"bdsbase\admin\serveradmin_register.h" [$BDSBASE]
 			
 			$Folder	"Commands" [$BDSBASE]
 			{
-				$File	"admin\command\serveradmin_command_base.h" [$BDSBASE]
+				$File	"bdsbase\admin\command\serveradmin_command_base.h" [$BDSBASE]
 			}
 		}
 
