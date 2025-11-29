@@ -22,21 +22,19 @@
 #define MIN_PLAYERS 2
 #endif
 
-#if defined(TF_CLIENT_DLL)
-enum ERandCritsOption
+enum EGenericOption
 {
-	eRandCritsYes,
-	eRandCritsNo,
-	eRandCritsDontCare
+	eGenericYes,
+	eGenericNo,
+	eGenericDontCare
 };
 
-enum EDamageSpreadOption
+enum EGenericInvertedOption
 {
-	eDamageSpreadNo,
-	eDamageSpreadYes,
-	eDamageSpreadDontCare
+	eInvertedNo,
+	eInvertedYes,
+	eInvertedDontCare
 };
-#endif
 
 enum ERespawnTimes
 {
@@ -51,13 +49,13 @@ public:
 	ServerFinderOptions_t()
 	{
 #if defined(QUIVER_DLL)
-		m_eRandomCrits = eRandCritsNo;
+		m_eRandomCrits = eGenericNo;
 #elif defined(TF_CLIENT_DLL)
-		m_eRandomCrits = eRandCritsYes;
+		m_eRandomCrits = eGenericYes;
 #endif
 
 #if defined(TF_CLIENT_DLL)
-		m_eDamageSpread = eDamageSpreadNo;
+		m_eDamageSpread = eInvertedNo;
 #endif
 
 		m_eRespawnTimes = eRespawnTimesDefault;
@@ -65,8 +63,8 @@ public:
 	}
 
 #if defined(TF_CLIENT_DLL)
-	ERandCritsOption m_eRandomCrits;
-	EDamageSpreadOption m_eDamageSpread;
+	EGenericOption m_eRandomCrits;
+	EGenericInvertedOption m_eDamageSpread;
 #endif
 
 	ERespawnTimes m_eRespawnTimes;

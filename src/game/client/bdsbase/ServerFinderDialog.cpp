@@ -176,8 +176,8 @@ void CServerFinderDialog::SaveOptionSelection(bool reload)
 		m_pSavedData->SetBool("israndommap", IsRandomMapSelected());
 		m_pSavedData->SetString("MaxPlayers", szMaxBots);
 #if defined(TF_CLIENT_DLL)
-		m_pSavedData->SetInt("RandomCrits", (ERandCritsOption)m_pRandCrits->GetItemIDFromRow(m_pRandCrits->GetActiveItem()));
-		m_pSavedData->SetInt("DamageSpread", (EDamageSpreadOption)m_pDmgSpread->GetItemIDFromRow(m_pDmgSpread->GetActiveItem()));
+		m_pSavedData->SetInt("RandomCrits", (EGenericOption)m_pRandCrits->GetItemIDFromRow(m_pRandCrits->GetActiveItem()));
+		m_pSavedData->SetInt("DamageSpread", (EGenericInvertedOption)m_pDmgSpread->GetItemIDFromRow(m_pDmgSpread->GetActiveItem()));
 #endif
 		m_pSavedData->SetInt("RespawnTimes", (ERespawnTimes)m_pRespawnTimes->GetItemIDFromRow(m_pRespawnTimes->GetActiveItem()));
 
@@ -290,33 +290,33 @@ void CServerFinderDialog::ServerResponded(gameserveritem_t& server)
 #if defined(TF_CLIENT_DLL)
 	switch (m_pOptions->m_eRandomCrits)
 	{
-		case eRandCritsYes:
+		case eGenericYes:
 			requiredTags.CopyAndAddToTail("nocrits");
 			break;
 
-		case eRandCritsNo:
+		case eGenericNo:
 			illegalTags.CopyAndAddToTail("nocrits");
 			break;
 
 		default:
 			Assert(false);
-		case eRandCritsDontCare:
+		case eGenericDontCare:
 			break;
 	}
 
 	switch (m_pOptions->m_eDamageSpread)
 	{
-		case eDamageSpreadNo:
+		case eInvertedNo:
 			illegalTags.CopyAndAddToTail("dmgspread");
 			break;
 
-		case eDamageSpreadYes:
+		case eInvertedYes:
 			requiredTags.CopyAndAddToTail("dmgspread");
 			break;
 
 		default:
 			Assert(false);
-		case eDamageSpreadDontCare:
+		case eInvertedDontCare:
 			break;
 	}
 #endif
@@ -396,8 +396,8 @@ void CServerFinderDialog::OnSearchFailure()
 		(m_pOptions->m_iMaxPlayers - 1),
 		m_pOptions->m_iMaxPlayers,
 		(m_pOptions->m_eRespawnTimes == eRespawnTimesInstant ? 1 : (m_pOptions->m_eRespawnTimes == eRespawnTimesDontCare ? random->RandomInt(0,1) : 0)),
-		(m_pOptions->m_eRandomCrits == eRandCritsYes ? 1 : (m_pOptions->m_eRandomCrits == eRandCritsDontCare ? random->RandomInt(0, 1) : 0)),
-		(m_pOptions->m_eDamageSpread == eDamageSpreadNo ? 1 : (m_pOptions->m_eDamageSpread == eDamageSpreadDontCare ? random->RandomInt(0, 1) : 0)),
+		(m_pOptions->m_eRandomCrits == eGenericYes ? 1 : (m_pOptions->m_eRandomCrits == eGenericDontCare ? random->RandomInt(0, 1) : 0)),
+		(m_pOptions->m_eDamageSpread == eInvertedNo ? 1 : (m_pOptions->m_eDamageSpread == eInvertedDontCare ? random->RandomInt(0, 1) : 0)),
 		GetMapName());
 #elif defined(HL2MP)
 	Q_snprintf(szMapCommand, sizeof(szMapCommand),
@@ -608,13 +608,13 @@ void CServerFinderDialog::SetParams()
 	const char* startRandomCrits = m_pSavedData->GetString("RandomCrits", "");
 	if (startRandomCrits[0])
 	{
-		m_pOptions->m_eRandomCrits = (ERandCritsOption)atoi(startRandomCrits);
+		m_pOptions->m_eRandomCrits = (EGenericOption)atoi(startRandomCrits);
 	}
 
 	const char* startDamageSpread = m_pSavedData->GetString("DamageSpread", "");
 	if (startDamageSpread[0])
 	{
-		m_pOptions->m_eDamageSpread = (EDamageSpreadOption)atoi(startDamageSpread);
+		m_pOptions->m_eDamageSpread = (EGenericInvertedOption)atoi(startDamageSpread);
 	}
 
 	const char* startRespawnTimes = m_pSavedData->GetString("RespawnTimes", "");
