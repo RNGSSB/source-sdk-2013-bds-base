@@ -25,16 +25,10 @@
 #if defined(TF_CLIENT_DLL)
 enum ERandCritsOption
 {
-#if defined(QUIVER_DLL)
-	eRandCritsNo,
-	eRandCritsYes,
-#elif defined(TF_CLIENT_DLL)
 	eRandCritsYes,
 	eRandCritsNo,
-#endif
 	eRandCritsDontCare
 };
-#endif
 
 enum EDamageSpreadOption
 {
@@ -42,6 +36,7 @@ enum EDamageSpreadOption
 	eDamageSpreadYes,
 	eDamageSpreadDontCare
 };
+#endif
 
 enum ERespawnTimes
 {

@@ -107,8 +107,8 @@ CServerFinderDialog::CServerFinderDialog(vgui::Panel *parent) : BaseClass(NULL, 
 #if defined(TF_CLIENT_DLL)
 	m_pRandCrits = new ComboBox(this, "RandCrits", 12, false);
 #if defined(QUIVER_DLL)
-	m_pRandCrits->AddItem("#TF_Quickplay_DamageSpread_Default", NULL);
 	m_pRandCrits->AddItem("#TF_Quickplay_DamageSpread_Enabled", NULL);
+	m_pRandCrits->AddItem("#TF_Quickplay_DamageSpread_Default", NULL);
 #else
 	m_pRandCrits->AddItem("#TF_Quickplay_RandomCrits_Default", NULL);
 	m_pRandCrits->AddItem("#TF_Quickplay_RandomCrits_Disabled", NULL);
