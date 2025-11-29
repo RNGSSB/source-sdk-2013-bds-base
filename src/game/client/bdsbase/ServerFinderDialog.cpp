@@ -413,6 +413,8 @@ void CServerFinderDialog::OnSearchFailure()
 	OnClose();
 }
 
+//#define SERVERFINDER_CONNECTION_TEST 1
+
 //-----------------------------------------------------------------------------
 // Purpose: 
 // Input  : *command - 
@@ -423,6 +425,7 @@ void CServerFinderDialog::OnCommand(const char *command)
 	{
 		SaveOptionSelection();
 
+#ifndef SERVERFINDER_CONNECTION_TEST
 		if (engine->IsInGame())
 		{
 			Msg("Already connected to server.\n");
@@ -431,6 +434,7 @@ void CServerFinderDialog::OnCommand(const char *command)
 			OnClose();
 			return;
 		}
+#endif
 
 		// SEARCH HERE.
 		BeginSearch();
