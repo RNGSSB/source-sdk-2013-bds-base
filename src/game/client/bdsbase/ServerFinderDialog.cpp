@@ -401,7 +401,7 @@ void CServerFinderDialog::OnSearchFailure()
 		GetMapName());
 #elif defined(HL2MP)
 	Q_snprintf(szMapCommand, sizeof(szMapCommand),
-		"exec serverfinder_fail.cfg\ntf_bot_quota %i\nmaxplayers %i\nmp_disable_respawn_times %i\nprogress_enable\nmap %s\n",
+		"exec serverfinder_fail.cfg\nhl2mp_bot_quota %i\nmaxplayers %i\nmp_disable_respawn_times %i\nprogress_enable\nmap %s\n",
 		(m_pOptions->m_iMaxPlayers - 1),
 		m_pOptions->m_iMaxPlayers,
 		(m_pOptions->m_eRespawnTimes == eRespawnTimesInstant ? 1 : (m_pOptions->m_eRespawnTimes == eRespawnTimesDontCare ? random->RandomInt(0, 1) : 0)),

@@ -27,6 +27,7 @@ This base is specific to multiplayer mod projects.
 - Animated Avatars support (based off #1380)
 - Improved AI Bot behavior (based off multiple pull requests)
 - Added randomized loadouts to AI bots that allow bots to spawn with a variety of weapons. (TF2 only)
+- Serverfinder/Quick Search: A quick and easy way for players to start and join servers. See "BDSBASE_ALLOW_SERVERFINDER" below for more info.
 
 ## Options/Preprocessor Definitions
 These options are meant to be added to the VPC files (client and server) of the mod you wish to modify.
@@ -105,6 +106,13 @@ BDSBASE_DISABLE_ITEM_DROP_PANEL
 BDSBASE_USES_LADDERS
 - Games: TF2
 - Enables the player to climb func_ladders.
+
+BDSBASE_ALLOW_SERVERFINDER
+- Games: All
+- Enables Serverfinder (also known as Quick Search). This is a matchmaking system that uses parts of the same code that built TF2's Quickplay system (that was provided with the TF2 SDK) that uses ISteamMatchmakingServerListResponse to query servers. 
+- Players can find a game with the options available and Serverfinder will try to find a game with these options.
+- If it fails to find a server that matches the player's query, it will start a bot match and load up a file called serverfinder_fail.cfg, which can define extra options for the server.
+- By default, serverfinder_fail.cfg starts the game up with with Steam Networking enabled (servers are set to Public and will show in the server browser) and bots will leave to free slots for incoming players.
 
 ## Credits:
 - TheBetaM for the custom schema code. (https://github.com/TheBetaM/tf-solo)
