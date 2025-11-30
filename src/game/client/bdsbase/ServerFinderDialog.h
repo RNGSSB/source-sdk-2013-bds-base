@@ -167,13 +167,14 @@ private:
 	HServerQuery m_hServerQueryRequest;
 
 	vgui::ComboBox *m_pMapList;
-	vgui::TextEntry* m_maxPlayers;
-	vgui::TextEntry* m_maxPing;
+	vgui::TextEntry* m_pMaxPlayers;
+	vgui::TextEntry* m_pMaxPing;
 #if defined(TF_CLIENT_DLL)
 	vgui::ComboBox *m_pRandCrits;
 	vgui::ComboBox* m_pDmgSpread;
 #endif
 	vgui::ComboBox* m_pRespawnTimes;
+	vgui::Label* m_pStatus;
 	ServerFinderOptions_t *m_pOptions;
 
 	// for loading/saving game config

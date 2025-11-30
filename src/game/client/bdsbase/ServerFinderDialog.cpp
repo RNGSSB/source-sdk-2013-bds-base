@@ -107,8 +107,9 @@ CServerFinderDialog::CServerFinderDialog(vgui::Panel *parent) : BaseClass(NULL, 
 	m_pOptions = new ServerFinderOptions_t();
 	
 	m_pMapList = new ComboBox(this, "MapList", 12, false);
-	m_maxPlayers = new TextEntry( this, "MaxPlayers" );
-	m_maxPing = new TextEntry(this, "MaxPing");
+	m_pMaxPlayers = new TextEntry( this, "MaxPlayers" );
+	m_pMaxPing = new TextEntry(this, "MaxPing");
+	m_pStatus = new Label(this, "StatusLabel", "#Serverfinder_Status_Idle");
 #if defined(TF_CLIENT_DLL)
 	m_pRandCrits = new ComboBox(this, "RandCrits", 12, false);
 #if defined(QUIVER_DLL)
@@ -170,10 +171,10 @@ void CServerFinderDialog::SaveOptionSelection(bool reload)
 	Q_strncpy(szMapName, GetMapName(), sizeof(szMapName));
 
 	char szMaxBots[256];
-	m_maxPlayers->GetText(szMaxBots, sizeof(szMaxBots));
+	m_pMaxPlayers->GetText(szMaxBots, sizeof(szMaxBots));
 
 	char szMaxPing[256];
-	m_maxPing->GetText(szMaxPing, sizeof(szMaxPing));
+	m_pMaxPing->GetText(szMaxPing, sizeof(szMaxPing));
 
 	// save the config data
 	if (m_pSavedData)
@@ -255,11 +256,13 @@ void CServerFinderDialog::RefreshComplete(HServerListRequest hRequest, EMatchMak
 		// join a random server from the queue and ping.
 		// LET'S GO GAMBLING!
 		m_Mode = eServerfinderPhase2ServerPing;
+		m_pStatus->SetText("#Serverfinder_Status_FoundCandidates");
 		PingNextBestServer();
 	}
 	else
 	{
 		Msg("No servers found in queue, starting bot server.\n");
+		m_pStatus->SetText("#Serverfinder_Status_Finished_Fail");
 		OnSearchFailure();
 	}
 }
@@ -273,6 +276,7 @@ void CServerFinderDialog::ServerResponded(gameserveritem_t& server)
 	// we know it's a valid server, since we checked its details before.
 	// so we join it!
 	// I CAN'T STOP WINNING!
+	m_pStatus->SetText("#Serverfinder_Status_Finished");
 	JoinServer(server);
 }
 
@@ -311,6 +315,7 @@ void CServerFinderDialog::PingNextBestServer()
 	if (m_iRetries >= MAX_RETRIES || m_vecServerJoinQueue.Count() < 1)
 	{
 		Msg("No more servers left to ping. We failed!\n");
+		m_pStatus->SetText("#Serverfinder_Status_Finished_Fail");
 		OnSearchFailure();
 		return;
 	}
@@ -318,6 +323,20 @@ void CServerFinderDialog::PingNextBestServer()
 	{
 		m_iRetries++;
 	}
+
+	wchar_t szFmt[128] = L"";
+	wchar_t szText[512] = L"";
+	wchar_t szNumRetries[16] = L"";
+	_snwprintf(szNumRetries, ARRAYSIZE(szNumRetries), L"%i", m_iRetries);
+
+	const wchar_t* pchFmt = g_pVGuiLocalize->Find("#Serverfinder_Status_Pingsearch");
+	if (!pchFmt || !pchFmt[0])
+		return;
+	Q_wcsncpy(szFmt, pchFmt, sizeof(szFmt));
+
+	g_pVGuiLocalize->ConstructString_safe(szText, szFmt, 1, szNumRetries);
+
+	m_pStatus->SetText(szText);
 
 	// Remove the next address from the queue
 	int randID = RandomInt(0, m_vecServerJoinQueue.Count() - 1);
@@ -550,6 +569,7 @@ void CServerFinderDialog::BeginSearch()
 	AddFilter(vecServerFilters, "map", GetMapName());
 
 	Msg("Beginning server search...\n");
+	m_pStatus->SetText("#Serverfinder_Status_Searching");
 
 	CUtlString sFilter;
 	FOR_EACH_VEC(vecServerFilters, idx)
@@ -796,7 +816,7 @@ void CServerFinderDialog::GetOptions()
 	{
 		char szCount[16];
 		Q_snprintf(szCount, sizeof(szCount), "%i", maxPlayers);
-		m_maxPlayers->SetText(szCount);
+		m_pMaxPlayers->SetText(szCount);
 	}
 
 	// ping can be > 0 or higher
@@ -804,7 +824,7 @@ void CServerFinderDialog::GetOptions()
 
 	char szCount[16];
 	Q_snprintf(szCount, sizeof(szCount), "%i", maxPing);
-	m_maxPing->SetText(szCount);
+	m_pMaxPing->SetText(szCount);
 
 	m_pRandCrits->ActivateItem((int)m_pOptions->m_eRandomCrits);
 	m_pDmgSpread->ActivateItem((int)m_pOptions->m_eDamageSpread);
