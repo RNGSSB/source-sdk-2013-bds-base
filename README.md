@@ -109,9 +109,10 @@ BDSBASE_USES_LADDERS
 
 BDSBASE_ALLOW_SERVERFINDER
 - Games: All
-- Enables Serverfinder (also known as Quick Search). This is a server finding and creation system that uses parts of the same code that built TF2's Quickplay system (that was provided with the TF2 SDK) that uses ISteamMatchmakingServerListResponse to query servers. 
-- Players can find a game with the options available and Serverfinder will try to find a game with these options.
-- If it fails to find a server that matches the player's query, it will start a bot match and load up a file called serverfinder_fail.cfg, which can define extra options for the server.
+- Enables Serverfinder (also known as Quick Search). This is a server finding and creation system that uses parts of the same code that built TF2's Quickplay system (that was provided with the TF2 SDK) that uses ISteamMatchmakingServerListResponse to query servers and ISteamMatchmakingPingResponse to ping servers. 
+- Players can find a game with the options available and Serverfinder will try to find any games that fall under the conditions of what the player wants.
+- The Serverfinder will then try to join a random server from the list that meet the player's requirements. If the server fails to respond to a ping, the system will find a different one and repeat until it finds a server. It will do up to 10 retries to attempt to find a server.
+- If it fails to find a responsive server or any server that matches the players' query, it will start a bot match and load up a file called serverfinder_fail.cfg, which can define extra options for the server. For TF2's MvM, it will just start a normal MvM game and use the serverfinder_fail_mvm.cfg file.
 - By default, serverfinder_fail.cfg starts the game up with with Steam Networking enabled (servers are set to Public and will show in the server browser) and bots will leave to free slots for incoming players.
 
 ## Credits:

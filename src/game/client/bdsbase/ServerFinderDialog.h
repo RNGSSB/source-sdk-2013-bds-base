@@ -12,6 +12,8 @@
 #endif
 
 #include <vgui_controls/Frame.h>
+#include "tier1/netadr.h"
+#include "ServerBrowser/blacklisted_server_manager.h"
 
 #ifdef BDSBASE_ALLOW_SERVERFINDER
 
@@ -21,6 +23,26 @@
 #else
 #define MIN_PLAYERS 2
 #endif
+
+#define SERVERFINDER_CONNECTION_TEST 1
+//#define SERVERFINDER_PING_TEST 1
+
+#define MAX_PING 300
+
+#define MAX_RETRIES 10
+
+struct gameserveritem_ex_t
+{
+	gameserveritem_t server;
+	int m_nRealPlayers;
+};
+
+enum EServerfinderMode
+{
+	eServerfinderPhase0Nothing,
+	eServerfinderPhase1ServerQueue,
+	eServerfinderPhase2ServerPing
+};
 
 enum EGenericOption
 {
@@ -60,6 +82,7 @@ public:
 
 		m_eRespawnTimes = eRespawnTimesDefault;
 		m_iMaxPlayers = 16;
+		m_iMaxPing = 0;
 	}
 
 #if defined(TF_CLIENT_DLL)
@@ -70,12 +93,13 @@ public:
 	ERespawnTimes m_eRespawnTimes;
 
 	int m_iMaxPlayers;
+	int m_iMaxPing;
 };
 
 //-----------------------------------------------------------------------------
 // Purpose: dialog for launching a listenserver
 //-----------------------------------------------------------------------------
-class CServerFinderDialog : public vgui::Frame, public ISteamMatchmakingServerListResponse
+class CServerFinderDialog : public vgui::Frame, public ISteamMatchmakingServerListResponse, public ISteamMatchmakingPingResponse
 {
 	DECLARE_CLASS_SIMPLE( CServerFinderDialog,  vgui::Frame );
 
@@ -98,7 +122,14 @@ public:
 	virtual void ServerFailedToRespond(HServerListRequest hRequest, int iServer);
 	virtual void RefreshComplete(HServerListRequest hRequest, EMatchMakingServerResponse response);
 
+	//
+	// ISteamMatchmakingPingResponse overrides
+	//
+
 	virtual void ServerResponded(gameserveritem_t& server);
+	virtual void ServerFailedToRespond();
+
+	virtual void OnThink();
 
 private:
 	virtual void OnCommand( const char *command );
@@ -110,6 +141,9 @@ private:
 	void SaveOptionSelection(bool reload = true);
 	void LoadMapList();
 	void LoadMaps( const char *pszPathID );
+	void JoinServer(gameserveritem_t& server);
+	void ServerResponded(gameserveritem_ex_t serverex);
+	void PingNextBestServer();
 
 	void DestroyServerListRequest()
 	{
@@ -120,10 +154,21 @@ private:
 		}
 	}
 
+	void DestroyServerQueryRequest()
+	{
+		if (m_hServerQueryRequest != HSERVERQUERY_INVALID)
+		{
+			steamapicontext->SteamMatchmakingServers()->CancelServerQuery(m_hServerQueryRequest);
+			m_hServerQueryRequest = HSERVERQUERY_INVALID;
+		}
+	}
+
 	HServerListRequest m_hServerListRequest;
+	HServerQuery m_hServerQueryRequest;
 
 	vgui::ComboBox *m_pMapList;
 	vgui::TextEntry* m_maxPlayers;
+	vgui::TextEntry* m_maxPing;
 #if defined(TF_CLIENT_DLL)
 	vgui::ComboBox *m_pRandCrits;
 	vgui::ComboBox* m_pDmgSpread;
@@ -133,6 +178,13 @@ private:
 
 	// for loading/saving game config
 	KeyValues *m_pSavedData;
+
+	CBlacklistedServerManager m_blackList;
+
+	CUtlSortVector<gameserveritem_ex_t> m_vecServerJoinQueue;
+	double m_timePingServerTimeout;
+	int m_iRetries;
+	EServerfinderMode m_Mode;
 };
 
 #endif

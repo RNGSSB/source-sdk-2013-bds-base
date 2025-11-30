@@ -96,6 +96,10 @@ bool HasAppropriateTags(const CUtlStringList& TagList, const CUtlStringList& Req
 CServerFinderDialog::CServerFinderDialog(vgui::Panel *parent) : BaseClass(NULL, "ServerFinderConfig")
 {
 	m_hServerListRequest = NULL;
+	m_hServerQueryRequest = NULL;
+	m_iRetries = 0;
+	m_timePingServerTimeout = 0.0;
+	m_Mode = eServerfinderPhase0Nothing;
 
 	SetSize(348, 460);
 	//SetOKButtonText("#GameUI_Start");
@@ -104,6 +108,7 @@ CServerFinderDialog::CServerFinderDialog(vgui::Panel *parent) : BaseClass(NULL, 
 	
 	m_pMapList = new ComboBox(this, "MapList", 12, false);
 	m_maxPlayers = new TextEntry( this, "MaxPlayers" );
+	m_maxPing = new TextEntry(this, "MaxPing");
 #if defined(TF_CLIENT_DLL)
 	m_pRandCrits = new ComboBox(this, "RandCrits", 12, false);
 #if defined(QUIVER_DLL)
@@ -167,6 +172,9 @@ void CServerFinderDialog::SaveOptionSelection(bool reload)
 	char szMaxBots[256];
 	m_maxPlayers->GetText(szMaxBots, sizeof(szMaxBots));
 
+	char szMaxPing[256];
+	m_maxPing->GetText(szMaxPing, sizeof(szMaxPing));
+
 	// save the config data
 	if (m_pSavedData)
 	{
@@ -175,6 +183,7 @@ void CServerFinderDialog::SaveOptionSelection(bool reload)
 		// if random map is a thing though, add a boolean to tell the ui to select the random map when it loads.
 		m_pSavedData->SetBool("israndommap", IsRandomMapSelected());
 		m_pSavedData->SetString("MaxPlayers", szMaxBots);
+		m_pSavedData->SetString("MaxPing", szMaxPing);
 #if defined(TF_CLIENT_DLL)
 		m_pSavedData->SetInt("RandomCrits", (EGenericOption)m_pRandCrits->GetItemIDFromRow(m_pRandCrits->GetActiveItem()));
 		m_pSavedData->SetInt("DamageSpread", (EGenericInvertedOption)m_pDmgSpread->GetItemIDFromRow(m_pDmgSpread->GetActiveItem()));
@@ -199,6 +208,7 @@ void CServerFinderDialog::OnClose()
 {
 	BaseClass::OnClose();
 	
+	m_vecServerJoinQueue.RemoveAll();
 	SaveOptionSelection(false);
 
 	MarkForDeletion();
@@ -213,7 +223,10 @@ void CServerFinderDialog::ServerResponded(HServerListRequest hRequest, int iServ
 	gameserveritem_t* server = steamapicontext->SteamMatchmakingServers()->GetServerDetails(hRequest, iServer);
 	if (server)
 	{
-		ServerResponded(*server);
+		gameserveritem_ex_t foundServer;
+		foundServer.server = *server;
+		foundServer.m_nRealPlayers = clamp((foundServer.server.m_nPlayers - foundServer.server.m_nBotPlayers), 0, foundServer.server.m_nMaxPlayers);
+		ServerResponded(foundServer);
 	}
 }
 
@@ -223,48 +236,222 @@ void CServerFinderDialog::ServerFailedToRespond(HServerListRequest hRequest, int
 
 void CServerFinderDialog::RefreshComplete(HServerListRequest hRequest, EMatchMakingServerResponse response)
 {
-	// we failed, men
-	if (response == eNoServersListedOnMasterServer)
+	DestroyServerListRequest();
+
+	if (m_vecServerJoinQueue.Count() > 0)
 	{
-		// create a server with neuro-samas in it
-		Msg("Failed to find any server, starting bot server.\n");
+		Msg("Found servers:\n");
+		FOR_EACH_VEC(m_vecServerJoinQueue, id)
+		{
+			gameserveritem_ex_t item = m_vecServerJoinQueue[id];
+			Msg("%i | %s | %i/%i | %s\n", 
+				id,
+				item.server.GetName(), 
+				item.m_nRealPlayers,
+				item.server.m_nMaxPlayers,
+				item.server.m_NetAdr.GetConnectionAddressString());
+		}
+
+		// join a random server from the queue and ping.
+		// LET'S GO GAMBLING!
+		m_Mode = eServerfinderPhase2ServerPing;
+		PingNextBestServer();
+	}
+	else
+	{
+		Msg("No servers found in queue, starting bot server.\n");
 		OnSearchFailure();
 	}
-
-	DestroyServerListRequest();
 }
 
+//
+// ISteamMatchmakingPingResponse overrides
+//
+
 void CServerFinderDialog::ServerResponded(gameserveritem_t& server)
+{
+	// we know it's a valid server, since we checked its details before.
+	// so we join it!
+	// I CAN'T STOP WINNING!
+	JoinServer(server);
+}
+
+void CServerFinderDialog::ServerFailedToRespond()
+{
+	// Rescan...
+	// AWH DANGIT!
+	PingNextBestServer();
+}
+
+void CServerFinderDialog::OnThink()
+{
+	BaseClass::OnThink();
+
+	double currentTime = Plat_FloatTime();
+
+	if (m_Mode == eServerfinderPhase2ServerPing)
+	{
+		// Do our own timeout processing
+		Assert(m_hServerQueryRequest != HSERVERQUERY_INVALID);
+		if (currentTime > m_timePingServerTimeout || m_hServerQueryRequest == HSERVERQUERY_INVALID)
+		{
+			ServerFailedToRespond();
+		}
+	}
+}
+
+void CServerFinderDialog::PingNextBestServer()
+{
+	Assert(m_Mode == eServerfinderPhase2ServerPing);
+
+	// If we already have any ping activity going, cancel it.  (We shouldn't)
+	DestroyServerQueryRequest();
+
+	// Any more options to try?
+	if (m_iRetries >= MAX_RETRIES || m_vecServerJoinQueue.Count() < 1)
+	{
+		Msg("No more servers left to ping. We failed!\n");
+		OnSearchFailure();
+		return;
+	}
+	else
+	{
+		m_iRetries++;
+	}
+
+	// Remove the next address from the queue
+	int randID = RandomInt(0, m_vecServerJoinQueue.Count() - 1);
+	gameserveritem_ex_t randServer = m_vecServerJoinQueue[randID];
+	// prevents us from choosing it again.
+	m_vecServerJoinQueue.Remove(randID);
+
+	// Do it
+	Msg("Pinging %s\n", randServer.server.m_NetAdr.GetConnectionAddressString());
+	m_hServerQueryRequest = steamapicontext->SteamMatchmakingServers()->PingServer(
+		randServer.server.m_NetAdr.GetIP(), 
+		randServer.server.m_NetAdr.GetConnectionPort(), this);
+	Assert(m_hServerQueryRequest != HSERVERQUERY_INVALID);
+
+	// Set timeout.  Since we've already pinged them once
+	// fairly recently, and we are considering joining this
+	// server, we don't want to wait around forever.  They
+	// should reply to the ping pretty quickly or let's
+	// not join them.
+	m_timePingServerTimeout = Plat_FloatTime() + 1.0;
+}
+
+void CServerFinderDialog::JoinServer(gameserveritem_t& server)
+{
+	Msg("SERVER %s: Server validation succeeded. Attempting to join %s!\n", server.GetName(), server.m_NetAdr.GetConnectionAddressString());
+	// if this server is valid, join it.
+	char szJoinCommand[1024];
+	// create the command to execute
+	Q_snprintf(szJoinCommand, sizeof(szJoinCommand), "disconnect\nconnect %s", server.m_NetAdr.GetConnectionAddressString());
+	// exec
+	engine->ClientCmd_Unrestricted(szJoinCommand);
+	OnClose();
+}
+
+void CServerFinderDialog::OnSearchFailure()
+{
+	char szMapCommand[1024];
+	// create the command to execute
+#if defined(TF_CLIENT_DLL)
+	if (StringHasPrefix(GetMapName(), "mvm_"))
+	{
+		Q_snprintf(szMapCommand, sizeof(szMapCommand),
+			"exec serverfinder_fail_mvm.cfg\nmaxplayers %i\nmp_disable_respawn_times %i\ntf_weapon_criticals %i\ntf_damage_disablespread %i\nprogress_enable\nmap %s\n",
+			m_pOptions->m_iMaxPlayers,
+			(m_pOptions->m_eRespawnTimes == eRespawnTimesInstant ? 1 : (m_pOptions->m_eRespawnTimes == eRespawnTimesDontCare ? random->RandomInt(0, 1) : 0)),
+			(m_pOptions->m_eRandomCrits == eGenericYes ? 1 : (m_pOptions->m_eRandomCrits == eGenericDontCare ? random->RandomInt(0, 1) : 0)),
+			(m_pOptions->m_eDamageSpread == eInvertedNo ? 1 : (m_pOptions->m_eDamageSpread == eInvertedDontCare ? random->RandomInt(0, 1) : 0)),
+			GetMapName());
+	}
+	else
+	{
+		Q_snprintf(szMapCommand, sizeof(szMapCommand),
+			"exec serverfinder_fail.cfg\ntf_bot_quota %i\nmaxplayers %i\nmp_disable_respawn_times %i\ntf_weapon_criticals %i\ntf_damage_disablespread %i\nprogress_enable\nmap %s\n",
+			(m_pOptions->m_iMaxPlayers - 1),
+			m_pOptions->m_iMaxPlayers,
+			(m_pOptions->m_eRespawnTimes == eRespawnTimesInstant ? 1 : (m_pOptions->m_eRespawnTimes == eRespawnTimesDontCare ? random->RandomInt(0, 1) : 0)),
+			(m_pOptions->m_eRandomCrits == eGenericYes ? 1 : (m_pOptions->m_eRandomCrits == eGenericDontCare ? random->RandomInt(0, 1) : 0)),
+			(m_pOptions->m_eDamageSpread == eInvertedNo ? 1 : (m_pOptions->m_eDamageSpread == eInvertedDontCare ? random->RandomInt(0, 1) : 0)),
+			GetMapName());
+	}
+#elif defined(HL2MP)
+	Q_snprintf(szMapCommand, sizeof(szMapCommand),
+		"exec serverfinder_fail.cfg\nhl2mp_bot_quota %i\nmaxplayers %i\nmp_disable_respawn_times %i\nprogress_enable\nmap %s\n",
+		(m_pOptions->m_iMaxPlayers - 1),
+		m_pOptions->m_iMaxPlayers,
+		(m_pOptions->m_eRespawnTimes == eRespawnTimesInstant ? 1 : (m_pOptions->m_eRespawnTimes == eRespawnTimesDontCare ? random->RandomInt(0, 1) : 0)),
+		GetMapName());
+#endif
+
+	// exec
+	engine->ClientCmd_Unrestricted(szMapCommand);
+	OnClose();
+}
+
+void CServerFinderDialog::ServerResponded(gameserveritem_ex_t serverex)
 {
 	Msg("SERVER FOUND! Validating.\n");
 
 	bool invalid = false;
 
-	if (!server.m_bHadSuccessfulResponse)
+	if (!serverex.server.m_bHadSuccessfulResponse)
 	{
 		invalid = true;
 		Msg("SERVER INVALID: Response wasn't successful\n");
 	}
 
 	// Ignore servers with bogus address. Is this even possible?
-	if (!server.m_NetAdr.GetIP() || !server.m_NetAdr.GetConnectionPort())
+	if (!serverex.server.m_NetAdr.GetIP() || !serverex.server.m_NetAdr.GetConnectionPort())
 	{
-		Assert(server.m_NetAdr.GetIP() && server.m_NetAdr.GetConnectionPort());
+		Assert(serverex.server.m_NetAdr.GetIP() && serverex.server.m_NetAdr.GetConnectionPort());
 		invalid = true;
 		Msg("SERVER INVALID: Response was invalid\n");
 	}
 
-	if (server.m_bPassword)
+	if (m_blackList.IsServerBlacklisted(serverex.server))
+	{
+		invalid = true;
+		Msg("SERVER INVALID: Server is blacklisted\n");
+	}
+
+	if (serverex.server.m_bPassword)
 	{
 		invalid = true;
 		Msg("SERVER INVALID: Server is password protected\n");
 	}
 
 	//first, are the max players invalid?
-	if (server.m_nMaxPlayers > m_pOptions->m_iMaxPlayers)
+	if (serverex.server.m_nMaxPlayers > m_pOptions->m_iMaxPlayers)
 	{
 		invalid = true;
-		Msg("SERVER %s: Max players are too high\n", server.GetName());
+		Msg("SERVER %s: Max players are too high\n", serverex.server.GetName());
+	}
+
+	// is the server full?
+	if (serverex.m_nRealPlayers >= m_pOptions->m_iMaxPlayers)
+	{
+		invalid = true;
+		Msg("SERVER %s: Server is full\n", serverex.server.GetName());
+	}
+
+#ifndef SERVERFINDER_CONNECTION_TEST 
+	// is the server empty?
+	if (serverex.m_nRealPlayers <= 0)
+	{
+		invalid = true;
+		Msg("SERVER %s: Server is empty\n", serverex.server.GetName());
+	}
+#endif
+
+	// is the ping good (if we have it set)?
+	if ((m_pOptions->m_iMaxPing > 0) && (serverex.server.m_nPing > m_pOptions->m_iMaxPing))
+	{
+		invalid = true;
+		Msg("SERVER %s: Server ping is really fucking bad\n", serverex.server.GetName());
 	}
 
 	CUtlStringList requiredTags;
@@ -322,28 +509,22 @@ void CServerFinderDialog::ServerResponded(gameserveritem_t& server)
 #endif
 
 	CUtlStringList TagList; // auto-deletes strings on scope exit
-	if (server.m_szGameTags && server.m_szGameTags[0])
+	if (serverex.server.m_szGameTags && serverex.server.m_szGameTags[0])
 	{
-		V_SplitString(server.m_szGameTags, ",", TagList);
+		V_SplitString(serverex.server.m_szGameTags, ",", TagList);
 	}
 
 	if (!HasAppropriateTags(TagList, requiredTags, illegalTags))
 	{
-		Msg("SERVER %s: Server has illegal tags or is missing required tags!\n", server.GetName());
+		Msg("SERVER %s: Server has illegal tags or is missing required tags!\n", serverex.server.GetName());
 		invalid = true;
 	}
 
 	// we join the first valid server regardless of ping.
 	if (!invalid)
 	{
-		Msg("SERVER %s: Server validation succeeded. Attempting to join %s!\n", server.GetName(), server.m_NetAdr.GetConnectionAddressString());
-		// if this server is valid, join it.
-		char szJoinCommand[1024];
-		// create the command to execute
-		Q_snprintf(szJoinCommand, sizeof(szJoinCommand), "disconnect\nconnect %s", server.m_NetAdr.GetConnectionAddressString());
-		// exec
-		engine->ClientCmd_Unrestricted(szJoinCommand);
-		OnClose();
+		// if a server matches our filters, we add it to the queue.
+		m_vecServerJoinQueue.InsertNoSort(serverex);
 	}
 	else
 	{
@@ -354,6 +535,9 @@ void CServerFinderDialog::ServerResponded(gameserveritem_t& server)
 
 void CServerFinderDialog::BeginSearch()
 { 
+	m_Mode = eServerfinderPhase1ServerQueue;
+	m_blackList.LoadServersFromFile(BLACKLIST_DEFAULT_SAVE_FILE, false);
+
 	// Setup search filters
 	CUtlVector<MatchMakingKeyValuePair_t> vecServerFilters;
 	AddFilter(vecServerFilters, "gamedir", COM_GetModDirectory());
@@ -363,7 +547,6 @@ void CServerFinderDialog::BeginSearch()
 		AddFilter(vecServerFilters, "secure", "1");
 		AddFilter(vecServerFilters, "dedicated", "1");
 	}*/
-	AddFilter(vecServerFilters, "full", "1"); // actually means "not full"
 	AddFilter(vecServerFilters, "map", GetMapName());
 
 	Msg("Beginning server search...\n");
@@ -385,35 +568,6 @@ void CServerFinderDialog::BeginSearch()
 		vecServerFilters.Count(),
 		this);
 }
-
-void CServerFinderDialog::OnSearchFailure()
-{
-	char szMapCommand[1024];
-	// create the command to execute
-#if defined(TF_CLIENT_DLL)
-	Q_snprintf(szMapCommand, sizeof(szMapCommand),
-		"exec serverfinder_fail.cfg\ntf_bot_quota %i\nmaxplayers %i\nmp_disable_respawn_times %i\ntf_weapon_criticals %i\ntf_damage_disablespread %i\nprogress_enable\nmap %s\n",
-		(m_pOptions->m_iMaxPlayers - 1),
-		m_pOptions->m_iMaxPlayers,
-		(m_pOptions->m_eRespawnTimes == eRespawnTimesInstant ? 1 : (m_pOptions->m_eRespawnTimes == eRespawnTimesDontCare ? random->RandomInt(0,1) : 0)),
-		(m_pOptions->m_eRandomCrits == eGenericYes ? 1 : (m_pOptions->m_eRandomCrits == eGenericDontCare ? random->RandomInt(0, 1) : 0)),
-		(m_pOptions->m_eDamageSpread == eInvertedNo ? 1 : (m_pOptions->m_eDamageSpread == eInvertedDontCare ? random->RandomInt(0, 1) : 0)),
-		GetMapName());
-#elif defined(HL2MP)
-	Q_snprintf(szMapCommand, sizeof(szMapCommand),
-		"exec serverfinder_fail.cfg\nhl2mp_bot_quota %i\nmaxplayers %i\nmp_disable_respawn_times %i\nprogress_enable\nmap %s\n",
-		(m_pOptions->m_iMaxPlayers - 1),
-		m_pOptions->m_iMaxPlayers,
-		(m_pOptions->m_eRespawnTimes == eRespawnTimesInstant ? 1 : (m_pOptions->m_eRespawnTimes == eRespawnTimesDontCare ? random->RandomInt(0, 1) : 0)),
-		GetMapName());
-#endif
-
-	// exec
-	engine->ClientCmd_Unrestricted(szMapCommand);
-	OnClose();
-}
-
-//#define SERVERFINDER_CONNECTION_TEST 1
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -586,6 +740,11 @@ int clampToPlayerCount(int violator)
 	return clamp(violator, MIN_PLAYERS, (MAX_PLAYERS - 1));
 }
 
+int clampToPingNum(int violator)
+{
+	return clamp(violator, 0, MAX_PING);
+}
+
 void CServerFinderDialog::SetParams()
 {
 	const char* startMap = m_pSavedData->GetString("map", "");
@@ -603,6 +762,12 @@ void CServerFinderDialog::SetParams()
 	if (startMax[0])
 	{
 		m_pOptions->m_iMaxPlayers = clampToPlayerCount(atoi(startMax));
+	}
+
+	const char* startMaxPing = m_pSavedData->GetString("MaxPing", "");
+	if (startMaxPing[0])
+	{
+		m_pOptions->m_iMaxPing = clampToPingNum(atoi(startMaxPing));
 	}
 
 	const char* startRandomCrits = m_pSavedData->GetString("RandomCrits", "");
@@ -633,6 +798,13 @@ void CServerFinderDialog::GetOptions()
 		Q_snprintf(szCount, sizeof(szCount), "%i", maxPlayers);
 		m_maxPlayers->SetText(szCount);
 	}
+
+	// ping can be > 0 or higher
+	int maxPing = clampToPingNum(m_pOptions->m_iMaxPing);
+
+	char szCount[16];
+	Q_snprintf(szCount, sizeof(szCount), "%i", maxPing);
+	m_maxPing->SetText(szCount);
 
 	m_pRandCrits->ActivateItem((int)m_pOptions->m_eRandomCrits);
 	m_pDmgSpread->ActivateItem((int)m_pOptions->m_eDamageSpread);
