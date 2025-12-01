@@ -211,6 +211,11 @@ int CTeamControlPointRound::TeamOwnsAllPoints( CTeamControlPoint *pOverridePoint
 	// for each control point
 	for( i = 0 ; i < m_ControlPoints.Count() ; i++ )
 	{
+#ifdef BDSBASE
+		if (m_ControlPoints[i] == NULL)
+			continue;
+#endif
+
 		int group = m_ControlPoints[i]->GetCPGroup();
 		int owner = m_ControlPoints[i]->GetOwner();
 

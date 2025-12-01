@@ -187,30 +187,30 @@ const char g_szArmorItems[][MAX_PATH] =
 {
 	"", //TF_CLASS_UNDEFINED
 
-	"Armor Test",
-	"Armor Test",
-	"Armor Test",
-	"Armor Test",
-	"Armor Test",
-	"Armor Test",
-	"Armor Test",
-	"Armor Test",
-	"Armor Test",
+	"Armor",
+	"Armor",
+	"Armor",
+	"Armor",
+	"Armor",
+	"Armor",
+	"Armor",
+	"Armor",
+	"Armor",
 };
 
 const char g_szArmorItems_MvM[][MAX_PATH] =
 {
 	"", //TF_CLASS_UNDEFINED
 
-	"tw_scoutbot_armor armor version",
-	"tw_sniperbot_armor armor version",
-	"tw_soldierbot_armor armor version",
-	"tw_demobot_armor armor version",
-	"tw_medibot_chariot armor version",
-	"tw_heavybot_armor armor version",
-	"tw_pyrobot_armor armor version",
-	"tw_spybot_armor armor version",
-	"tw_engineerbot_armor armor version",
+	"Robot Armor",
+	"Robot Armor",
+	"Robot Armor",
+	"Robot Armor",
+	"Robot Armor",
+	"Robot Armor",
+	"Robot Armor",
+	"Robot Armor",
+	"Robot Armor",
 };
 #endif
 

@@ -300,8 +300,19 @@ int	CTFWearable::InternalDrawModel( int flags )
 			return 0;
 	}
 
+#ifdef BDSBASE
+	static CSchemaAttributeDefHandle pAttr_cosmetic_disable_ubermaterial("cosmetic_disable_ubermaterial");
+	const CEconItemView* pItem = GetAttributeContainer()->GetItem();
+	bool bDisabledInvuln = (pItem && pAttr_cosmetic_disable_ubermaterial && pItem->FindAttribute(pAttr_cosmetic_disable_ubermaterial));
+
+	bool bUseInvulnMaterial = (pOwner && pOwner->m_Shared.IsInvulnerable() && !bDisabledInvuln &&
+		(!pOwner->m_Shared.InCond(TF_COND_INVULNERABLE_HIDE_UNLESS_DAMAGED) || gpGlobals->curtime < pOwner->GetLastDamageTimeMvMOnly() + 2.0f));
+
+#else
 	bool bUseInvulnMaterial = ( pOwner && pOwner->m_Shared.IsInvulnerable() && 
 							    ( !pOwner->m_Shared.InCond( TF_COND_INVULNERABLE_HIDE_UNLESS_DAMAGED ) || gpGlobals->curtime < pOwner->GetLastDamageTimeMvMOnly() + 2.0f ) );
+#endif
+
 
 	if ( bUseInvulnMaterial && (flags & STUDIO_RENDER) )
 	{

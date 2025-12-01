@@ -9743,6 +9743,13 @@ float CTFPlayer::DamageArmor(const CTakeDamageInfo& info, CTFPlayer* pTFAttacker
 			Msg("	NEW DAMAGE: %.2f\n", flNew);
 		}
 
+		IGameEvent* event = gameeventmanager->CreateEvent("damage_resisted");
+		if (event)
+		{
+			event->SetInt("entindex", entindex());
+			gameeventmanager->FireEvent(event);
+		}
+
 		damage = flNew;
 
 		return damage;
@@ -9799,6 +9806,13 @@ float CTFPlayer::DamageArmor(const CTakeDamageInfo& info, CTFPlayer* pTFAttacker
 		if (debug)
 		{
 			Msg("	NEW DAMAGE: %.2f\n", flNew);
+		}
+
+		IGameEvent* event = gameeventmanager->CreateEvent("damage_resisted");
+		if (event)
+		{
+			event->SetInt("entindex", entindex());
+			gameeventmanager->FireEvent(event);
 		}
 
 		damage = flNew;
@@ -13147,6 +13161,10 @@ void CTFPlayer::Event_Killed( const CTakeDamageInfo &info )
 	}
 
 	m_bIsTeleportingUsingEurekaEffect = false;
+
+#if defined(QUIVER_DLL)
+	AutoBreakArmor();
+#endif
 
 	for ( int i=0; i<GetNumWearables(); ++i )
 	{

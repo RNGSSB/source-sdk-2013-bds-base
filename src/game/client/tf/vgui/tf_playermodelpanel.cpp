@@ -975,6 +975,12 @@ void CTFPlayerModelPanel::EquipItem( CEconItemView *pItem )
 	if ( m_iCurrentClassIndex == TF_CLASS_UNDEFINED )
 		return;
 
+#ifdef BDSBASE
+	static CSchemaAttributeDefHandle pAttr_cosmetic_is_hidden_in_ui("cosmetic_is_hidden_in_ui");
+	if (pAttr_cosmetic_is_hidden_in_ui && pItem->FindAttribute(pAttr_cosmetic_is_hidden_in_ui))
+		return;
+#endif
+
 	const GameItemDefinition_t *pItemDef = pItem->GetItemDefinition();
 	Assert( pItemDef );
 
@@ -1078,6 +1084,12 @@ void CTFPlayerModelPanel::EquipItem( CEconItemView *pItem )
 //-----------------------------------------------------------------------------
 int CTFPlayerModelPanel::AddCarriedItem( CEconItemView *pItem )
 {
+#ifdef BDSBASE
+	static CSchemaAttributeDefHandle pAttr_cosmetic_is_hidden_in_ui("cosmetic_is_hidden_in_ui");
+	if (pAttr_cosmetic_is_hidden_in_ui && pItem->FindAttribute(pAttr_cosmetic_is_hidden_in_ui))
+		return -1;
+#endif
+
 	CEconItemView *pNewItem = new CEconItemView;
 	*pNewItem = *pItem;
 	int iIdx = m_ItemsToCarry.AddToTail( pNewItem );
@@ -1121,6 +1133,12 @@ void CTFPlayerModelPanel::RemoveAdditionalModels( void )
 //-----------------------------------------------------------------------------
 void CTFPlayerModelPanel::LoadAndAttachAdditionalModel( const char *pMDLName, CEconItemView *pItem )
 {
+#ifdef BDSBASE
+	static CSchemaAttributeDefHandle pAttr_cosmetic_is_hidden_in_ui("cosmetic_is_hidden_in_ui");
+	if (pAttr_cosmetic_is_hidden_in_ui && pItem->FindAttribute(pAttr_cosmetic_is_hidden_in_ui))
+		return;
+#endif
+
 	int nModelIndex = -1;
 	
 	if ( pItem->GetStaticData()->IsContentStreamable() )

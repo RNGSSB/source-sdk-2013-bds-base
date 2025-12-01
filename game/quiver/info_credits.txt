@@ -1,13 +1,4 @@
 Credits:
-- GetGrenade for the Flak Jack, used as an armor cosmetic
-- sedisocks and Colteh for the Airborne Attire, used as an armor cosmetic
-- Greg and Colteh for the Patriot's Pouches, used as an armor cosmetic
-- NeoDement, blaholtzen, Bapaul, and Square for the Bushi-Dou, used as an armor cosmetic
-- Rozzy and Kibbleknight for the Bunnyhopper's Ballistics Vest, used as an armor cosmetic
-- tree and Colteh for the Immobile Suit, used as an armor cosmetic
-- Svdl, neodos, and SEGA for the Steel Sixpack, used as an armor cosmetic
-- donhonk, Psyke, Sky for the Lurker's Leathers, used as an armor cosmetic
-- Wrench N Rockets for the Iron Lung, used as an armor cosmetic
 - TheBetaM for the custom schema code.
 - Sae35 for help with compiling a few maps.
 - castaway.tf for documenting older weapon changes that inspired some Quiver Fortress weapon balances.

@@ -10,6 +10,7 @@ Details:
 - Re-added the "Loaned" weapon feature, but adhered it to TF2 SDK rules.
 	- Only weapons earned through achievements are loaned to players.
 - Added Quick Search: an easy way to find or create a Quiver Fortress match!
+- Replaced armor cosmetics with shields.
 
 ---------------------------------------------------------------------------------------------
 

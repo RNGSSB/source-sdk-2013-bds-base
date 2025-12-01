@@ -1923,29 +1923,14 @@ void CBaseCombatWeapon::WeaponSound( WeaponSound_t sound_type, float soundtime /
 
 	// If we have some sounds from the weapon classname.txt file, play a random one of them
 	const char *shootsound = GetShootSound( sound_type );
-#ifdef BDSBASE
-	if (!shootsound || !shootsound[0])
-	{
-		DevMsg("No shoot sound for weapon %s\n", GetClassname());
-		return;
-	}
-#else
+
 	if ( !shootsound || !shootsound[0] )
 		return;
-#endif
 
 	CSoundParameters params;
 	
-#ifdef BDSBASE
-	if (!GetParametersForSound(shootsound, params, NULL))
-	{
-		DevMsg("No parameters for shoot sound %s\n", shootsound);
-		return;
-	}
-#else
 	if ( !GetParametersForSound( shootsound, params, NULL ) )
 		return;
-#endif
 
 	if ( params.play_to_owner_only )
 	{

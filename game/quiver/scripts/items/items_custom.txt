@@ -849,6 +849,54 @@
 			"drop_sound"		"ui/item_heavy_gun_drop.wav"
 			"particle_suffix"		"rocketlauncher"
 		}
+		
+		"armor"
+		{
+			"prefab"		"misc"
+			"item_class"	"tf_wearable"
+			"capabilities"
+			{
+				"nameable"		"1"
+				"paintable"		"1"
+			}
+			"show_in_armory"	"1"
+			"item_type_name"	"#TF_Wearable_Armor"
+			"item_name"			"#QF_Armor"
+			"equip_region"		"feet"
+			"item_quality"		"normal"
+			"model_player"		"models/player/items/resist_shield_armor.mdl"
+			"model_player_per_class"
+			{
+				"scout"	"models/player/items/resist_shield_armor.mdl"
+				"sniper"	"models/player/items/resist_shield_armor.mdl"
+				"soldier"	"models/player/items/resist_shield_armor.mdl"
+				"demoman"	"models/player/items/resist_shield_armor.mdl"
+				"medic"	"models/player/items/resist_shield_armor.mdl"
+				"heavy"	"models/player/items/resist_shield_armor_heavy.mdl"
+				"spy" "models/player/items/resist_shield_armor.mdl"
+				"engineer" "models/player/items/resist_shield_armor.mdl"
+				"pyro" "models/player/items/resist_shield_armor.mdl"
+			}
+			"used_by_classes"
+			{
+				"scout"	"1"
+				"sniper"	"1"
+				"soldier"	"1"
+				"demoman"	"1"
+				"medic"	"1"
+				"heavy"	"1"
+				"spy" "1"
+				"engineer" "1"
+				"pyro" "1"
+			}
+			"static_attrs"
+			{
+				"cosmetic_is_hidden_in_ui"				"1"
+				"cosmetic_disable_ubermaterial"				"1"
+			}
+			"mouse_pressed_sound"	"ui/item_hat_pickup.wav"
+			"drop_sound"		"ui/item_hat_drop.wav"
+		}
 	}
 
 	"items"
@@ -917,26 +965,6 @@
 		}
 		"34407"
 		{
-			"name"		"Immobile Suit Armor Version"
-			"prefab"		"no_craft misc"
-			"item_name"		"#TF_sf14_heavy_robo_chest"
-			"item_description"		"#TF_sf14_heavy_robo_chest_Desc"
-			"item_type_name"		"#TF_Wearable_Armor"
-			"equip_region"		"shirt"
-			"propername"		"1"
-			"image_inventory"		"backpack/workshop/player/items/heavy/sf14_heavy_robo_chest/sf14_heavy_robo_chest"
-			"capabilities"
-			{
-				"can_craft_count"		"1"
-			}
-			"model_player"		"models/workshop/player/items/heavy/sf14_heavy_robo_chest/sf14_heavy_robo_chest.mdl"
-			"used_by_classes"
-			{
-				"heavy"		"1"
-			}
-		}
-		"34408"
-		{
 			"name"		"tw_demobot_armor armor version"
 			"prefab"		"no_craft misc"
 			"show_in_armory"		"0"
@@ -951,7 +979,7 @@
 				"demoman"		"1"
 			}
 		}
-		"34409"
+		"34408"
 		{
 			"name"		"tw_engineerbot_armor armor version"
 			"prefab"		"no_craft misc"
@@ -967,7 +995,7 @@
 				"engineer"		"1"
 			}
 		}
-		"34410"
+		"34409"
 		{
 			"name"		"tw_heavybot_armor armor version"
 			"prefab"		"no_craft misc"
@@ -983,7 +1011,7 @@
 				"heavy"		"1"
 			}
 		}
-		"34411"
+		"34410"
 		{
 			"name"		"tw_medibot_chariot armor version"
 			"prefab"		"no_craft misc"
@@ -999,7 +1027,7 @@
 				"medic"		"1"
 			}
 		}
-		"34412"
+		"34411"
 		{
 			"name"		"tw_pyrobot_armor armor version"
 			"prefab"		"no_craft misc"
@@ -1015,7 +1043,7 @@
 				"pyro"		"1"
 			}
 		}
-		"34413"
+		"34412"
 		{
 			"name"		"tw_scoutbot_armor armor version"
 			"prefab"		"no_craft misc"
@@ -1031,7 +1059,7 @@
 				"scout"		"1"
 			}
 		}
-		"34414"
+		"34413"
 		{
 			"name"		"tw_sniperbot_armor armor version"
 			"prefab"		"no_craft misc"
@@ -1047,7 +1075,7 @@
 				"sniper"		"1"
 			}
 		}
-		"34415"
+		"34414"
 		{
 			"name"		"tw_soldierbot_armor armor version"
 			"prefab"		"no_craft misc"
@@ -1063,7 +1091,7 @@
 				"soldier"		"1"
 			}
 		}
-		"34416"
+		"34415"
 		{
 			"name"		"tw_spybot_armor armor version"
 			"prefab"		"no_craft misc"
@@ -1079,7 +1107,7 @@
 				"spy"		"1"
 			}
 		}
-		"34417"
+		"34416"
 		{
 			"name"		"tw_sentrybuster armor version"
 			"prefab"		"no_craft misc"
@@ -1094,94 +1122,69 @@
 				"demoman"		"1"
 			}
 		}
-		"34418"
+		"34417"
 		{
 			"name"		"Afterburner"
 			"prefab"	"weapon_quiver_afterburner"
 			"first_sale_date"	"2010/09/29"
 			"xifier_class_remap"	"weapon_quiver_afterburner"
 		}
-		"34419"
-		{
-			"name"		"Lurker's Leathers Armor Version"
-			"prefab"		"no_craft misc marketable"
-			"item_name"		"#TF_cc_summer2015_lurkers_leathers"
-			"item_description"		"#TF_cc_summer2015_lurkers_leathers_Desc"
-			"item_type_name"		"#TF_Wearable_Coat"
-			"equip_region"		"spy_coat"
-			"image_inventory"		"backpack/workshop/player/items/spy/cc_summer2015_lurkers_leathers/cc_summer2015_lurkers_leathers"
-			"capabilities"
-			{
-				"can_craft_count"		"1"
-				"paintable"		"1"
-			}
-			"model_player"		"models/workshop/player/items/spy/cc_summer2015_lurkers_leathers_2/cc_summer2015_lurkers_leathers_2.mdl"
-			"used_by_classes"
-			{
-				"spy"		"1"
-			}
-			"mouse_pressed_sound"		"ui/item_leather_pickup.wav"
-			"drop_sound"		"ui/item_hat_drop.wav"
-		}
-		"34420"
+		"34418"
 		{
 			"name"		"Syringe"
 			"prefab"	"weapon_quiver_syringe"
 			"first_sale_date"	"2010/09/29"
 			"xifier_class_remap"	"weapon_quiver_syringe"
 		}
-		"34421"
+		"34419"
 		{
 			"name"		"Cluster Buster"
 			"prefab"	"weapon_quiver_clusterbuster"
 			"first_sale_date"	"2010/09/29"
 			"xifier_class_remap"	"weapon_quiver_clusterbuster"
 		}
-		"34422"
+		"34420"
 		{
-			"name"	"Armor Test"
-			"loadondemand"	"1"
-			"prefab"	"misc"
-			"item_class"	"tf_wearable"
-			"capabilities"
-			{
-				"nameable"		"1"
-				"paintable"		"1"
-			}
-			"show_in_armory"	"1"
-			"item_type_name"	"#TF_Wearable_Hat"
-			"item_name"			"#TF_WorldTraveler"
-			"item_description"	"#TF_WorldTraveler_Desc"
-			"equip_region"		"feet"
-			"item_quality"		"unique"
-			"model_player"		"models/weapons/w_pistol.mdl"
-			"drop_type"	"drop"
-			"used_by_classes"
-			{
-				"scout"	"1"
-				"sniper"	"1"
-				"soldier"	"1"
-				"demoman"	"1"
-				"medic"	"1"
-				"heavy"	"1"
-				"spy" "1"
-				"engineer" "1"
-				"pyro" "1"
-			}
+			"name"		"Armor"
+			"prefab"	"armor"
 			"static_attrs"
 			{
-				"cosmetic_allow_inspect"				"1"
-			}
-			"attributes"
+				"item style override"			"0"
+			}	
+			"visuals"
 			{
-				"attach particle effect"
+				"styles"
 				{
-					"attribute_class"	"set_attached_particle"
-					"value"	"3095"
+					"0"
+					{
+						"skin_red"	"5"
+						"skin_blu"	"5"
+						"selectable"	"0"
+					}
 				}
 			}
-			"mouse_pressed_sound"	"ui/item_hat_pickup.wav"
-			"drop_sound"		"ui/item_hat_drop.wav"
+		}
+		"34421"
+		{
+			"name"		"Robot Armor"
+			"item_name"	"#QF_Robot_Armor"
+			"prefab"	"armor"
+			"static_attrs"
+			{
+				"item style override"			"0"
+			}	
+			"visuals"
+			{
+				"styles"
+				{
+					"0"
+					{
+						"skin_red"	"4"
+						"skin_blu"	"4"
+						"selectable"	"0"
+					}
+				}
+			}
 		}
 	}
 	

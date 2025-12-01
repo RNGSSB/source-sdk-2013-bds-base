@@ -564,7 +564,11 @@ void CTFStorePreviewItemPanelBase::UpdateModelPanel()
 						bundleItemData.SetClientItemFlags( kEconItemFlagClient_Preview );
 						int iItemIdx = m_pPlayerModelPanel->AddCarriedItem( &bundleItemData );
 						// try to hold it
+#ifdef BDSBASE
+						if ( ( iItemIdx != -1 ) && m_pPlayerModelPanel->HoldItem( iItemIdx ) )
+#else
 						if ( m_pPlayerModelPanel->HoldItem( iItemIdx ) ) 
+#endif
 						{
 							m_iCurrentHeldItem = iItemIdx;
 						}
