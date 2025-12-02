@@ -1382,6 +1382,10 @@ void C_TFRagdoll::OnDataChanged( DataUpdateType_t type )
 		if ( bCreateRagdoll )
 		{
 #ifdef BDSBASE
+#if defined(QUIVER_DLL)
+
+#endif
+
 			m_bBombinomicon = !m_bCloaked && pPlayer->HasBombinomiconEffectOnDeath();
 #endif
 
@@ -2016,6 +2020,7 @@ public:
 
 private:
 	IMaterialVar* m_pCloakColorTint;
+	IMaterialVar* m_pCloakColorTintFactor;
 };
 
 //-----------------------------------------------------------------------------
@@ -2038,6 +2043,9 @@ bool CInvisProxy::Init(IMaterial* pMaterial, KeyValues* pKeyValues)
 	bool bTint;
 	m_pCloakColorTint = pMaterial->FindVar("$cloakColorTint", &bTint);
 
+	bool bTintFactor;
+	m_pCloakColorTintFactor = pMaterial->FindVar("$cloakColorTintFactor", &bTintFactor);
+
 	return (bInvis && bTint);
 }
 
@@ -2055,6 +2063,11 @@ void CInvisProxy::OnBind(C_BaseEntity* pC_BaseEntity)
 
 	C_TFPlayer* pPlayer = NULL;
 	float flCloakTintFactor = 1.0f;
+
+	if (m_pCloakColorTintFactor)
+	{
+		flCloakTintFactor = m_pCloakColorTintFactor->GetFloatValue();
+	}
 
 	// Check if we are parented to a player
 	C_BaseEntity* pMoveParent = pEnt->GetMoveParent();
@@ -7978,6 +7991,11 @@ void C_TFPlayer::CreatePlayerGibs(const Vector& vecOrigin, const Vector& vecVelo
 			if ( !pItem->IsDisguiseWearable() && bDisguiseGibs )
 				continue;
 
+#if defined(QUIVER_DLL)
+			if (pItem->IsArmor())
+				continue;
+#endif
+
 			DropWearable( pItem, breakParams );
 		}
 	}
@@ -10992,6 +11010,11 @@ void C_TFPlayer::CreateBoneAttachmentsFromWearables( C_TFRagdoll *pRagdoll, bool
 
 		if ( !pItem->IsDisguiseWearable() && bDisguised )
 			continue;
+
+#if defined(QUIVER_DLL)
+		if (pItem->IsArmor())
+			continue;
+#endif
 
 		// some wearables like the Razorback are hidden when they are inactive
 		// don't draw them on the ragdoll if they weren't visible on the player

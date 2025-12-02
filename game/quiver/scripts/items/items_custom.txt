@@ -892,7 +892,9 @@
 			"static_attrs"
 			{
 				"cosmetic_is_hidden_in_ui"				"1"
-				"cosmetic_disable_ubermaterial"				"1"
+				"cosmetic_disable_ubermaterial"			"1"
+				"cosmetic_disable_shadow"				"1"
+				"cosmetic_hide_on_cloak"				"1"
 			}
 			"mouse_pressed_sound"	"ui/item_hat_pickup.wav"
 			"drop_sound"		"ui/item_hat_drop.wav"

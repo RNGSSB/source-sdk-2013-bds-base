@@ -70,6 +70,12 @@ public:
 
 	virtual void		OnDataChanged( DataUpdateType_t updateType );
 	virtual void		FireGameEvent( IGameEvent *event );
+
+#if defined( CLIENT_DLL )
+#ifdef BDSBASE
+	virtual ShadowType_t ShadowCastType(void);
+#endif
+#endif
 #endif
 
 	virtual int			GetSkin( void );

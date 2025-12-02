@@ -1,21 +1,19 @@
 "VertexLitGeneric"
 {
-	"$baseTexture" "models\effects\resist_shield\resist_shield_generic.vtf"
+	"$baseTexture" "models\effects\resist_shield\resist_shield_generic"
 	"$translucent" "1"
 	"$additive" "1"
 	//"$bumpmap" "models/effects/flat_normal"
 
-	"$phong" "1"
-	"$phongexponent" "2"
-	"$phongboost" "0.35"	
-	"$lightwarptexture" "models/player/pyro/pyro_lightwarp"
+	"$phong" "1"	
+	"$lightwarptexture" "models\effects\resist_shield\resist_shield_lightwarp"
 	"$phongfresnelranges"	"[.3 .5 .6]"
-	"$halflambert" "0"
+	"$halflambert" "1"
 
 	// Rim lighting parameters
 	"$rimlight" "1"												// To enable rim lighting (requires phong)
-	"$rimlightexponent" "2"										// Exponent for phong component of rim lighting	
-	"$rimlightboost" "3"										// Boost for ambient cube component of rim lighting
+	"$rimlightexponent" "4"										// Exponent for phong component of rim lighting	
+	"$rimlightboost" "7"										// Boost for ambient cube component of rim lighting
 	"$selfillumfresnel" "3"
 
 	"$selfillumfresnelminmaxexp" "[0 1 1]"
@@ -27,6 +25,7 @@
 	
 	// Cloaking
 	"$cloakPassEnabled" "1"
+	"$cloakColorTintFactor"	"0.0"
 
 	"Proxies"
 	{

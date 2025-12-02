@@ -300,6 +300,16 @@ int	CTFWearable::InternalDrawModel( int flags )
 			return 0;
 	}
 
+	if (pOwner)
+	{
+		static CSchemaAttributeDefHandle pAttr_cosmetic_hide_on_cloak("cosmetic_hide_on_cloak");
+		const CEconItemView* pItem = GetAttributeContainer()->GetItem();
+		bool bDisableOnCloak = (pItem && pAttr_cosmetic_hide_on_cloak && pItem->FindAttribute(pAttr_cosmetic_hide_on_cloak));
+
+		if (pOwner->GetPercentInvisible() > 0.0f && bDisableOnCloak)
+			return 0;
+	}
+
 #ifdef BDSBASE
 	static CSchemaAttributeDefHandle pAttr_cosmetic_disable_ubermaterial("cosmetic_disable_ubermaterial");
 	const CEconItemView* pItem = GetAttributeContainer()->GetItem();
@@ -873,9 +883,36 @@ void CTFWearable::FireGameEvent( IGameEvent *event )
 	}
 }
 
+#if defined( CLIENT_DLL )
+#ifdef BDSBASE
+ShadowType_t CTFWearable::ShadowCastType(void)
+{
+	if (IsEffectActive(EF_NODRAW | EF_NOSHADOW))
+	{
+		return SHADOWS_NONE;
+	}
+
+	static CSchemaAttributeDefHandle pAttr_cosmetic_disable_shadow("cosmetic_disable_shadow");
+	const CEconItemView* pItem = GetAttributeContainer()->GetItem();
+	bool bDisabledShadow = (pItem && pAttr_cosmetic_disable_shadow && pItem->FindAttribute(pAttr_cosmetic_disable_shadow));
+
+	if (bDisabledShadow)
+	{
+		// Using the viewmodel.
+		return SHADOWS_NONE;
+	}
+
+	if (ToTFPlayer(GetMoveParent())->ShouldDrawThisPlayer())
+	{
+		// Using the viewmodel.
+		return SHADOWS_NONE;
+	}
+
+	return SHADOWS_RENDER_TO_TEXTURE;
+}
 #endif
-
-
+#endif
+#endif
 
 
 //-----------------------------------------------------------------------------
@@ -886,12 +923,8 @@ void CTFWearable::FireGameEvent( IGameEvent *event )
 ShadowType_t CTFWearableVM::ShadowCastType( void )
 {
 #ifdef BDSBASE
-	if (IsEffectActive(EF_NODRAW | EF_NOSHADOW))
-	{
-		return SHADOWS_NONE;
-	}
-#endif
-
+	return BaseClass::ShadowCastType();
+#else
 	if ( ToTFPlayer(GetMoveParent())->ShouldDrawThisPlayer() )
 	{
 		// Using the viewmodel.
@@ -899,6 +932,7 @@ ShadowType_t CTFWearableVM::ShadowCastType( void )
 	}
 
 	return SHADOWS_RENDER_TO_TEXTURE;
+#endif
 }
 
 #ifdef BDSBASE

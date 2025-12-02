@@ -5629,7 +5629,6 @@ void CTFPlayerShared::RemoveArmorCosmetics(void)
 
 bool CTFPlayerShared::HasArmorCosmeticsEquipped(void)
 {
-#ifdef GAME_DLL
 	int armorCount = 0;
 
 	for (int wbl = 0; wbl < m_pOuter->GetNumWearables(); wbl++)
@@ -5645,9 +5644,6 @@ bool CTFPlayerShared::HasArmorCosmeticsEquipped(void)
 	}
 
 	return (armorCount > 0);
-#else
-	return false;
-#endif
 }
 
 void CTFPlayerShared::OnAddUnbreakableArmor(void)
