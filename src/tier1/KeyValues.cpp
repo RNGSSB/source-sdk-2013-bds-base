@@ -2690,7 +2690,11 @@ bool KeyValues::WriteAsBinary( CUtlBuffer &buffer )
 
 		case TYPE_UINT64:
 			{
+#ifdef BDSBASE
+				buffer.PutInt64(*((int64*)dat->m_sValue));
+#else
 				buffer.PutDouble( *((double *)dat->m_sValue) );
+#endif
 				break;
 			}
 
