@@ -820,17 +820,18 @@ void CTFProjectile_Arrow::ArrowTouch( CBaseEntity *pOther )
 	{
 		// Locate the hitbox closest to our point of impact on the collision box.
 #ifdef BDSBASE
-		Vector position, start, forward, origin;
+		Vector forward, impact_pos;
+		float closest_dist = FLT_MAX;
 #else
 		Vector position, start, forward;
-#endif
 		QAngle angles;
 		float closest_dist = 99999;
+#endif
 
 		// Intense, but extremely accurate:
 		AngleVectors( GetAbsAngles(), &forward );
 #ifdef BDSBASE
-		origin = GetAbsOrigin();
+		impact_pos = GetAbsOrigin();
 #else
 		start = GetAbsOrigin() + forward*16;
 #endif
@@ -838,32 +839,36 @@ void CTFProjectile_Arrow::ArrowTouch( CBaseEntity *pOther )
 		{
 			mstudiobbox_t *pbox = set->pHitbox( i );
 
-			pAnimOther->GetBonePosition( pbox->bone, position, angles );
-
 #ifdef BDSBASE
-			start = origin + (position - origin).Dot(forward) * forward;
+			Vector origin, center;
+			QAngle angles;
+
+			pAnimOther->GetBonePosition(pbox->bone, origin, angles);
+
+			matrix3x4_t mat;
+			AngleMatrix(angles, origin, mat);
+
+			VectorTransform((pbox->bbmin + pbox->bbmax) * 0.5f, mat, center);
+
+			Vector proj = impact_pos + forward * (center - impact_pos).Dot(forward);
+
+			Vector point;
+			VectorITransform(proj, mat, point);
+
+			CalcClosestPointOnAABB(pbox->bbmin, pbox->bbmax, point, point);
+
+			Vector surface_point;
+			VectorTransform(point, mat, surface_point);
+#else
+			pAnimOther->GetBonePosition( pbox->bone, position, angles );
 #endif
 
+#ifdef BDSBASE
+			float dist = proj.DistToSqr(surface_point);
+#else
 			Ray_t ray;
 			ray.Init( start, position );
 			trace_t tr;
-#ifdef BDSBASE
-			IntersectRayWithOBB(ray, position, angles, pbox->bbmin, pbox->bbmax, 0.f, &tr);
-
-			float dist;
-
-			if (vel.LengthSqr() != 0)
-			{
-				// We want to calculate closest distance of the arrows trajectory to a hitbox
-				// Instead of just the closest distance of the arrows position to a hitbox
-				// For better hit detection
-				dist = (tr.endpos - start).Cross(vel).Length() / vel.Length();
-			}
-			else
-			{
-				dist = tr.endpos.DistTo(start); // Fall back to old method if first method fails
-			}
-#else
 			IntersectRayWithBox( ray, position+pbox->bbmin, position+pbox->bbmax, 0.f, &tr );
 			float dist = tr.endpos.DistTo( start );
 #endif
