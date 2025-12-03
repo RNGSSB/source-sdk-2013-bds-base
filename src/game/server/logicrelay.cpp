@@ -110,7 +110,19 @@ void CLogicRelay::InputEnableRefire( inputdata_t &inputdata )
 //------------------------------------------------------------------------------
 void CLogicRelay::InputCancelPending( inputdata_t &inputdata )
 { 
+#ifdef BDSBASE
+	// We don't want to allow the logic relay to cancelpending itself. This will eventually lead to a crash!
+	if (inputdata.pCaller != this)
+	{
+		g_EventQueue.CancelEvents(this);
+	}
+	else
+	{
+		Warning("Entity %s - (%s) is attempting to CancelPending itself. This is not allowed!\n", this->GetEntityName(), this->GetClassname());
+	}
+#else
 	g_EventQueue.CancelEvents( this );
+#endif
 
 	// Stop waiting; allow another Trigger.
 	m_bWaitForRefire = false;

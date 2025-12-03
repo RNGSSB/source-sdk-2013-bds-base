@@ -23,6 +23,9 @@ Added the following Source SDK Pull Requests:
 	- #1610: vgui_controls: Prevent buffer overrun in TextImage::GetText
 	- #1615: Performance enhancement: Remove redundant filesystem checks from CSmokeStack::KeyValue
 	- #1618: Fix Loose Cannon MvM damage upgrade not scaling entirely
+	- #1619: Fix extended melee range while charging not working
+	- #1620 & #1621: Changed player-dropped ammo boxes to be more dynamic (modes can be switched using tf_dynamic_ammo_mode)
+	- #1632: Fix CancelPending input causing a crash when a logic_relay fires this to itself
 
 Removed the following Source SDK Pull Requests:
 Details:
