@@ -350,6 +350,16 @@ void CTFAmmoPack::PackTouch( CBaseEntity *pOther )
 	int iMaxSecondary = pPlayer->GetMaxAmmo(TF_AMMO_SECONDARY);
 	GiveAmmo( ceil( iMaxSecondary * m_flAmmoRatio ), TF_AMMO_SECONDARY );
 
+#ifdef BDSBASE
+	// Do not scale building gibs
+	if (GetOwnerEntity() && !GetOwnerEntity()->IsBaseObject())
+	{
+		// Engineers drop their current metal amount, ammo packs with something other than 100 metal should give the metal amount
+		int iMetal = m_iAmmo[TF_AMMO_METAL] != 100 ? m_iAmmo[TF_AMMO_METAL] : ceil(pPlayer->GetMaxAmmo(TF_AMMO_METAL) * m_flAmmoRatio);
+		GiveAmmo(iMetal, TF_AMMO_METAL);
+	}
+#endif
+
 	int iAmmoTaken = 0;
 
 	for ( int i=0;i<TF_AMMO_COUNT;i++ )
