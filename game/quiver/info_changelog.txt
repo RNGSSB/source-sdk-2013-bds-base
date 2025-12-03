@@ -15,6 +15,8 @@ Added the following Source SDK Pull Requests:
 	- #1586: CTFStorePreviewItemPanel: use https instead of http to avoid redirect 
 	- #1588: Make robot engineers properly remove sappers
 	- #1590: Fixed Casual doors player list sometimes using wrong size
+	- #1593: Improved closest hitbox detection for arrow projectiles
+	- #1596: Prevent cyoa_pda_open 1 from forcing Sniper to unzoom
 
 Removed the following Source SDK Pull Requests:
 Details:

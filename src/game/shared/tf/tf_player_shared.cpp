@@ -13210,7 +13210,7 @@ bool CTFPlayer::CanAttack( int iCanAttackFlags )
 	Assert( pRules );
 
 #ifdef BDSBASE
-	if (IsInCYOAPDAAnimation())
+	if (IsInCYOAPDAAnimation() && !m_Shared.InCond(TF_COND_ZOOMED))
 #else
 	if (IsViewingCYOAPDA())
 #endif
