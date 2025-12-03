@@ -1215,7 +1215,7 @@ void CTFMinigun::StandardBlendingRules( CStudioHdr *hdr, Vector pos[], Quaternio
 void CTFMinigun::UpdateBarrelMovement()
 {
 #ifdef BDSBASE
-	if (!prediction->IsFirstTimePredicted())
+	if (prediction->InPrediction() && !prediction->IsFirstTimePredicted())
 	{
 		return;
 	}
