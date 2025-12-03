@@ -19,17 +19,27 @@
 
 //TF prefers a higher min player count. cap it to 6 so at least 3v3 is possible.
 #if defined(TF_CLIENT_DLL)
-#define MIN_PLAYERS 6
+#define SERVERFINDER_MIN_PLAYERS 6
 #else
-#define MIN_PLAYERS 2
+#define SERVERFINDER_MIN_PLAYERS 2
 #endif
 
+#define SERVERFINDER_MAX_PING 300
+#define SERVERFINDER_MAX_RETRIES 10
+
+#define SERVERFINDER_FULLDEBUG 1
+
+#ifdef SERVERFINDER_FULLDEBUG
 #define SERVERFINDER_CONNECTION_TEST 1
-//#define SERVERFINDER_PING_TEST 1
+#endif
 
-#define MAX_PING 300
-
-#define MAX_RETRIES 10
+#define SERVERFINDER_LEVEL_VALIDATION 1
+#define SERVERFINDER_LEVEL_INTERNAL	  2
+#define SERVERFINDER_SPEW( lvl, pStrFmt, ...) \
+	if ( serverfinder_debug.GetInt() >= lvl ) \
+	{ \
+		Msg( pStrFmt, ##__VA_ARGS__ ); \
+	}
 
 struct gameserveritem_ex_t
 {

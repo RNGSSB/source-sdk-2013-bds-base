@@ -38,13 +38,19 @@ using namespace vgui;
 
 extern const char* COM_GetModDirectory();
 
+#ifdef SERVERFINDER_FULLDEBUG
+ConVar serverfinder_debug("serverfinder_debug", "2", FCVAR_NONE);
+#else
+ConVar serverfinder_debug("serverfinder_debug", "1", FCVAR_DEVELOPMENTONLY);
+#endif
+
 void LoadCommand(void)
 {
 	CServerFinderDialog* pCServerFinderDialog = new CServerFinderDialog(NULL);
 	pCServerFinderDialog->Activate();
 }
 
-ConCommand serverfinderdialog("serverfinderdialog", LoadCommand, "", FCVAR_NONE);
+ConCommand serverfinderdialog("serverfinder_dialog", LoadCommand, "", FCVAR_NONE);
 
 static void AddFilter(CUtlVector<MatchMakingKeyValuePair_t>& vecServerFilters, const char* pchKey, const char* pchValue)
 {
@@ -73,7 +79,7 @@ bool HasAppropriateTags(const CUtlStringList& TagList, const CUtlStringList& Req
 	{
 		if (!BHasTag(TagList, Req[idx]))
 		{
-			Msg("Cannot find required tag %s\n", Req[idx]);
+			SERVERFINDER_SPEW(SERVERFINDER_LEVEL_VALIDATION, "Cannot find required tag %s\n", Req[idx]);
 			return false;
 		}
 	}
@@ -82,7 +88,7 @@ bool HasAppropriateTags(const CUtlStringList& TagList, const CUtlStringList& Req
 	{
 		if (BHasTag(TagList, Rej[idx]))
 		{
-			Msg("Found rejected tag %s\n", Rej[idx]);
+			SERVERFINDER_SPEW(SERVERFINDER_LEVEL_VALIDATION, "Found rejected tag %s\n", Rej[idx]);
 			return false;
 		}
 	}
@@ -241,11 +247,11 @@ void CServerFinderDialog::RefreshComplete(HServerListRequest hRequest, EMatchMak
 
 	if (m_vecServerJoinQueue.Count() > 0)
 	{
-		Msg("Found servers:\n");
+		SERVERFINDER_SPEW(SERVERFINDER_LEVEL_INTERNAL, "Found servers:\n");
 		FOR_EACH_VEC(m_vecServerJoinQueue, id)
 		{
 			gameserveritem_ex_t item = m_vecServerJoinQueue[id];
-			Msg("%i | %s | %i/%i | %s\n", 
+			SERVERFINDER_SPEW(SERVERFINDER_LEVEL_INTERNAL, "%i | %s | %i/%i | %s\n",
 				id,
 				item.server.GetName(), 
 				item.m_nRealPlayers,
@@ -261,7 +267,7 @@ void CServerFinderDialog::RefreshComplete(HServerListRequest hRequest, EMatchMak
 	}
 	else
 	{
-		Msg("No servers found in queue, starting bot server.\n");
+		SERVERFINDER_SPEW(SERVERFINDER_LEVEL_INTERNAL, "No servers found in queue, starting bot server.\n");
 		m_pStatus->SetText("#Serverfinder_Status_Finished_Fail");
 		OnSearchFailure();
 	}
@@ -312,9 +318,9 @@ void CServerFinderDialog::PingNextBestServer()
 	DestroyServerQueryRequest();
 
 	// Any more options to try?
-	if (m_iRetries >= MAX_RETRIES || m_vecServerJoinQueue.Count() < 1)
+	if (m_iRetries >= SERVERFINDER_MAX_RETRIES || m_vecServerJoinQueue.Count() < 1)
 	{
-		Msg("No more servers left to ping. We failed!\n");
+		SERVERFINDER_SPEW(SERVERFINDER_LEVEL_INTERNAL, "No more servers left to ping. We failed!\n");
 		m_pStatus->SetText("#Serverfinder_Status_Finished_Fail");
 		OnSearchFailure();
 		return;
@@ -345,7 +351,7 @@ void CServerFinderDialog::PingNextBestServer()
 	m_vecServerJoinQueue.Remove(randID);
 
 	// Do it
-	Msg("Pinging %s\n", randServer.server.m_NetAdr.GetConnectionAddressString());
+	SERVERFINDER_SPEW(SERVERFINDER_LEVEL_INTERNAL, "Pinging %s\n", randServer.server.m_NetAdr.GetConnectionAddressString());
 	m_hServerQueryRequest = steamapicontext->SteamMatchmakingServers()->PingServer(
 		randServer.server.m_NetAdr.GetIP(), 
 		randServer.server.m_NetAdr.GetConnectionPort(), this);
@@ -361,7 +367,7 @@ void CServerFinderDialog::PingNextBestServer()
 
 void CServerFinderDialog::JoinServer(gameserveritem_t& server)
 {
-	Msg("SERVER %s: Server validation succeeded. Attempting to join %s!\n", server.GetName(), server.m_NetAdr.GetConnectionAddressString());
+	SERVERFINDER_SPEW(SERVERFINDER_LEVEL_VALIDATION, "SERVER %s: Server validation succeeded. Attempting to join %s!\n", server.GetName(), server.m_NetAdr.GetConnectionAddressString());
 	// if this server is valid, join it.
 	char szJoinCommand[1024];
 	// create the command to execute
@@ -413,14 +419,14 @@ void CServerFinderDialog::OnSearchFailure()
 
 void CServerFinderDialog::ServerResponded(gameserveritem_ex_t serverex)
 {
-	Msg("SERVER FOUND! Validating.\n");
+	SERVERFINDER_SPEW(SERVERFINDER_LEVEL_VALIDATION, "SERVER FOUND! Validating.\n");
 
 	bool invalid = false;
 
 	if (!serverex.server.m_bHadSuccessfulResponse)
 	{
 		invalid = true;
-		Msg("SERVER INVALID: Response wasn't successful\n");
+		SERVERFINDER_SPEW(SERVERFINDER_LEVEL_VALIDATION, "SERVER INVALID: Response wasn't successful\n");
 	}
 
 	// Ignore servers with bogus address. Is this even possible?
@@ -428,33 +434,33 @@ void CServerFinderDialog::ServerResponded(gameserveritem_ex_t serverex)
 	{
 		Assert(serverex.server.m_NetAdr.GetIP() && serverex.server.m_NetAdr.GetConnectionPort());
 		invalid = true;
-		Msg("SERVER INVALID: Response was invalid\n");
+		SERVERFINDER_SPEW(SERVERFINDER_LEVEL_VALIDATION, "SERVER INVALID: Response was invalid\n");
 	}
 
 	if (m_blackList.IsServerBlacklisted(serverex.server))
 	{
 		invalid = true;
-		Msg("SERVER INVALID: Server is blacklisted\n");
+		SERVERFINDER_SPEW(SERVERFINDER_LEVEL_VALIDATION, "SERVER INVALID: Server is blacklisted\n");
 	}
 
 	if (serverex.server.m_bPassword)
 	{
 		invalid = true;
-		Msg("SERVER INVALID: Server is password protected\n");
+		SERVERFINDER_SPEW(SERVERFINDER_LEVEL_VALIDATION, "SERVER INVALID: Server is password protected\n");
 	}
 
 	//first, are the max players invalid?
 	if (serverex.server.m_nMaxPlayers > m_pOptions->m_iMaxPlayers)
 	{
 		invalid = true;
-		Msg("SERVER %s: Max players are too high\n", serverex.server.GetName());
+		SERVERFINDER_SPEW(SERVERFINDER_LEVEL_VALIDATION, "SERVER %s: Max players are too high\n", serverex.server.GetName());
 	}
 
 	// is the server full?
 	if (serverex.m_nRealPlayers >= m_pOptions->m_iMaxPlayers)
 	{
 		invalid = true;
-		Msg("SERVER %s: Server is full\n", serverex.server.GetName());
+		SERVERFINDER_SPEW(SERVERFINDER_LEVEL_VALIDATION, "SERVER %s: Server is full\n", serverex.server.GetName());
 	}
 
 #ifndef SERVERFINDER_CONNECTION_TEST 
@@ -462,7 +468,7 @@ void CServerFinderDialog::ServerResponded(gameserveritem_ex_t serverex)
 	if (serverex.m_nRealPlayers <= 0)
 	{
 		invalid = true;
-		Msg("SERVER %s: Server is empty\n", serverex.server.GetName());
+		SERVERFINDER_SPEW(SERVERFINDER_LEVEL_VALIDATION, "SERVER %s: Server is empty\n", serverex.server.GetName());
 	}
 #endif
 
@@ -470,7 +476,7 @@ void CServerFinderDialog::ServerResponded(gameserveritem_ex_t serverex)
 	if ((m_pOptions->m_iMaxPing > 0) && (serverex.server.m_nPing > m_pOptions->m_iMaxPing))
 	{
 		invalid = true;
-		Msg("SERVER %s: Server ping is really fucking bad\n", serverex.server.GetName());
+		SERVERFINDER_SPEW(SERVERFINDER_LEVEL_VALIDATION, "SERVER %s: Server ping is really fucking bad\n", serverex.server.GetName());
 	}
 
 	CUtlStringList requiredTags;
@@ -535,7 +541,7 @@ void CServerFinderDialog::ServerResponded(gameserveritem_ex_t serverex)
 
 	if (!HasAppropriateTags(TagList, requiredTags, illegalTags))
 	{
-		Msg("SERVER %s: Server has illegal tags or is missing required tags!\n", serverex.server.GetName());
+		SERVERFINDER_SPEW(SERVERFINDER_LEVEL_VALIDATION, "SERVER %s: Server has illegal tags or is missing required tags!\n", serverex.server.GetName());
 		invalid = true;
 	}
 
@@ -547,7 +553,7 @@ void CServerFinderDialog::ServerResponded(gameserveritem_ex_t serverex)
 	}
 	else
 	{
-		Msg("SERVER: Server validation failed. Starting a bot server.\n");
+		SERVERFINDER_SPEW(SERVERFINDER_LEVEL_VALIDATION, "SERVER: Server validation failed. Starting a bot server.\n");
 		OnSearchFailure();
 	}
 }
@@ -568,7 +574,7 @@ void CServerFinderDialog::BeginSearch()
 	}*/
 	AddFilter(vecServerFilters, "map", GetMapName());
 
-	Msg("Beginning server search...\n");
+	SERVERFINDER_SPEW(SERVERFINDER_LEVEL_INTERNAL, "Beginning server search...\n");
 	m_pStatus->SetText("#Serverfinder_Status_Searching");
 
 	CUtlString sFilter;
@@ -579,7 +585,7 @@ void CServerFinderDialog::BeginSearch()
 		sFilter.Append(vecServerFilters[idx].m_szValue);
 		sFilter.Append("\n");
 	}
-	Msg("Using filter: %s\n", sFilter.String());
+	SERVERFINDER_SPEW(SERVERFINDER_LEVEL_INTERNAL, "Using filter: %s\n", sFilter.String());
 
 	MatchMakingKeyValuePair_t* pFilters = vecServerFilters.Base(); // <<<< Note, this is weird, but correct.
 	m_hServerListRequest = steamapicontext->SteamMatchmakingServers()->RequestInternetServerList(
@@ -602,7 +608,7 @@ void CServerFinderDialog::OnCommand(const char *command)
 #ifndef SERVERFINDER_CONNECTION_TEST
 		if (engine->IsInGame())
 		{
-			Msg("Already connected to server.\n");
+			SERVERFINDER_SPEW(SERVERFINDER_LEVEL_INTERNAL, "Already connected to server.\n");
 			vgui::MessageBox* pMessageBox = new vgui::MessageBox("#Serverfinder_Title", "#Serverfinder_Error_CannotJoinConnected", GetParent());
 			pMessageBox->DoModal();
 			OnClose();
@@ -757,12 +763,12 @@ void CServerFinderDialog::SetMap(const char *mapName)
 
 int clampToPlayerCount(int violator)
 {
-	return clamp(violator, MIN_PLAYERS, (MAX_PLAYERS - 1));
+	return clamp(violator, SERVERFINDER_MIN_PLAYERS, (MAX_PLAYERS - 1));
 }
 
 int clampToPingNum(int violator)
 {
-	return clamp(violator, 0, MAX_PING);
+	return clamp(violator, 0, SERVERFINDER_MAX_PING);
 }
 
 void CServerFinderDialog::SetParams()
