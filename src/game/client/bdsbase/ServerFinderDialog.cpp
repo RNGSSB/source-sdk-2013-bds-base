@@ -50,7 +50,7 @@ void LoadCommand(void)
 	pCServerFinderDialog->Activate();
 }
 
-ConCommand serverfinderdialog("serverfinder_dialog", LoadCommand, "", FCVAR_NONE);
+ConCommand serverfinderdialog("serverfinderdialog", LoadCommand, "", FCVAR_NONE);
 
 static void AddFilter(CUtlVector<MatchMakingKeyValuePair_t>& vecServerFilters, const char* pchKey, const char* pchValue)
 {
