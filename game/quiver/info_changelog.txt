@@ -18,6 +18,7 @@ Added the following Source SDK Pull Requests:
 	- #1600: Improved huntsman arrow hitbox selection
 	- #1596: Prevent cyoa_pda_open 1 from forcing Sniper to unzoom
 	- #1601: Fix dmg_from_sentry_reduced ignoring Sentry rockets
+	- #1605: vgui_controls: Restore default locale initialization in VGui_InitInterfacesList
 
 Removed the following Source SDK Pull Requests:
 Details:
