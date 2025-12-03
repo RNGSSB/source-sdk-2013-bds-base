@@ -35,10 +35,10 @@
 ConVar tf_melee_old_trace_behavior("tf_melee_old_trace_behavior", "0", FCVAR_REPLICATED | FCVAR_NOTIFY, "Re-enables old melee trace behavior");
 #endif
 
-#if defined(QUIVER_DLL)
-ConVar tf_weapon_criticals_melee("tf_weapon_criticals_melee", "0", FCVAR_REPLICATED | FCVAR_NOTIFY, "Controls random crits for melee weapons. 0 - Melee weapons do not randomly crit. 1 - Melee weapons can randomly crit only if tf_weapon_criticals is also enabled. 2 - Melee weapons can always randomly crit regardless of the tf_weapon_criticals setting.");
-#else
 ConVar tf_weapon_criticals_melee("tf_weapon_criticals_melee", "1", FCVAR_REPLICATED | FCVAR_NOTIFY, "Controls random crits for melee weapons. 0 - Melee weapons do not randomly crit. 1 - Melee weapons can randomly crit only if tf_weapon_criticals is also enabled. 2 - Melee weapons can always randomly crit regardless of the tf_weapon_criticals setting.");
+
+#ifdef BDSBASE
+ConVar tf_shield_charge_melee_range("tf_shield_charge_melee_range", "0", FCVAR_REPLICATED | FCVAR_NOTIFY, "The range of a melee attack performed during a shield charge. Set to 0 for no change.");
 #endif
 
 //=============================================================================
@@ -209,6 +209,12 @@ int	CTFWeaponBaseMelee::GetSwingRange( void )
 #endif
 		return 128;
 	}
+#ifdef BDSBASE
+	else if (IsCurrentAttackDuringDemoCharge() && tf_shield_charge_melee_range.GetInt() > 0)
+	{
+		return tf_shield_charge_melee_range.GetInt();
+	}
+#endif
 	else
 	{
 		int iIsSword = 0;
@@ -244,10 +250,16 @@ void CTFWeaponBaseMelee::PrimaryAttack()
 #endif
 	pPlayer->EndClassSpecialSkill();
 
+#ifdef BDSBASE
+	m_bCurrentAttackIsDuringDemoCharge = pPlayer->m_Shared.GetNextMeleeCrit() != MELEE_NOCRIT;
+#endif
+
 	// Swing the weapon.
 	Swing( pPlayer );
 
+#ifndef BDSBASE
 	m_bCurrentAttackIsDuringDemoCharge = pPlayer->m_Shared.GetNextMeleeCrit() != MELEE_NOCRIT;
+#endif
 
 	if ( pPlayer->m_Shared.GetNextMeleeCrit() == MELEE_MINICRIT )
 	{
