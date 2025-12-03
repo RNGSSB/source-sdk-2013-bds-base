@@ -19,6 +19,10 @@
 
 extern void SendProxy_FuncRotatingAngle( const SendProp *pProp, const void *pStruct, const void *pData, DVariant *pOut, int iElement, int objectID);
 
+#ifdef BDSBASE
+ConVar tf_dynamic_ammo_mode("tf_dynamic_ammo_mode", "1", FCVAR_NOTIFY, "0 = original behavior, 1 = give metal amount, 2 = give more metal based on current max metal");
+#endif
+
 // Network table.
 IMPLEMENT_SERVERCLASS_ST( CTFAmmoPack, DT_AmmoPack )
 	SendPropVector( SENDINFO( m_vecInitialVelocity ), -1, SPROP_NOSCALE ),
@@ -351,12 +355,27 @@ void CTFAmmoPack::PackTouch( CBaseEntity *pOther )
 	GiveAmmo( ceil( iMaxSecondary * m_flAmmoRatio ), TF_AMMO_SECONDARY );
 
 #ifdef BDSBASE
-	// Do not scale building gibs
-	if (GetOwnerEntity() && !GetOwnerEntity()->IsBaseObject())
+	if (tf_dynamic_ammo_mode.GetInt() == 1)
 	{
-		// Engineers drop their current metal amount, ammo packs with something other than 100 metal should give the metal amount
-		int iMetal = m_iAmmo[TF_AMMO_METAL] != 100 ? m_iAmmo[TF_AMMO_METAL] : ceil(pPlayer->GetMaxAmmo(TF_AMMO_METAL) * m_flAmmoRatio);
-		GiveAmmo(iMetal, TF_AMMO_METAL);
+		// Do not scale building gibs
+		if (GetOwnerEntity() && !GetOwnerEntity()->IsBaseObject())
+		{
+			// Engineers drop their current metal amount, ammo packs with something other than 100 metal should give the metal amount
+			int iMetal = m_iAmmo[TF_AMMO_METAL] != 100 ? m_iAmmo[TF_AMMO_METAL] : ceil(pPlayer->GetMaxAmmo(TF_AMMO_METAL) * m_flAmmoRatio);
+			GiveAmmo(iMetal, TF_AMMO_METAL);
+		}
+	}
+	else if (tf_dynamic_ammo_mode.GetInt() == 2)
+	{
+		// Do not scale building gibs
+		if (GetOwnerEntity() && !GetOwnerEntity()->IsBaseObject())
+		{
+			int iMetalRatio = pPlayer->GetMaxAmmo(TF_AMMO_METAL) / 200;
+
+			// Scale metal given
+			int iMetal = m_iAmmo[TF_AMMO_METAL] == 100 ? ceil(pPlayer->GetMaxAmmo(TF_AMMO_METAL) * m_flAmmoRatio) : ceil(m_iAmmo[TF_AMMO_METAL] * iMetalRatio);
+			GiveAmmo(iMetal, TF_AMMO_METAL);
+		}
 	}
 #endif
 
