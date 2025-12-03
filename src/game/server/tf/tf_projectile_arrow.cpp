@@ -819,28 +819,54 @@ void CTFProjectile_Arrow::ArrowTouch( CBaseEntity *pOther )
 	if ( !closest_box )
 	{
 		// Locate the hitbox closest to our point of impact on the collision box.
+#ifdef BDSBASE
+		Vector position, start, forward, origin;
+#else
 		Vector position, start, forward;
+#endif
 		QAngle angles;
 		float closest_dist = 99999;
 
 		// Intense, but extremely accurate:
 		AngleVectors( GetAbsAngles(), &forward );
+#ifdef BDSBASE
+		origin = GetAbsOrigin();
+#else
 		start = GetAbsOrigin() + forward*16;
+#endif
 		for ( int i = 0; i < set->numhitboxes; i++ )
 		{
 			mstudiobbox_t *pbox = set->pHitbox( i );
 
 			pAnimOther->GetBonePosition( pbox->bone, position, angles );
 
+#ifdef BDSBASE
+			start = origin + (position - origin).Dot(forward) * forward;
+#endif
+
 			Ray_t ray;
 			ray.Init( start, position );
 			trace_t tr;
 #ifdef BDSBASE
 			IntersectRayWithOBB(ray, position, angles, pbox->bbmin, pbox->bbmax, 0.f, &tr);
+
+			float dist;
+
+			if (vel.LengthSqr() != 0)
+			{
+				// We want to calculate closest distance of the arrows trajectory to a hitbox
+				// Instead of just the closest distance of the arrows position to a hitbox
+				// For better hit detection
+				dist = (tr.endpos - start).Cross(vel).Length() / vel.Length();
+			}
+			else
+			{
+				dist = tr.endpos.DistTo(start); // Fall back to old method if first method fails
+			}
 #else
 			IntersectRayWithBox( ray, position+pbox->bbmin, position+pbox->bbmax, 0.f, &tr );
-#endif
 			float dist = tr.endpos.DistTo( start );
+#endif
 
 			if ( dist < closest_dist )
 			{
