@@ -135,6 +135,12 @@ void CTFProjectile_EnergyBall::Precache()
 	PrecacheParticleSystem( "drg_cow_rockettrail_charged_blue" );
 	PrecacheParticleSystem( "drg_cow_rockettrail_normal" );
 	PrecacheParticleSystem( "drg_cow_rockettrail_normal_blue" );
+#ifdef BDSBASE
+	PrecacheParticleSystem("drg_cow_rockettrail_halloween");
+	PrecacheParticleSystem("drg_cow_rockettrail_charged_halloween");
+	PrecacheParticleSystem("drg_cow_rockettrail_halloween_blue");
+	PrecacheParticleSystem("drg_cow_rockettrail_charged_halloween_blue");
+#endif
 
 	PrecacheModel( ENERGY_BALL_MODEL );
 
@@ -341,6 +347,28 @@ void CTFProjectile_EnergyBall::Explode( trace_t *pTrace, CBaseEntity *pOther )
 //-----------------------------------------------------------------------------
 const char *CTFProjectile_EnergyBall::GetExplosionParticleName( void )
 {
+#ifdef BDSBASE
+	// Check for Halloween spell
+	int iHalloweenSpell = 0;
+	if (TF_IsHolidayActive(kHoliday_HalloweenOrFullMoon))
+	{
+		CALL_ATTRIB_HOOK_INT_ON_OTHER(GetOriginalLauncher(), iHalloweenSpell, halloween_pumpkin_explosions);
+	}
+
+	// Use Halloween explosion particles if spell is active
+	if (iHalloweenSpell > 0)
+	{
+		if (m_bChargedShot)
+		{
+			return (GetTeamNumber() == TF_TEAM_RED) ? "drg_cow_explosioncore_charged_halloween" : "drg_cow_explosioncore_charged_halloween_blue";
+		}
+		else
+		{
+			return (GetTeamNumber() == TF_TEAM_RED) ? "drg_cow_explosioncore_normal_halloween" : "drg_cow_explosioncore_normal_halloween_blue";
+		}
+	}
+#endif
+
 	if ( m_bChargedShot )
 	{
 		return ( GetTeamNumber() == TF_TEAM_RED ) ? "drg_cow_explosioncore_charged" : "drg_cow_explosioncore_charged_blue";
