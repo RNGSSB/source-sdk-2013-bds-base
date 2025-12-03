@@ -26,6 +26,8 @@ Added the following Source SDK Pull Requests:
 	- #1619: Fix extended melee range while charging not working
 	- #1620 & #1621: Changed player-dropped ammo boxes to be more dynamic (modes can be switched using tf_dynamic_ammo_mode)
 	- #1632: Fix CancelPending input causing a crash when a logic_relay fires this to itself
+	- #1633: Fix teleporter_build_rate_multiplier applying to Dispenser
+	- 
 
 Removed the following Source SDK Pull Requests:
 Details:

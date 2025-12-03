@@ -8811,10 +8811,18 @@ float CTFPlayer::GetObjectBuildSpeedMultiplier( int iObjectType, bool bIsRedeplo
 		break;
 
 	case OBJ_DISPENSER:
+#ifdef BDSBASE
+		CALL_ATTRIB_HOOK_FLOAT(flBuildRate, dispenser_build_rate_multiplier);
+#else
 		CALL_ATTRIB_HOOK_FLOAT( flBuildRate, teleporter_build_rate_multiplier );
+#endif
 		flBuildRate += bIsRedeploy ? 3.0 : 0.0f;
 		break;
 	}
+
+#ifdef BDSBASE
+	CALL_ATTRIB_HOOK_FLOAT(flBuildRate, build_rate_multiplier);
+#endif
 
 	return flBuildRate - 1.0f; // sub out the initial 1 so the final result is added
 }
