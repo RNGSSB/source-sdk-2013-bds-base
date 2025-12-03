@@ -11,6 +11,7 @@ Added the following Source SDK Pull Requests:
 	- #1581: Fix miniguns not spinning or spinning very slowly outside of first-person
 	- #1582: Fix Chromatic Corruption's animation not looping smoothly like all the other paint spells do.
 	- #1584: Add command completion for tf_mvm_popfile
+	- #1585: matsys_controls: Fix model panels not encoding pose parameter values
 
 Removed the following Source SDK Pull Requests:
 Details:
