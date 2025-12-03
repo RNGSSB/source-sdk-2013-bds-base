@@ -8,6 +8,9 @@ Added the following Source SDK Pull Requests:
 	- #1574: Fix high melee firing speed not working correctly
 	- #1579: Fix aliasing undefined behavior for KV uint64 type
 	- #1580: CTFClassMenu: add key binds for selecting the random class
+	- #1581: Fix miniguns not spinning or spinning very slowly outside of first-person
+	- #1582: Fix Chromatic Corruption's animation not looping smoothly like all the other paint spells do.
+	- #1584: Add command completion for tf_mvm_popfile
 
 Removed the following Source SDK Pull Requests:
 Details:
