@@ -7830,6 +7830,31 @@ float CTFGameRules::ApplyOnDamageAliveModifyRules( const CTakeDamageInfo &info, 
 		}
 #endif
 
+#ifdef BDSBASE
+		if (info.GetInflictor())
+		{
+			if (info.GetInflictor()->IsBaseObject())
+			{
+				CObjectSentrygun* pSentry = dynamic_cast<CObjectSentrygun*>(info.GetInflictor());
+				if (pSentry)
+				{
+					CALL_ATTRIB_HOOK_FLOAT_ON_OTHER(pVictim, flRealDamage, dmg_from_sentry_reduced);
+				}
+			}
+			else
+			{
+				CTFProjectile_SentryRocket* pSentryRocket = dynamic_cast<CTFProjectile_SentryRocket*>(info.GetInflictor());
+				if (pSentryRocket && pSentryRocket->GetOwnerEntity())
+				{
+					CObjectSentrygun* pSentry = dynamic_cast<CObjectSentrygun*>(pSentryRocket->GetOwnerEntity());
+					if (pSentry)
+					{
+						CALL_ATTRIB_HOOK_FLOAT_ON_OTHER(pVictim, flRealDamage, dmg_from_sentry_reduced);
+					}
+				}
+			}
+		}
+#else
 		if ( info.GetInflictor() && info.GetInflictor()->IsBaseObject() )
 		{
 			CObjectSentrygun* pSentry = dynamic_cast<CObjectSentrygun*>( info.GetInflictor() );
@@ -7838,6 +7863,7 @@ float CTFGameRules::ApplyOnDamageAliveModifyRules( const CTakeDamageInfo &info, 
 				CALL_ATTRIB_HOOK_FLOAT_ON_OTHER( pVictim, flRealDamage, dmg_from_sentry_reduced );
 			}
 		}
+#endif
 
 		if ( IsMannVsMachineMode() )
 		{
