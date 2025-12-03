@@ -315,6 +315,14 @@ void CTFWeaponBaseMelee::PlaySwingSound( void )
 //-----------------------------------------------------------------------------
 void CTFWeaponBaseMelee::Swing( CTFPlayer *pPlayer )
 {
+#ifdef BDSBASE
+	// A previous smack could be pending, so do the smack before we forget about it
+	if (m_flSmackTime >= m_flNextPrimaryAttack)
+	{
+		Smack();
+	}
+#endif
+
 	CalcIsAttackCritical();
 
 #ifdef GAME_DLL
