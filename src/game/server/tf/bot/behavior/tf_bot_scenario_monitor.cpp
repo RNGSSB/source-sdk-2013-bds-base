@@ -176,7 +176,11 @@ Action< CTFBot > *CTFBotScenarioMonitor::DesiredScenarioAndClassAction( CTFBot *
 	}
 #endif // TF_RAID_MODE	
 
+#ifdef BDSBASE
+	if (TFGameRules()->IsMannVsMachineMode() && me->GetTeamNumber() == TF_TEAM_PVE_INVADERS) // Only use this specialized AI for BLU bots
+#else
 	if ( TFGameRules()->IsMannVsMachineMode() )
+#endif
 	{
 		if ( me->IsPlayerClass( TF_CLASS_SPY ) )
 		{
@@ -218,7 +222,9 @@ Action< CTFBot > *CTFBotScenarioMonitor::DesiredScenarioAndClassAction( CTFBot *
 		}
 
 		// capture the flag
+#ifndef BDSBASE
 		return new CTFBotFetchFlag;
+#endif
 	}
 
 	if ( me->IsPlayerClass( TF_CLASS_SPY ) )
