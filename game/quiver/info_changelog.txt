@@ -27,7 +27,9 @@ Added the following Source SDK Pull Requests:
 	- #1620 & #1621: Changed player-dropped ammo boxes to be more dynamic (modes can be switched using tf_dynamic_ammo_mode)
 	- #1632: Fix CancelPending input causing a crash when a logic_relay fires this to itself
 	- #1633: Fix teleporter_build_rate_multiplier applying to Dispenser
-	- 
+	- #1635: Add SetTarget input to tf_glow to allow an easy way to change its glow target at runtime
+	- #1636: Allow custom HUDs to show ubercharge numeric amount correctly for the Vaccinator
+	- #1640: Fix for mismatched cl_flipviewmodels values between client and server 
 
 Removed the following Source SDK Pull Requests:
 Details:

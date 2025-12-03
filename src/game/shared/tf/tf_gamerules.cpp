@@ -10949,7 +10949,11 @@ void CTFGameRules::ClientSettingsChanged( CBasePlayer *pPlayer )
 
 	pTFPlayer->SetDefaultFOV( iFov );
 
+#ifdef BDSBASE
+	pTFPlayer->m_bFlipViewModels = Q_atoi(engine->GetClientConVarValue(pPlayer->entindex(), "cl_flipviewmodels")) > 0;
+#else
 	pTFPlayer->m_bFlipViewModels = Q_strcmp( engine->GetClientConVarValue( pPlayer->entindex(), "cl_flipviewmodels" ), "1" ) == 0;
+#endif
 }
 
 //-----------------------------------------------------------------------------
