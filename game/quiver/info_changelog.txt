@@ -19,6 +19,8 @@ Added the following Source SDK Pull Requests:
 	- #1596: Prevent cyoa_pda_open 1 from forcing Sniper to unzoom
 	- #1601: Fix dmg_from_sentry_reduced ignoring Sentry rockets
 	- #1605: vgui_controls: Restore default locale initialization in VGui_InitInterfacesList
+	- #1609: vgui_controls: Fix TextEntry horizontal scrolling when removing selected text
+	- #1610: vgui_controls: Prevent buffer overrun in TextImage::GetText
 
 Removed the following Source SDK Pull Requests:
 Details:

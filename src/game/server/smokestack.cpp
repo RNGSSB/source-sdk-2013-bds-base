@@ -200,9 +200,12 @@ bool CSmokeStack::KeyValue( const char *szKeyName, const char *szValue )
 		}
 		
 		const char *pName = STRING( m_strMaterialModel );
+#ifndef BDSBASE
 		char szStrippedName[512];
+#endif
 
 		m_iMaterialModel = PrecacheModel( pName );
+#ifndef BDSBASE
 		Q_StripExtension( pName, szStrippedName, V_ARRAYSIZE( szStrippedName ) );
 
 		int iLength = Q_strlen( szStrippedName );
@@ -219,6 +222,7 @@ bool CSmokeStack::KeyValue( const char *szKeyName, const char *szValue )
 			
 			Q_snprintf( str, sizeof( str ), "%s%d.vmt", szStrippedName, iCount );
 		}
+#endif
 
 		return true;
 	}
