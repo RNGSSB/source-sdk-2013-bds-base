@@ -12,6 +12,9 @@ Added the following Source SDK Pull Requests:
 	- #1582: Fix Chromatic Corruption's animation not looping smoothly like all the other paint spells do.
 	- #1584: Add command completion for tf_mvm_popfile
 	- #1585: matsys_controls: Fix model panels not encoding pose parameter values
+	- #1586: CTFStorePreviewItemPanel: use https instead of http to avoid redirect 
+	- #1588: Make robot engineers properly remove sappers
+	- #1590: Fixed Casual doors player list sometimes using wrong size
 
 Removed the following Source SDK Pull Requests:
 Details:
