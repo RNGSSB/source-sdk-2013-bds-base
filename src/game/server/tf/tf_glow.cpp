@@ -22,6 +22,9 @@ public:
 	void InputEnable( inputdata_t &inputdata );
 	void InputDisable( inputdata_t &inputdata );
 	void InputSetGlowColor( inputdata_t &inputdata );
+#ifdef BDSBASE
+	void InputSetTarget(inputdata_t& inputdata);
+#endif
 
 private:
 	CNetworkVar( int, m_iMode );
@@ -39,6 +42,9 @@ BEGIN_DATADESC( CTFGlow )
 	DEFINE_INPUTFUNC( FIELD_VOID, "Enable", InputEnable ),
 	DEFINE_INPUTFUNC( FIELD_VOID, "Disable", InputDisable ),
 	DEFINE_INPUTFUNC( FIELD_COLOR32, "SetGlowColor", InputSetGlowColor ),
+#ifdef BDSBASE
+	DEFINE_INPUTFUNC(FIELD_STRING, "SetTarget", InputSetTarget),
+#endif
 END_DATADESC()
 
 //-----------------------------------------------------------------------------
@@ -88,6 +94,18 @@ void CTFGlow::InputSetGlowColor( inputdata_t &inputdata )
 {
 	m_glowColor = inputdata.value.Color32(); // clients will take action
 }
+
+#ifdef BDSBASE
+//-----------------------------------------------------------------------------
+void CTFGlow::InputSetTarget(inputdata_t& inputdata)
+{
+	CBaseEntity* pEnt = gEntList.FindEntityByName(nullptr, inputdata.value.String());
+	if (pEnt)
+	{
+		m_hTarget = pEnt;
+	}
+}
+#endif
 
 //-----------------------------------------------------------------------------
 int CTFGlow::UpdateTransmitState()
