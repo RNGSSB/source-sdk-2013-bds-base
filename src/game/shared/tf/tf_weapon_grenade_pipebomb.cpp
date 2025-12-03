@@ -782,6 +782,11 @@ void CTFGrenadePipebombProjectile::PipebombTouch( CBaseEntity *pOther )
 					float flDistanceSq = (pOther->GetAbsOrigin() - pAttacker->GetAbsOrigin()).LengthSqr();
 					float flImpactDamage = RemapValClamped( flDistanceSq, 512 * 512, 1024 * 1024, 50, 25 );
 
+#ifdef BDSBASE
+					// Scale impact damage with damage attribute
+					CALL_ATTRIB_HOOK_FLOAT_ON_OTHER(m_hLauncher, flImpactDamage, mult_dmg);
+#endif
+
 					CTakeDamageInfo info( this, pAttacker, m_hLauncher, vec3_origin, vOrigin, flImpactDamage, GetDamageType(), TF_DMG_CUSTOM_CANNONBALL_PUSH );
 					pOther->TakeDamage( info );
 
