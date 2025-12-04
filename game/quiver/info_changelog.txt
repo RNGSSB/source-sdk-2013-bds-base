@@ -33,6 +33,10 @@ Added the following Source SDK Pull Requests:
 	- #1576: Fix crash if bonemerging to a pending model
 	- #1588: Make robot engineers properly remove sappers
 	- #1599: Updated Weapon Extra Wearables and Body Groups to be compatible with disguises
+	- #1602: Add visual timer for vote duration
+	- #1604: Add ClientPrintEx (Formatting localized strings)
+	- #1606: Fix cloak and rage meters being mispredicted
+	- #1608: Fix prediction issues with Spy watches and cloak
 
 Removed the following Source SDK Pull Requests:
 Details:

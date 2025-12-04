@@ -926,12 +926,13 @@ IMPLEMENT_SERVERCLASS_ST( CTFPlayer, DT_TFPlayer )
 	SendPropFloat( SENDINFO( m_flHelpmeButtonPressTime ) ),
 	SendPropInt( SENDINFO( m_iCampaignMedals ) ),
 	SendPropInt( SENDINFO( m_iPlayerSkinOverride ) ),
+	SendPropBool( SENDINFO( m_bViewingCYOAPDA ) ),
+	SendPropBool( SENDINFO( m_bRegenerating ) ),
 #ifdef BDSBASE
+	SendPropEHandle(SENDINFO(m_hOffHandWeapon)),
 	SendPropInt(SENDINFO(m_nRestrictAchievements), 2, SPROP_UNSIGNED),
 	SendPropInt(SENDINFO(m_nRestrictQuests), 2, SPROP_UNSIGNED),
 #endif
-	SendPropBool( SENDINFO( m_bViewingCYOAPDA ) ),
-	SendPropBool( SENDINFO( m_bRegenerating ) ),
 
 #ifdef QUIVER_DLL
 	SendPropInt( SENDINFO( m_ArmorValue ) ),

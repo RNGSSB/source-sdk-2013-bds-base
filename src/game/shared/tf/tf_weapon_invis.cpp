@@ -28,8 +28,16 @@ IMPLEMENT_NETWORKCLASS_ALIASED( TFWeaponInvis, DT_TFWeaponInvis )
 BEGIN_NETWORK_TABLE( CTFWeaponInvis, DT_TFWeaponInvis )
 END_NETWORK_TABLE()
 
+#ifdef BDSBASE
+#if defined( CLIENT_DLL ) 
+BEGIN_PREDICTION_DATA(CTFWeaponInvis)
+	DEFINE_PRED_FIELD(m_flHideTime, FIELD_FLOAT, 0)
+END_PREDICTION_DATA()
+#endif
+#else
 BEGIN_PREDICTION_DATA( CTFWeaponInvis )
 END_PREDICTION_DATA()
+#endif
 
 LINK_ENTITY_TO_CLASS( tf_weapon_invis, CTFWeaponInvis );
 PRECACHE_WEAPON_REGISTER( tf_weapon_invis );
@@ -64,6 +72,25 @@ void CTFWeaponInvis::OnActiveStateChanged( int iOldState )
 	}
 }
 
+#ifdef BDSBASE
+void CTFWeaponInvis::HideThink(void)
+{
+	// This is now done in ItemPostFrame/ItemBusyFrame
+	// HideThink uses a context think, which is evaluated with predicted clock on client
+	// but relative to server (not the player's!) clock on the server
+	// SetWeaponVisible( false );
+}
+
+//-----------------------------------------------------------------------------
+void CTFWeaponInvis::CheckHideTime(void)
+{
+	if (m_flHideTime && m_flHideTime < gpGlobals->curtime)
+	{
+		SetWeaponVisible(false);
+		m_flHideTime = 0;
+	}
+}
+#else
 //-----------------------------------------------------------------------------
 // Purpose: Clear out the view model when we hide
 //-----------------------------------------------------------------------------
@@ -71,6 +98,7 @@ void CTFWeaponInvis::HideThink( void )
 { 
 	SetWeaponVisible( false );
 }
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -128,6 +156,20 @@ void CTFWeaponInvis::SetWeaponVisible( bool visible )
 	}
 }
 
+#ifdef BDSBASE
+bool CTFWeaponInvis::Deploy(void)
+{
+	bool bDeploy = BaseClass::Deploy();
+
+	if (bDeploy)
+	{
+		SetWeaponIdleTime(gpGlobals->curtime + 1.5);
+		m_flHideTime = 0;
+	}
+
+	return bDeploy;
+}
+#else
 //-----------------------------------------------------------------------------
 bool CTFWeaponInvis::Deploy( void )
 {
@@ -137,14 +179,24 @@ bool CTFWeaponInvis::Deploy( void )
 
 	return b;
 }
+#endif
 
 //-----------------------------------------------------------------------------
 bool CTFWeaponInvis::Holster( CBaseCombatWeapon *pSwitchingTo )
 { 
 	bool bHolster = BaseClass::Holster( pSwitchingTo );
 
+#ifdef BDSBASE
+	if (bHolster)
+	{
+		// far in the future
+		SetWeaponIdleTime(gpGlobals->curtime + 10);
+		m_flHideTime = gpGlobals->curtime + SequenceDuration();
+	}
+#else
 	// far in the future
 	SetWeaponIdleTime( gpGlobals->curtime + 10 );
+#endif
 
 	return bHolster;
 }
@@ -161,10 +213,22 @@ void CTFWeaponInvis::SecondaryAttack( void )
 	// do nothing
 }
 
+#ifdef BDSBASE
+//-----------------------------------------------------------------------------
+void CTFWeaponInvis::ItemPostFrame(void)
+{
+	CheckHideTime();
+	BaseClass::ItemPostFrame();
+}
+#endif
+
 //-----------------------------------------------------------------------------
 void CTFWeaponInvis::ItemBusyFrame( void )
 {
-	// do nothing
+#ifdef BDSBASE
+	CheckHideTime();
+	// intentionally don't call base
+#endif
 }
 
 //-----------------------------------------------------------------------------

@@ -4196,6 +4196,7 @@ IMPLEMENT_CLIENTCLASS_DT( C_TFPlayer, DT_TFPlayer, CTFPlayer )
 	RecvPropBool( RECVINFO( m_bViewingCYOAPDA ) ),
 	RecvPropBool( RECVINFO( m_bRegenerating ) ),
 #ifdef BDSBASE
+	RecvPropEHandle(RECVINFO(m_hOffHandWeapon)),
 	RecvPropInt(RECVINFO(m_nRestrictAchievements)),
 	RecvPropInt(RECVINFO(m_nRestrictQuests)),
 #endif
