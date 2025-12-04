@@ -1569,7 +1569,11 @@ void CBaseAnimating::GetBoneTransform( int iBone, matrix3x4_t &pBoneToWorld )
 		return;
 	}
 
+#ifdef BDSBASE
+	CBoneCache* pcache = GetBoneCache(pStudioHdr);
+#else
 	CBoneCache *pcache = GetBoneCache( );
+#endif
 
 	matrix3x4_t *pmatrix = pcache->GetCachedBone( iBone );
 
@@ -1954,6 +1958,35 @@ void CBaseAnimating::SetupBones( matrix3x4_t *pBoneToWorld, int boneMask )
 	CBaseAnimating *pParent = dynamic_cast< CBaseAnimating* >( GetMoveParent() );
 	if ( pParent )
 	{
+#ifdef BDSBASE
+		// We're doing bone merging, so do special stuff here.
+		CStudioHdr* pParentHdr = pParent->GetModelPtr();
+		if (pParentHdr)
+		{
+			// We're doing bone merging, so do special stuff here.
+			CBoneCache* pParentCache = pParent->GetBoneCache(pParentHdr);
+			if (pParentCache)
+			{
+				DrawRawSkeleton(pBoneToWorld, boneMask, true, 0.11);
+				BuildMatricesWithBoneMerge(
+					pStudioHdr,
+					GetAbsAngles(),
+					adjOrigin,
+					pos,
+					q,
+					pBoneToWorld,
+					pParent,
+					pParentCache);
+
+				RemoveEFlags(EFL_SETTING_UP_BONES);
+				if (ai_setupbones_debug.GetBool())
+				{
+					DrawRawSkeleton(pBoneToWorld, boneMask, true, 0.11);
+				}
+				return;
+			}
+		}
+#else
 		// We're doing bone merging, so do special stuff here.
 		CBoneCache *pParentCache = pParent->GetBoneCache();
 		if ( pParentCache )
@@ -1975,6 +2008,7 @@ void CBaseAnimating::SetupBones( matrix3x4_t *pBoneToWorld, int boneMask )
 			}
 			return;
 		}
+#endif
 	}
 
 	Studio_BuildMatrices( 
@@ -2760,9 +2794,15 @@ void CBaseAnimating::UnlockStudioHdr()
 // Purpose: return the index to the shared bone cache
 // Output :
 //-----------------------------------------------------------------------------
+#ifdef BDSBASE
+CBoneCache* CBaseAnimating::GetBoneCache(CStudioHdr* pStudioHdr)
+#else
 CBoneCache *CBaseAnimating::GetBoneCache( void )
+#endif
 {
+#ifndef BDSBASE
 	CStudioHdr *pStudioHdr = GetModelPtr( );
+#endif
 	Assert(pStudioHdr);
 
 	CBoneCache *pcache = Studio_GetBoneCache( m_boneCacheHandle );
@@ -2859,7 +2899,11 @@ bool CBaseAnimating::TestHitboxes( const Ray_t &ray, unsigned int fContentsMask,
 	if ( !set || !set->numhitboxes )
 		return false;
 
+#ifdef BDSBASE
+	CBoneCache* pcache = GetBoneCache(pStudioHdr);
+#else
 	CBoneCache *pcache = GetBoneCache( );
+#endif
 
 	matrix3x4_t *hitboxbones[MAXSTUDIOBONES];
 	pcache->ReadCachedBonePointers( hitboxbones, pStudioHdr->numbones() );
@@ -3270,7 +3314,11 @@ bool CBaseAnimating::ComputeHitboxSurroundingBox( Vector *pVecWorldMins, Vector 
 	if ( !set || !set->numhitboxes )
 		return false;
 
+#ifdef BDSBASE
+	CBoneCache* pCache = GetBoneCache(pStudioHdr);
+#else
 	CBoneCache *pCache = GetBoneCache();
+#endif
 
 	// Compute a box in world space that surrounds this entity
 	pVecWorldMins->Init( FLT_MAX, FLT_MAX, FLT_MAX );
@@ -3310,7 +3358,11 @@ bool CBaseAnimating::ComputeEntitySpaceHitboxSurroundingBox( Vector *pVecWorldMi
 	if ( !set || !set->numhitboxes )
 		return false;
 
+#ifdef BDSBASE
+	CBoneCache* pCache = GetBoneCache(pStudioHdr);
+#else
 	CBoneCache *pCache = GetBoneCache();
+#endif
 	matrix3x4_t *hitboxbones[MAXSTUDIOBONES];
 	pCache->ReadCachedBonePointers( hitboxbones, pStudioHdr->numbones() );
 
