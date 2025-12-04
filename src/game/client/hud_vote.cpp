@@ -1513,8 +1513,25 @@ void CHudVote::MsgFunc_VoteStart( bf_read &msg )
 	char szParam1[k_MAX_VOTE_NAME_LENGTH] = { 0 };
 	msg.ReadString( szParam1, sizeof(szParam1) );
 
+#ifdef BDSBASE
+	pVotePanel->m_bIsYesNoVote = msg.ReadOneBit();
+#else
 	pVotePanel->m_bIsYesNoVote = msg.ReadByte();
+#endif
 	int iTargetEntIndex = msg.ReadByte();
+
+#ifdef BDSBASE
+	// Duration of the vote
+	// Only set this if it exists, compatibility for plugins that don't send it
+	float flDuration = 0.f;
+	if (msg.GetNumBytesLeft())
+	{
+		flDuration = msg.ReadFloat();
+	}
+
+	pVotePanel->m_flStartTime = gpGlobals->curtime;
+	pVotePanel->m_flEndTime = gpGlobals->curtime + flDuration;
+#endif
 
 	pVotePanel->m_flHideTime = -1.f;
 	pVotePanel->m_flVoteResultCycleTime = -1.f;
@@ -1545,6 +1562,10 @@ void CHudVote::MsgFunc_VoteStart( bf_read &msg )
 	pVotePanel->m_pVoteActive->SetControlVisible( "Option2CountLabel", pVotePanel->m_bIsYesNoVote );
 	pVotePanel->m_pVoteActive->SetControlVisible( "Divider1", pVotePanel->m_bIsYesNoVote );
 	pVotePanel->m_pVoteActive->SetControlVisible( "Divider2", pVotePanel->m_bIsYesNoVote );
+
+#ifdef BDSBASE
+	pVotePanel->m_pVoteActive->SetControlVisible("TimeRemainingProgressBar", !!flDuration);
+#endif
 
 	// Display vote caller's name
 	wchar_t wszCallerName[MAX_PLAYER_NAME_LENGTH];
@@ -2011,6 +2032,14 @@ void CHudVotePanel::ApplySchemeSettings( vgui::IScheme *pScheme )
 
 	LoadControlSettings( "Resource/UI/VoteHud.res" );
 
+#ifdef BDSBASE
+	m_pTimerProgressBar = FindControl< CircularProgressBar >("TimeRemainingProgressBar", true);
+	if (m_pTimerProgressBar)
+	{
+		m_pTimerProgressBar->SetProgressDirection(CircularProgressBar::PROGRESS_CCW);
+	}
+#endif
+
 	m_pVoteActiveIssueLabel->GetPos( m_nVoteActiveIssueLabelX, m_nVoteActiveIssueLabelY );
 }
 
@@ -2029,6 +2058,11 @@ void CHudVotePanel::Init( void )
 	m_iVoteCallerIdx = -1;
 	m_nVoteTeamIndex = 0;
 	m_nVoteIdx = -1;
+
+#ifdef BDSBASE
+	m_flStartTime = 0;
+	m_flEndTime = 0;
+#endif
 
 	ListenForGameEvent( "vote_changed" );
 	ListenForGameEvent( "vote_options" );
@@ -2206,6 +2240,13 @@ void CHudVotePanel::OnThink()
 				pLocalPlayer->EmitSound("Vote.Created");
 			}
 		}
+
+#ifdef BDSBASE
+		if (m_pTimerProgressBar && m_pTimerProgressBar->IsVisible())
+		{
+			m_pTimerProgressBar->SetProgress(1.0f - ((gpGlobals->curtime - m_flStartTime) / (m_flEndTime - m_flStartTime)));
+		}
+#endif
 	}
 
 	bool bFirst = IsFirst();

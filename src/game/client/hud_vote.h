@@ -18,6 +18,9 @@
 #include <vgui_controls/Button.h>
 #include <networkstringtabledefs.h>
 #include "vgui_avatarimage.h"
+#ifdef BDSBASE
+#include <vgui_controls/CircularProgressBar.h>
+#endif
 
 extern INetworkStringTable *g_pStringTableServerMapCycle;
 
@@ -167,6 +170,9 @@ protected:
 	EditablePanel		*m_pVoteFailed;
 	EditablePanel		*m_pVotePassed;
 	EditablePanel		*m_pCallVoteFailed;
+#ifdef BDSBASE
+	vgui::CircularProgressBar* m_pTimerProgressBar;
+#endif
 
 	CUtlStringList		m_VoteSetupChoices;
 
@@ -189,6 +195,10 @@ protected:
 	int					m_iVoteCallerIdx;
 	int					m_nVoteTeamIndex;			// If defined, only players on this team will see/vote on the issue
 	int					m_nVoteIdx;
+#ifdef BDSBASE
+	float				m_flStartTime;
+	float				m_flEndTime;
+#endif
 
 	friend CHudVote;
 };
