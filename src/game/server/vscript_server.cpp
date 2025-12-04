@@ -2343,6 +2343,29 @@ static int Script_GetFrameCount( void )
 	return gpGlobals->framecount;
 }
 
+#ifdef BDSBASE
+static void DoClientPrintEx(HSCRIPT hPlayer, int iDest, const char* pText, const char* pTextParam1 = (const char*)0, const char* pTextParam2 = (const char*)0, const char* pTextParam3 = (const char*)0, const char* pTextParam4 = (const char*)0)
+{
+	CBaseEntity* pBaseEntity = ToEnt(hPlayer);
+	if (pBaseEntity)
+	{
+		CBasePlayer* pPlayer = dynamic_cast<CBasePlayer*>(pBaseEntity);
+		if (pPlayer)
+		{
+			ClientPrint(pPlayer, iDest, pText, pTextParam1, pTextParam2, pTextParam3, pTextParam4);
+		}
+	}
+	else
+	{
+		UTIL_ClientPrintAll(iDest, pText, pTextParam1, pTextParam2, pTextParam3, pTextParam4);
+	}
+}
+
+static void Script_ClientPrint(HSCRIPT hPlayer, int iDest, const char* pText)
+{
+	DoClientPrintEx(hPlayer, iDest, pText);
+}
+#else
 static void Script_ClientPrint( HSCRIPT hPlayer, int iDest, const char *pText )
 {
 	CBaseEntity *pBaseEntity = ToEnt( hPlayer );
@@ -2359,6 +2382,7 @@ static void Script_ClientPrint( HSCRIPT hPlayer, int iDest, const char *pText )
 		UTIL_ClientPrintAll( iDest, pText );
 	}
 }
+#endif
 
 static void ScriptEmitAmbientSoundOn( const char *soundname, float volume, int soundlevel, int pitch, HSCRIPT entity )
 {
@@ -3018,6 +3042,9 @@ bool VScriptServerInit()
 				ScriptRegisterFunctionNamed( g_pScriptVM, Script_GetFrameCount, "GetFrameCount", "Returns the engines current frame count" );
 
 				ScriptRegisterFunctionNamed( g_pScriptVM, Script_ClientPrint, "ClientPrint", "Print a client message" );
+#ifdef BDSBASE
+				ScriptRegisterFunctionNamed( g_pScriptVM, DoClientPrintEx, "ClientPrintEx", "Print a client message with extra format parameters" );
+#endif
 				ScriptRegisterFunctionNamed( g_pScriptVM, ScriptEmitAmbientSoundOn, "EmitAmbientSoundOn", "Play named ambient sound on an entity." );
 				ScriptRegisterFunctionNamed( g_pScriptVM, ScriptStopAmbientSoundOn, "StopAmbientSoundOn", "Stop named ambient sound on an entity." );
 				ScriptRegisterFunctionNamed( g_pScriptVM, Script_SetFakeClientConVarValue, "SetFakeClientConVarValue", "Sets a USERINFO client ConVar for a fakeclient" );
