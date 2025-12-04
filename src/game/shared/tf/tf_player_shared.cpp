@@ -1489,7 +1489,15 @@ void CTFPlayerShared::OnPreDataChanged( void )
 	m_nOldDisguiseTeam = GetDisguiseTeam();
 	m_iOldMovementStunParity = m_iMovementStunParity;
 
+#ifdef BDSBASE
+	// Local player will run this in PreThink
+	if (!prediction->InPrediction())
+	{
+		SharedThink();
+	}
+#else
 	SharedThink();
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -1552,7 +1560,15 @@ void CTFPlayerShared::OnDataChanged( void )
 		GetActiveTFWeapon()->SetWeaponVisible( false );
 	}
 
+#ifdef BDSBASE
+	// Local player will run this in PreThink
+	if (!prediction->InPrediction())
+	{
+		InvisibilityThink();
+	}
+#else
 	InvisibilityThink();
+#endif
 }
 
 //-----------------------------------------------------------------------------

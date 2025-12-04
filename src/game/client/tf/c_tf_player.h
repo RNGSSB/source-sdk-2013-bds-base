@@ -117,7 +117,13 @@ public:
 
 	void    StopViewModelParticles( C_BaseEntity *pParticleEnt );
 
+#ifdef BDSBASE
+	virtual void PreThink(void);
+#endif
 	virtual void ClientThink();
+#ifdef BDSBASE
+	void	UpdateTimers();
+#endif
 
 	// Deal with recording
 	virtual void GetToolRecordingState( KeyValues *msg );
