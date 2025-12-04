@@ -1520,7 +1520,11 @@ bool CTFPlayerAnimState::HandleJumping( Activity &idealActivity )
 		else if ( ( GetBasePlayer()->GetFlags() & FL_ONGROUND ) == 0 )
 		{
 			// In an air walk.
+#ifdef BDSBASE
+			if (m_pTFPlayer->m_Local.m_flFallVelocity > PLAYER_MAX_SAFE_FALL_SPEED && m_pTFPlayer->m_Shared.CanFallStomp() && !(SelectWeightedSequence(TranslateActivity(ACT_MP_FALLING_STOMP)) < 0))
+#else
 			if ( m_pTFPlayer->m_Local.m_flFallVelocity > PLAYER_MAX_SAFE_FALL_SPEED && m_pTFPlayer->m_Shared.CanFallStomp() )
+#endif
 			{
 				idealActivity = ACT_MP_FALLING_STOMP;
 			}
