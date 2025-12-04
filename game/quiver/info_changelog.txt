@@ -30,6 +30,9 @@ Added the following Source SDK Pull Requests:
 	- #1635: Add SetTarget input to tf_glow to allow an easy way to change its glow target at runtime
 	- #1636: Allow custom HUDs to show ubercharge numeric amount correctly for the Vaccinator
 	- #1640: Fix for mismatched cl_flipviewmodels values between client and server 
+	- #1576: Fix crash if bonemerging to a pending model
+	- #1588: Make robot engineers properly remove sappers
+	- #1599: Updated Weapon Extra Wearables and Body Groups to be compatible with disguises
 
 Removed the following Source SDK Pull Requests:
 Details:
