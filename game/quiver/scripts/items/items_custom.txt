@@ -769,87 +769,6 @@
 			"drop_sound"		"ui/item_metal_weapon_drop.wav"
 		}
 		
-		"weapon_quiver_clusterbuster"
-		{
-			"enabled"	"1"
-			"prefab"		"quiver_customweapon_staging"
-			"item_class"	"tf_weapon_rocketlauncher"
-			"craft_class"	"weapon"
-			"craft_material_type"	"weapon"
-			"capabilities"
-			{
-				"nameable"		"1"
-			}
-			"tags"
-			{
-				"can_deal_damage"		"1"
-				"can_deal_gib_damage"	"1"
-				"can_be_equipped_by_soldier_or_demo"	"1"
-				"can_deal_posthumous_damage"	"1"
-				"can_deal_critical_damage"	"1"
-				"can_deal_long_distance_damage"	"1"
-			}
-			"base_item_name"	"Cluster Buster"
-			"item_logname"		"cluster_buster"
-			"item_iconname"		"tf_projectile_rocket"
-			"show_in_armory"	"1"
-			"item_type_name"	"#TF_Weapon_RocketLauncher"
-			"item_name"	"#Quiver_ClusterBuster"
-			"item_description"	"#Quiver_Inspired_TF2I"
-			"item_slot"	"primary"
-			"image_inventory"	"backpack/weapons/w_models/w_rocketlauncher"
-			"image_inventory_size_w"		"128"
-			"image_inventory_size_h"		"82"
-			"model_player"	"models/weapons/c_models/c_rocketlauncher/c_rocketlauncher.mdl"
-			"attach_to_hands" "1"
-			"inspect_panel_dist" "68"
-			"used_by_classes"
-			{
-				"soldier"	"1"
-			}
-			"visuals_mvm_boss"
-			{
-				"sound_single_shot"	"MVM.GiantSoldierRocketShoot"
-				"sound_burst"		"MVM.GiantSoldierRocketShootCrit"
-				"sound_special1"	"MVM.GiantSoldierRocketExplode"
-			}
-			"static_attrs"
-			{
-				"weapon_stattrak_module_scale"			"1"
-				"min_viewmodel_offset"					"10 -3 -10"
-			}
-			"attributes"
-			{
-				"cluster desc"
-				{
-					"attribute_class"	"override_projectile_type"
-					"value"				"31" 
-				}
-				"disable fancy class select anim"
-				{
-					"attribute_class"	"disable_fancy_class_select_anim"
-					"value"				"1"
-				}
-				"fire rate penalty"
-				{
-					"attribute_class"	"mult_postfiredelay"
-					"value"				"1.4"
-				}
-				"clip size penalty"
-				{
-					"attribute_class"	"mult_clipsize"
-					"value" 			"0.5"
-				}
-			}
-			"visuals"
-			{
-				"sound_special3"	"Weapon_ClusterBuster.Separate"
-			}
-			"mouse_pressed_sound"	"ui/item_heavy_gun_pickup.wav"
-			"drop_sound"		"ui/item_heavy_gun_drop.wav"
-			"particle_suffix"		"rocketlauncher"
-		}
-		
 		"armor"
 		{
 			"prefab"		"misc"
@@ -898,6 +817,81 @@
 			}
 			"mouse_pressed_sound"	"ui/item_hat_pickup.wav"
 			"drop_sound"		"ui/item_hat_drop.wav"
+		}
+		
+		"quiver_weapon_autopistol"
+		{
+			"base_item_name" "Auto Pistol"
+			"prefab"		"quiver_customweapon_staging"
+			"capabilities"
+			{
+				"nameable"		"1"
+				"can_craft_count"	"1"
+			}
+			"tags"
+			{
+				"can_deal_damage"			"1"
+				"can_deal_critical_damage"	"1"
+				"can_deal_mvm_penetration_damage"	"1"
+				"can_deal_long_distance_damage"	"1"
+			}
+			"item_class"	"tf_weapon_pistol"
+			"craft_class"	"weapon"
+			"craft_material_type"	"weapon"
+			"item_type_name"	"#TF_Weapon_Pistol"
+			"item_name"	"#Quiver_AutoPistol"
+			"item_slot"	"secondary"
+			"show_in_armory"	"1"
+			"attach_to_hands"	"1"
+			"image_inventory"	"backpack/weapons/c_models/c_pistol"
+			"model_player"	"models/weapons/c_models/c_pistol/c_pistol.mdl"
+			"capabilities"
+			{
+				"can_collect" "1"
+			}
+			"used_by_classes"
+			{
+				"scout"	"1"
+			}
+			"static_attrs"
+			{
+				"min_viewmodel_offset"					"10 0 -10"
+			}
+			"attributes"
+			{
+				"fire rate bonus"
+				{
+					"attribute_class"	"mult_postfiredelay"
+					"value" "0.55"
+				}
+				"clip size bonus"
+				{
+					"attribute_class"	"mult_clipsize"
+					"value" "2"
+				}
+				"maxammo secondary increased"
+				{
+					"attribute_class"	"mult_maxammo_secondary"
+					"value"	"3"
+				}
+				"damage penalty"
+				{
+					"attribute_class"	"mult_dmg"
+					"value" "0.85"
+				}
+				"spread penalty"
+				{
+					"attribute_class" 	"mult_spread_scale"
+					"value" "1.35"
+				}
+				"armor damage reduced on target"
+				{
+					"attribute_class"	"mult_armor_onhit"
+					"value"				"0.85"
+				}
+			}
+			"mouse_pressed_sound"	"ui/item_light_gun_pickup.wav"
+			"drop_sound"		"ui/item_light_gun_drop.wav"
 		}
 	}
 
@@ -967,185 +961,19 @@
 		}
 		"34407"
 		{
-			"name"		"tw_demobot_armor armor version"
-			"prefab"		"no_craft misc"
-			"show_in_armory"		"0"
-			"item_type_name"		"#TF_Wearable_Armor"
-			"item_name"		"#TF_tw_demobot_armor"
-			"item_description"		"#TF_tw_demobot_armor_Desc"
-			"equip_region"		"shirt"
-			"image_inventory"		"backpack/workshop/player/items/demo/tw_demobot_armor/tw_demobot_armor"
-			"model_player"		"models/workshop/player/items/demo/tw_demobot_armor/tw_demobot_armor.mdl"
-			"used_by_classes"
-			{
-				"demoman"		"1"
-			}
-		}
-		"34408"
-		{
-			"name"		"tw_engineerbot_armor armor version"
-			"prefab"		"no_craft misc"
-			"show_in_armory"		"0"
-			"item_type_name"		"#TF_Wearable_Armor"
-			"item_name"		"#TF_tw_engineerbot_armor"
-			"item_description"		"#TF_tw_engineerbot_armor_Desc"
-			"equip_region"		"shirt"
-			"image_inventory"		"backpack/workshop/player/items/engineer/tw_engineerbot_armor/tw_engineerbot_armor"
-			"model_player"		"models/workshop/player/items/engineer/tw_engineerbot_armor/tw_engineerbot_armor.mdl"
-			"used_by_classes"
-			{
-				"engineer"		"1"
-			}
-		}
-		"34409"
-		{
-			"name"		"tw_heavybot_armor armor version"
-			"prefab"		"no_craft misc"
-			"show_in_armory"		"0"
-			"item_type_name"		"#TF_Wearable_Armor"
-			"item_name"		"#TF_tw_heavybot_armor"
-			"item_description"		"#TF_tw_heavybot_armor_Desc"
-			"equip_region"		"shirt"
-			"image_inventory"		"backpack/workshop/player/items/heavy/tw_heavybot_armor/tw_heavybot_armor"
-			"model_player"		"models/workshop/player/items/heavy/tw_heavybot_armor/tw_heavybot_armor.mdl"
-			"used_by_classes"
-			{
-				"heavy"		"1"
-			}
-		}
-		"34410"
-		{
-			"name"		"tw_medibot_chariot armor version"
-			"prefab"		"no_craft misc"
-			"show_in_armory"		"0"
-			"item_type_name"		"#TF_Wearable_Armor"
-			"item_name"		"#TF_tw_medibot_chariot"
-			"item_description"		"#TF_tw_medibot_chariot_Desc"
-			"equip_region"		"feet"
-			"image_inventory"		"backpack/workshop/player/items/medic/tw_medibot_chariot/tw_medibot_chariot"
-			"model_player"		"models/workshop/player/items/medic/tw_medibot_chariot/tw_medibot_chariot.mdl"
-			"used_by_classes"
-			{
-				"medic"		"1"
-			}
-		}
-		"34411"
-		{
-			"name"		"tw_pyrobot_armor armor version"
-			"prefab"		"no_craft misc"
-			"show_in_armory"		"0"
-			"item_type_name"		"#TF_Wearable_Armor"
-			"item_name"		"#TF_tw_pyrobot_armor"
-			"item_description"		"#TF_tw_pyrobot_armor_Desc"
-			"equip_region"		"shirt"
-			"image_inventory"		"backpack/workshop/player/items/pyro/tw_pyrobot_armor/tw_pyrobot_armor"
-			"model_player"		"models/workshop/player/items/pyro/tw_pyrobot_armor/tw_pyrobot_armor.mdl"
-			"used_by_classes"
-			{
-				"pyro"		"1"
-			}
-		}
-		"34412"
-		{
-			"name"		"tw_scoutbot_armor armor version"
-			"prefab"		"no_craft misc"
-			"show_in_armory"		"0"
-			"item_type_name"		"#TF_Wearable_Armor"
-			"item_name"		"#TF_tw_scoutbot_armor"
-			"item_description"		"#TF_tw_scoutbot_armor_Desc"
-			"equip_region"		"shirt"
-			"image_inventory"		"backpack/workshop/player/items/scout/tw_scoutbot_armor/tw_scoutbot_armor"
-			"model_player"		"models/workshop/player/items/scout/tw_scoutbot_armor/tw_scoutbot_armor.mdl"
-			"used_by_classes"
-			{
-				"scout"		"1"
-			}
-		}
-		"34413"
-		{
-			"name"		"tw_sniperbot_armor armor version"
-			"prefab"		"no_craft misc"
-			"show_in_armory"		"0"
-			"item_type_name"		"#TF_Wearable_Armor"
-			"item_name"		"#TF_tw_sniperbot_armor"
-			"item_description"		"#TF_tw_sniperbot_armor_Desc"
-			"equip_region"		"shirt"
-			"image_inventory"		"backpack/workshop/player/items/sniper/tw_sniperbot_armor/tw_sniperbot_armor"
-			"model_player"		"models/workshop/player/items/sniper/tw_sniperbot_armor/tw_sniperbot_armor.mdl"
-			"used_by_classes"
-			{
-				"sniper"		"1"
-			}
-		}
-		"34414"
-		{
-			"name"		"tw_soldierbot_armor armor version"
-			"prefab"		"no_craft misc"
-			"show_in_armory"		"0"
-			"item_type_name"		"#TF_Wearable_Armor"
-			"item_name"		"#TF_tw_soldierbot_armor"
-			"item_description"		"#TF_tw_soldierbot_armor_Desc"
-			"equip_region"		"shirt"
-			"image_inventory"		"backpack/workshop/player/items/soldier/tw_soldierbot_armor/tw_soldierbot_armor"
-			"model_player"		"models/workshop/player/items/soldier/tw_soldierbot_armor/tw_soldierbot_armor.mdl"
-			"used_by_classes"
-			{
-				"soldier"		"1"
-			}
-		}
-		"34415"
-		{
-			"name"		"tw_spybot_armor armor version"
-			"prefab"		"no_craft misc"
-			"show_in_armory"		"0"
-			"item_type_name"		"#TF_Wearable_Armor"
-			"item_name"		"#TF_tw_spybot_armor"
-			"item_description"		"#TF_tw_spybot_armor_Desc"
-			"equip_region"		"shirt"
-			"image_inventory"		"backpack/workshop/player/items/spy/tw_spybot_armor/tw_spybot_armor"
-			"model_player"		"models/workshop/player/items/spy/tw_spybot_armor/tw_spybot_armor.mdl"
-			"used_by_classes"
-			{
-				"spy"		"1"
-			}
-		}
-		"34416"
-		{
-			"name"		"tw_sentrybuster armor version"
-			"prefab"		"no_craft misc"
-			"show_in_armory"		"0"
-			"item_name"		"#TF_tw_sentrybuster"
-			"item_description"		"#TF_tw_sentrybuster_Desc"
-			"equip_region"		"shirt"
-			"image_inventory"		"backpack/workshop/player/items/demo/tw_sentrybuster/tw_sentrybuster"
-			"model_player"		"models/workshop/player/items/demo/tw_sentrybuster/tw_sentrybuster.mdl"
-			"used_by_classes"
-			{
-				"demoman"		"1"
-			}
-		}
-		"34417"
-		{
 			"name"		"Afterburner"
 			"prefab"	"weapon_quiver_afterburner"
 			"first_sale_date"	"2010/09/29"
 			"xifier_class_remap"	"weapon_quiver_afterburner"
 		}
-		"34418"
+		"34408"
 		{
 			"name"		"Syringe"
 			"prefab"	"weapon_quiver_syringe"
 			"first_sale_date"	"2010/09/29"
 			"xifier_class_remap"	"weapon_quiver_syringe"
 		}
-		"34419"
-		{
-			"name"		"Cluster Buster"
-			"prefab"	"weapon_quiver_clusterbuster"
-			"first_sale_date"	"2010/09/29"
-			"xifier_class_remap"	"weapon_quiver_clusterbuster"
-		}
-		"34420"
+		"34409"
 		{
 			"name"		"Armor"
 			"prefab"	"armor"
@@ -1166,7 +994,7 @@
 				}
 			}
 		}
-		"34421"
+		"34410"
 		{
 			"name"		"Robot Armor"
 			"item_name"	"#QF_Robot_Armor"
@@ -1187,6 +1015,13 @@
 					}
 				}
 			}
+		}
+		"34411"
+		{
+			"name"		"Auto Pistol"
+			"prefab"	"quiver_weapon_autopistol"
+			"first_sale_date"	"2010/09/29"
+			"xifier_class_remap"	"quiver_weapon_autopistol"
 		}
 	}
 	
