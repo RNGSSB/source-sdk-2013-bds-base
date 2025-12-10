@@ -38,7 +38,7 @@ Added the following Source SDK Pull Requests:
 	- #1606: Fix cloak and rage meters being mispredicted
 	- #1608: Fix prediction issues with Spy watches and cloak
 	- #1611: Fix players going into the reference pose when stomping
-	- 
+	- #1697: Fix regressions caused by recent Caber explosion change
 
 Removed the following Source SDK Pull Requests:
 Details:
