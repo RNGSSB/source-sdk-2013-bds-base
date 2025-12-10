@@ -12638,7 +12638,11 @@ void CTFPlayer::Event_KilledOther( CBaseEntity *pVictim, const CTakeDamageInfo &
 					flRefill *= 0.2;
 				}
 
+#ifdef BDSBASE
 				if ( flRefill > 0 && ( ( info.GetDamageType() & DMG_MELEE ) || ( info.GetDamageCustom() == TF_DMG_CUSTOM_STICKBOMB_EXPLOSION ) || ( info.GetDamageCustom() == TF_DMG_CUSTOM_CHARGE_IMPACT ) ) )
+#else
+				if ( flRefill > 0 && ((info.GetDamageType() & DMG_MELEE) || ( info.GetDamageCustom() == TF_DMG_CUSTOM_CHARGE_IMPACT ) ) )
+#endif
 				{
 					m_Shared.SetDemomanChargeMeter( m_Shared.GetDemomanChargeMeter() + flRefill * 100.0f );
 				}
