@@ -287,7 +287,7 @@ void CTFStickBomb::Detonate(bool bTaunting)
 
 			TE_TFExplosion(filter, 0.0f, explosion, Vector(0, 0, 1), TF_WEAPON_GRENADELAUNCHER, pTFPlayer->entindex(), -1, SPECIAL1, iCustomParticleIndex);
 
-			int dmgType = DMG_BLAST | DMG_USEDISTANCEMOD | DMG_MELEE;
+			int dmgType = DMG_BLAST | DMG_USEDISTANCEMOD;
 			if (IsCurrentAttackACrit())
 				dmgType |= DMG_CRITICAL;
 			else if (m_bMiniCrit)
