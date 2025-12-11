@@ -379,6 +379,9 @@ void CServerFinderDialog::JoinServer(gameserveritem_t& server)
 
 void CServerFinderDialog::OnSearchFailure()
 {
+	ConVar* pPassword = cvar->FindVar("sv_password");
+	pPassword->SetValue("");
+
 	char szMapCommand[1024];
 	// create the command to execute
 #if defined(TF_CLIENT_DLL)
