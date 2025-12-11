@@ -288,10 +288,16 @@ void CTFStickBomb::Detonate(bool bTaunting)
 			TE_TFExplosion(filter, 0.0f, explosion, Vector(0, 0, 1), TF_WEAPON_GRENADELAUNCHER, pTFPlayer->entindex(), -1, SPECIAL1, iCustomParticleIndex);
 
 			int dmgType = DMG_BLAST | DMG_USEDISTANCEMOD;
+
 			if (IsCurrentAttackACrit())
+			{
+				// TODO: Not removing the old critical path yet, but the new custom damage is marking criticals as well for melee now.
 				dmgType |= DMG_CRITICAL;
+			}
 			else if (m_bMiniCrit)
-				dmgType |= DMG_RADIUS_MAX;
+			{
+				dmgType |= DMG_RADIUS_MAX; // Unused for melee, indicates this should be a minicrit.
+			}
 
 			float flDamage = GetBlastDamage(&dmgType);
 
