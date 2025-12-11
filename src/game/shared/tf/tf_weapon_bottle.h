@@ -102,6 +102,13 @@ public:
 	virtual void		WeaponRegenerate( void ) OVERRIDE;
 	virtual void		SwitchBodyGroups( void ) OVERRIDE;
 	virtual const char*	GetWorldModel( void ) const OVERRIDE;
+
+#ifdef BDSBASE
+#ifdef GAME_DLL
+	virtual float		GetBlastDamage(int* iDamageType);
+#endif
+#endif
+
 #ifdef CLIENT_DLL
 	virtual int			GetWorldModelIndex( void ) OVERRIDE;
 #ifdef BDSBASE

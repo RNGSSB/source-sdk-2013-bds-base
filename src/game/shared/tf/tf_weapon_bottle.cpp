@@ -293,10 +293,8 @@ void CTFStickBomb::Detonate(bool bTaunting)
 			else if (m_bMiniCrit)
 				dmgType |= DMG_RADIUS_MAX;
 
-			float flDamage = TF_STICKBOMB_DAMAGE;
+			float flDamage = GetBlastDamage(&dmgType);
 
-			CALL_ATTRIB_HOOK_FLOAT(flDamage, mult_dmg_caber);
-			CALL_ATTRIB_HOOK_FLOAT(flDamage, mult_dmg);
 			// instantly kill the target if we're in a taunt.
 			if (bTaunting)
 			{
@@ -323,6 +321,60 @@ void CTFStickBomb::Detonate(bool bTaunting)
 #endif
 	}
 }
+
+//-----------------------------------------------------------------------------
+// Purpose: 
+// Output : float
+//-----------------------------------------------------------------------------
+#ifdef GAME_DLL
+float CTFStickBomb::GetBlastDamage(int* iDamageType)
+{
+	float flDamage = 75.0f;
+	CALL_ATTRIB_HOOK_FLOAT(flDamage, mult_dmg);
+
+	int iCritDoesNoDamage = 0;
+	CALL_ATTRIB_HOOK_INT(iCritDoesNoDamage, crit_does_no_damage);
+	if (iCritDoesNoDamage > 0)
+	{
+		if (IsCurrentAttackACrit())
+		{
+			return 0.0f;
+		}
+
+		if (iDamageType && *iDamageType & DMG_CRITICAL)
+		{
+			return 0.0f;
+		}
+	}
+
+	CTFPlayer* pPlayer = ToTFPlayer(GetPlayerOwner());
+	if (pPlayer)
+	{
+		float flHalfHealth = pPlayer->GetMaxHealth() * 0.5f;
+		if (pPlayer->GetHealth() < flHalfHealth)
+		{
+			CALL_ATTRIB_HOOK_FLOAT(flDamage, mult_dmg_bonus_while_half_dead);
+		}
+		else
+		{
+			CALL_ATTRIB_HOOK_FLOAT(flDamage, mult_dmg_penalty_while_half_alive);
+		}
+
+		// Some weapons change damage based on player's health
+		float flReducedHealthBonus = 1.0f;
+		CALL_ATTRIB_HOOK_FLOAT(flReducedHealthBonus, mult_dmg_with_reduced_health);
+		if (flReducedHealthBonus != 1.0f)
+		{
+			float flHealthFraction = clamp(pPlayer->HealthFraction(), 0.0f, 1.0f);
+			flReducedHealthBonus = Lerp(flHealthFraction, flReducedHealthBonus, 1.0f);
+
+			flDamage *= flReducedHealthBonus;
+		}
+	}
+
+	return flDamage;
+}
+#endif
 #endif
 
 void CTFStickBomb::Smack( void )
