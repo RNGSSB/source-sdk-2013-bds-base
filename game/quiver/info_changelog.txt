@@ -49,6 +49,7 @@ Details:
 	- Only weapons earned through achievements are loaned to players.
 - Added Quick Search: an easy way to find or create a Quiver Fortress match!
 - Replaced armor cosmetics with shields.
+- Fixed the Golden Frying Pan on bots not appearing gold.
 
 ---------------------------------------------------------------------------------------------
 
