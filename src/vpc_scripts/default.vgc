@@ -23,7 +23,8 @@ $Games
 	"TF"
     //BDS PROJECTS GO HERE
     "SURVIVOR2",
-	"QUIVER"
+	"QUIVER",
+	"FIREFIGHT_MP"
 }
 
 $Include "vpc_scripts\projects.vgc"
