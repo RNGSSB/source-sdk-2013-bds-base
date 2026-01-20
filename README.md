@@ -9,7 +9,7 @@ This base is specific to multiplayer mod projects.
 
 ## Projects using this base:
 - SURVIVOR II (Based on HL2DM, Active Development)
-- Quiver Fortress (Based on TF2, Active Development)
+- Quiver Fortress (Based on TF2, Shelved)
 
 ## Features:
 - Restored game project generator scripts. No more having to generate every project!
