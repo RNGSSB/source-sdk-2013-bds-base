@@ -76,6 +76,11 @@
 #include "netadr.h"
 #include "input.h"
 
+#ifdef BDSBASE
+// for rescue ranger
+#include "materialsystem/imaterialproxy.h"
+#endif
+
 #include "gcsdk/gcclientsdk.h"
 #include "econ_gcmessages.h"
 #include "rtime.h"
@@ -2725,6 +2730,25 @@ EXPOSE_INTERFACE( CProxyBenefactorLevel, IMaterialProxy, "BenefactorLevel" IMATE
 class CProxyBuildingRescueLevel : public CResultProxy
 {
 public:
+#ifdef BDSBASE
+	// Add this member (default to something safe)
+	float m_flScrollSpeed = -0.1f;
+
+	virtual bool Init(IMaterial* pMaterial, KeyValues* pKeyValues)
+	{
+		// Call base init first if needed
+		if (!CResultProxy::Init(pMaterial, pKeyValues))
+			return false;
+
+		// pKeyValues points to the { "screenScrollRate" "#" ... } subkey
+		if (pKeyValues)
+		{
+			m_flScrollSpeed = pKeyValues->GetFloat("screenScrollRate", -0.1f);  // fallback if missing
+		}
+
+		return true;
+	}
+#endif
 	void OnBind( void *pC_BaseEntity )
 	{
 		Assert( m_pResult );
@@ -2767,6 +2791,18 @@ public:
 
 		MatrixBuildTranslation( temp, center.x, center.y, 0.0f );
 		MatrixMultiply( temp, mat, mat );
+
+#ifdef BDSBASE
+		float flScrollSpeed = m_flScrollSpeed;
+
+		float scrollOffset = fmodf(gpGlobals->curtime * flScrollSpeed, 1.0f);
+		if (scrollOffset < 0.0f)
+			scrollOffset += 1.0f;  // [0,1) range for seamless loop
+
+		// Apply horizontal scroll AFTER the existing scale/center operations
+		MatrixBuildTranslation(temp, scrollOffset, 0.0f, 0.0f);
+		MatrixMultiply(temp, mat, mat);
+#endif
 
 		m_pResult->SetMatrixValue( mat );
 
