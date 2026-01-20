@@ -4183,6 +4183,20 @@ void CGameMovement::PlayerRoughLandingEffects( float fvol )
 	}
 }
 
+#ifdef BDSBASE
+//-----------------------------------------------------------------------------
+// Purpose: Reset interpolation when player duck state changes
+// Input  : direction - 
+//-----------------------------------------------------------------------------
+void CGameMovement::ResetDuckLatched()
+{
+#ifdef CLIENT_DLL
+	if (!player->InFirstPersonView())
+		player->ResetLatched();
+#endif
+}
+#endif
+
 //-----------------------------------------------------------------------------
 // Purpose: Use for ease-in, ease-out style interpolation (accel/decel)  Used by ducking code.
 // Input  : value - 
@@ -4315,9 +4329,13 @@ void CGameMovement::FinishUnDuck( void )
 
 	mv->SetAbsOrigin( newOrigin );
 
+#ifdef BDSBASE
+	ResetDuckLatched();
+#else
 #ifdef CLIENT_DLL
 	player->ResetLatched();
 #endif // CLIENT_DLL
+#endif
 
 	// Recategorize position since ducking can change origin
 	CategorizePosition();
@@ -4426,8 +4444,12 @@ void CGameMovement::FinishDuck( void )
    		VectorAdd( mv->GetAbsOrigin(), viewDelta, out );
 		mv->SetAbsOrigin( out );
 
+#ifdef BDSBASE
+		ResetDuckLatched();
+#else
 #ifdef CLIENT_DLL
 		player->ResetLatched();
+#endif
 #endif // CLIENT_DLL
 	}
 

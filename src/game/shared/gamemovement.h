@@ -232,6 +232,9 @@ protected:
 	void			FinishUnDuckJump( trace_t &trace );
 	void			SetDuckedEyeOffset( float duckFraction );
 	void			FixPlayerCrouchStuck( bool moveup );
+#ifdef BDSBASE
+	void			ResetDuckLatched();
+#endif
 
 	float			SplineFraction( float value, float scale );
 
