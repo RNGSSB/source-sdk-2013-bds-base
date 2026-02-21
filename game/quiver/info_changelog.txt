@@ -1,6 +1,4 @@
-Quiver Private Alpha 1.3.0:
-Whitelists:
-Blacklists:
+Quiver Private Alpha 1.3.0 (LAST UPDATE):
 Added the following Source SDK Pull Requests:
 	- #1565: Fix the Pumpkin Bombs Halloween spell missing an underwater version of it's rocket trail particle.
 	- #1572: Fix TFBot crash related to moving control points
@@ -40,7 +38,6 @@ Added the following Source SDK Pull Requests:
 	- #1611: Fix players going into the reference pose when stomping
 	- #1697: Fix regressions caused by recent Caber explosion change
 
-Removed the following Source SDK Pull Requests:
 Details:
 - Enabled ladders.
 - Added a listen server setting for bunny-hopping.
