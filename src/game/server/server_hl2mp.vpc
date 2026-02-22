@@ -22,6 +22,7 @@ $Configuration
 		$PreprocessorDefinitions		"$BASE;BDSBASE_ACHIEVEMENT_NOTIFICATIONS" [$BDSBASE]
 		$PreprocessorDefinitions		"$BASE;BDSBASE_DISCORD" [$BDSBASE]
 		//$PreprocessorDefinitions		"$BASE;BDSBASE_NPC" [$BDSBASE]
+		//$PreprocessorDefinitions		"$BASE;BDSBASE_ALLOW_C_ARMS" [$BDSBASE]
 	}
 }
 

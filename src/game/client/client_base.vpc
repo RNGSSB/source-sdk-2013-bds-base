@@ -258,6 +258,7 @@ $Project
 		$File	"gametrace_client.cpp"
 		$File	"$SRCDIR\game\shared\gamevars_shared.cpp"
 		$File	"$SRCDIR\common\gifhelper.cpp" [$BDSBASE]
+		$File	"$SRCDIR\game\shared\handviewmodel_shared.cpp" [$BDSBASE]
 		$File	"glow_outline_effect.cpp"
 		$File	"glow_overlay.cpp"
 		$File	"$SRCDIR\game\shared\hintmessage.cpp"

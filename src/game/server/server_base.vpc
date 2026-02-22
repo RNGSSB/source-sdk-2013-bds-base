@@ -434,6 +434,7 @@ $Project
 		$File	"$SRCDIR\game\shared\interval.h"
 		$File	"$SRCDIR\public\iregistry.h"
 		$File	"$SRCDIR\game\shared\iscenetokenprocessor.h"
+		$File	"$SRCDIR\game\shared\handviewmodel_shared.cpp" [$BDSBASE]
 		$File	"iservervehicle.h"
 		$File	"item_world.cpp"
 		$File	"items.h"

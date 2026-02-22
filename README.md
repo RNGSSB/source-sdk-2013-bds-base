@@ -115,6 +115,11 @@ BDSBASE_ALLOW_SERVERFINDER
 - If it fails to find a responsive server or any server that matches the players' query, it will start a bot match and load up a file called serverfinder_fail.cfg, which can define extra options for the server. For TF2's MvM, it will just start a normal MvM game and use the serverfinder_fail_mvm.cfg file.
 - By default, serverfinder_fail.cfg starts the game up with with Steam Networking enabled (servers are set to Public and will show in the server browser) and bots will leave to free slots for incoming players.
 
+BDSBASE_ALLOW_C_ARMS
+- Games: HL2MP
+- Enables hand viewmodels/c_arms which function differently to the c_arms in TF2.
+- These arms can ONLY be spawned with GetViewModel(1)->SetModel( "modelname" ); and precached with PrecacheModel( "modelname" ); This isn't pre-configured.
+
 ## Credits:
 - TheBetaM for the custom schema code. (https://github.com/TheBetaM/tf-solo)
 - rafradek for some bot AI changes (sigsegv-mvm) (https://github.com/rafradek/sigsegv-mvm)
@@ -125,6 +130,7 @@ BDSBASE_ALLOW_SERVERFINDER
 - The Valve Developer Community for the following articles:
 https://developer.valvesoftware.com/wiki/Detail_props/Aspect_ratio_fix
 https://developer.valvesoftware.com/wiki/General_SDK_Snippets_%2526_Fixes
+https://developer.valvesoftware.com/wiki/Hand_Viewmodels
 
 ## Setup:
 Read Autumn/Misyl's setup guide at README_FROG.md for detailed setup.
