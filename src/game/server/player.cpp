@@ -539,7 +539,7 @@ void CBasePlayer::CreateViewModel( int index /*=0*/ )
 	}
 }
 
-#if defined(BDSBASE) && defined(BDSBASE_ALLOW_C_ARMS)
+#if defined(BDSBASE) && defined(BDSBASE_ALLOW_C_ARMS) && !defined(TF_DLL)
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
@@ -2216,6 +2216,10 @@ extern ConVar mp_disable_respawn_times;
 void CBasePlayer::PlayerDeathThink(void)
 {
 	float flForward;
+
+#if defined(BDSBASE) && defined(BDSBASE_ALLOW_C_ARMS) && !defined(TF_DLL)
+	GetViewModel(1)->SetModel("");
+#endif
 
 	SetNextThink( gpGlobals->curtime + 0.1f );
 

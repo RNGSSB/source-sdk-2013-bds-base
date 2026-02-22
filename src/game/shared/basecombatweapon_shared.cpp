@@ -1330,11 +1330,17 @@ bool CBaseCombatWeapon::UsesSecondaryAmmo( void )
 void CBaseCombatWeapon::SetWeaponVisible( bool visible )
 {
 	CBaseViewModel *vm = NULL;
+#if defined(BDSBASE) && defined(BDSBASE_ALLOW_C_ARMS) && !defined(TF_DLL) && !defined(TF_CLIENT_DLL)
+	CBaseViewModel* hm = NULL;
+#endif
 
 	CBasePlayer *pOwner = ToBasePlayer( GetOwner() );
 	if ( pOwner )
 	{
 		vm = pOwner->GetViewModel( m_nViewModelIndex );
+#if defined(BDSBASE) && defined(BDSBASE_ALLOW_C_ARMS) && !defined(TF_DLL) && !defined(TF_CLIENT_DLL)
+		hm = pOwner->GetViewModel(1);
+#endif
 	}
 
 	if ( visible )
@@ -1350,6 +1356,14 @@ void CBaseCombatWeapon::SetWeaponVisible( bool visible )
 #endif
 			vm->RemoveEffects( EF_NODRAW );
 		}
+
+#if defined(BDSBASE) && defined(BDSBASE_ALLOW_C_ARMS) && !defined(TF_DLL) && !defined(TF_CLIENT_DLL)
+		if (hm)
+		{
+			hm->RemoveEffects(EF_NOSHADOW);
+			hm->RemoveEffects(EF_NODRAW);
+		}
+#endif
 	}
 	else
 	{
@@ -1364,6 +1378,14 @@ void CBaseCombatWeapon::SetWeaponVisible( bool visible )
 #endif
 			vm->AddEffects( EF_NODRAW );
 		}
+
+#if defined(BDSBASE) && defined(BDSBASE_ALLOW_C_ARMS) && !defined(TF_DLL) && !defined(TF_CLIENT_DLL)
+		if (hm)
+		{
+			hm->AddEffects(EF_NOSHADOW);
+			hm->AddEffects(EF_NODRAW);
+		}
+#endif
 	}
 }
 

@@ -1,7 +1,7 @@
 #include "cbase.h"
 #include "baseviewmodel_shared.h"
 
-#if defined(BDSBASE) && defined(BDSBASE_ALLOW_C_ARMS)
+#if defined(BDSBASE) && defined(BDSBASE_ALLOW_C_ARMS) && !defined(TF_DLL) && !defined(TF_CLIENT_DLL)
 #if defined( CLIENT_DLL )
 	#define CHandViewModel C_HandViewModel
 #endif
