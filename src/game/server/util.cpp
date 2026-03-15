@@ -578,7 +578,6 @@ CBasePlayer	*UTIL_PlayerByIndex( int playerIndex )
 // Return the local player.
 // If this is a multiplayer game, return NULL.
 // 
-#if defined(BDSBASE) && defined(BDSBASE_NPC)
 CBasePlayer* UTIL_GetLocalPlayer(void)
 {
 
@@ -671,26 +670,6 @@ CBasePlayer* UTIL_GetNearestVisiblePlayer(CBaseEntity* pLooker, int mask)
 
 	return pNearest;
 }
-#else
-CBasePlayer* UTIL_GetLocalPlayer(void)
-{
-	if (gpGlobals->maxClients > 1)
-	{
-		if (developer.GetBool())
-		{
-			Assert(!"UTIL_GetLocalPlayer");
-
-#ifdef	DEBUG
-			Warning("UTIL_GetLocalPlayer() called in multiplayer game.\n");
-#endif
-		}
-
-		return NULL;
-	}
-
-	return UTIL_PlayerByIndex(1);
-}
-#endif //BDSBASE
 
 //
 // Get the local player on a listen server - this is for multiplayer use only
