@@ -431,7 +431,11 @@ void CCharacterInfoPanel::OnKeyCodePressed(vgui::KeyCode code)
 {
 	ButtonCode_t nButtonCode = GetBaseButtonCode( code );
 
+#ifdef BDSBASE
+	if (nButtonCode == KEY_XBUTTON_B || nButtonCode == STEAMCONTROLLER_B)
+#else
 	if ( nButtonCode == KEY_XBUTTON_B )
+#endif
 	{
 		if ( !m_bPreventClosure )
 		{

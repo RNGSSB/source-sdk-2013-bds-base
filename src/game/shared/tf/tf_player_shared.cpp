@@ -1113,47 +1113,93 @@ void CTFPlayerShared::Spawn( void )
 //-----------------------------------------------------------------------------
 // Purpose:
 //-----------------------------------------------------------------------------
+#ifdef BDSBASE
+template < typename tType >
+#else
 template < typename tIntType >
+#endif
 class CConditionVars
 {
 public:
+#ifdef BDSBASE
+	template < typename t0, typename t1, typename t2, typename t3, typename t4 >
+	CConditionVars(CTFPlayer* pOuter, ETFCond eCond, t0& nPlayerCond, t1& nPlayerCondEx, t2& nPlayerCondEx2, t3& nPlayerCondEx3, t4& nPlayerCondEx4)
+#else
 	CConditionVars( tIntType& nPlayerCond, tIntType& nPlayerCondEx, tIntType& nPlayerCondEx2, tIntType& nPlayerCondEx3, tIntType& nPlayerCondEx4, ETFCond eCond )
+#endif
 	{
+#ifdef BDSBASE
+		m_pOuter = pOuter;
+#endif
+
 		if ( eCond >= 128 )
 		{
 			Assert( eCond < 128 + 32 );
+#ifdef BDSBASE
+			m_pnCondVar = (tType*)&nPlayerCondEx4;
+#else
 			m_pnCondVar = &nPlayerCondEx4;
+#endif
 			m_nCondBit = eCond - 128; 
 		}
 		else if ( eCond >= 96 )
 		{
 			Assert( eCond < 96 + 32 );
+#ifdef BDSBASE
+			m_pnCondVar = (tType*)&nPlayerCondEx3;
+#else
 			m_pnCondVar = &nPlayerCondEx3;
+#endif
 			m_nCondBit = eCond - 96;
 		}
 		else if( eCond >= 64 )
 		{
 			Assert( eCond < (64 + 32) );
+#ifdef BDSBASE
+			m_pnCondVar = (tType*)&nPlayerCondEx2;
+#else
 			m_pnCondVar = &nPlayerCondEx2;
+#endif
 			m_nCondBit = eCond - 64;
 		}
 		else if ( eCond >= 32 )
 		{
 			Assert( eCond < (32 + 32) );
+#ifdef BDSBASE
+			m_pnCondVar = (tType*)&nPlayerCondEx;
+#else
 			m_pnCondVar = &nPlayerCondEx;
+#endif
 			m_nCondBit = eCond - 32;
 		}
 		else
 		{
+#ifdef BDSBASE
+			m_pnCondVar = (tType*)&nPlayerCond;
+#else
 			m_pnCondVar = &nPlayerCond;
+#endif
 			m_nCondBit = eCond;
 		}
 	}
 
+#ifdef BDSBASE
+	const int& CondVar() const
+	{
+		return m_pnCondVar->m_Value;
+	}
+
+	int& CondVarForModify()
+	{
+		m_pOuter->NetworkStateChanged(m_pnCondVar);
+		return m_pnCondVar->m_Value;
+	}
+#else
 	tIntType& CondVar() const
 	{
 		return *m_pnCondVar;
 	}
+#endif
 
 	int CondBit() const
 	{
@@ -1161,9 +1207,19 @@ public:
 	}
 
 private:
+#ifdef BDSBASE
+	CTFPlayer* m_pOuter;
+	tType* m_pnCondVar;
+#else
 	tIntType *m_pnCondVar;
+#endif
 	int m_nCondBit;
 };
+
+#ifdef BDSBASE
+#define CONDITION_VARS( name, cond ) \
+CConditionVars< decltype( m_nPlayerCond ) > name( m_pOuter, cond, m_nPlayerCond, m_nPlayerCondEx, m_nPlayerCondEx2, m_nPlayerCondEx3, m_nPlayerCondEx4 )
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: Add a condition and duration
@@ -1196,14 +1252,22 @@ void CTFPlayerShared::AddCond( ETFCond eCond, float flDuration /* = PERMANENT_CO
 
 	// Which bitfield are we tracking this condition variable in? Which bit within
 	// that variable will we track it as?
+#ifdef BDSBASE
+	CONDITION_VARS(cPlayerCond, eCond);
+#else
 	CConditionVars<int> cPlayerCond( m_nPlayerCond.m_Value, m_nPlayerCondEx.m_Value, m_nPlayerCondEx2.m_Value, m_nPlayerCondEx3.m_Value, m_nPlayerCondEx4.m_Value, eCond );
+#endif
 
 	// See if there is an object representation of the condition.
 	bool bAddedToExternalConditionList = m_ConditionList.Add( eCond, flDuration, m_pOuter, pProvider );
 	if ( !bAddedToExternalConditionList )
 	{
 		// Set the condition bit for this condition.
+#ifdef BDSBASE
+		cPlayerCond.CondVarForModify() |= cPlayerCond.CondBit();
+#else
 		cPlayerCond.CondVar() |= cPlayerCond.CondBit();
+#endif
 
 		// Flag for gamecode to query
 		m_ConditionData[eCond].m_bPrevActive = ( m_ConditionData[eCond].m_flExpireTime != 0.f ) ? true : false;
@@ -1238,14 +1302,22 @@ void CTFPlayerShared::RemoveCond( ETFCond eCond, bool ignore_duration )
 	if ( !InCond( eCond ) )
 		return;
 
+#ifdef BDSBASE
+	CONDITION_VARS(cPlayerCond, eCond);
+#else
 	CConditionVars<int> cPlayerCond( m_nPlayerCond.m_Value, m_nPlayerCondEx.m_Value, m_nPlayerCondEx2.m_Value, m_nPlayerCondEx3.m_Value, m_nPlayerCondEx4.m_Value, eCond );
+#endif
 
 	// If this variable is handled by the condition list, abort before doing the
 	// work for the condition flags.
 	if ( m_ConditionList.Remove( eCond, ignore_duration ) )
 		return;
 
+#ifdef BDSBASE
+	cPlayerCond.CondVarForModify() &= ~cPlayerCond.CondBit();
+#else
 	cPlayerCond.CondVar() &= ~cPlayerCond.CondBit();
+#endif
 	OnConditionRemoved( eCond );
 
 	if ( m_ConditionData[ eCond ].m_nPreventedDamageFromCondition )
@@ -1281,7 +1353,11 @@ bool CTFPlayerShared::InCond( ETFCond eCond ) const
 	if ( eCond < 32 && m_ConditionList.InCond( eCond ) )
 		return true;
 
+#ifdef BDSBASE
+	CONDITION_VARS(cPlayerCond, eCond);
+#else
 	CConditionVars<const int> cPlayerCond( m_nPlayerCond.m_Value, m_nPlayerCondEx.m_Value, m_nPlayerCondEx2.m_Value, m_nPlayerCondEx3.m_Value, m_nPlayerCondEx4.m_Value, eCond );
+#endif
 	return (cPlayerCond.CondVar() & cPlayerCond.CondBit()) != 0;
 }
 
@@ -1295,7 +1371,11 @@ bool CTFPlayerShared::WasInCond( ETFCond eCond ) const
 	// assert. And this comment).
 	Assert( eCond >= 32 && eCond < TF_COND_LAST );
 
+#ifdef BDSBASE
+	CONDITION_VARS(cPlayerCond, eCond);
+#else
 	CConditionVars<const int> cPlayerCond( m_nOldConditions, m_nOldConditionsEx, m_nOldConditionsEx2, m_nOldConditionsEx3, m_nOldConditionsEx4, eCond );
+#endif
 	return (cPlayerCond.CondVar() & cPlayerCond.CondBit()) != 0;
 }
 
@@ -1308,8 +1388,13 @@ void CTFPlayerShared::ForceRecondNextSync( ETFCond eCond )
 	// Please check if you hit the assert. (And then remove the assert. And this comment).
 	Assert(eCond >= 32 && eCond < TF_COND_LAST);
 
+#ifdef BDSBASE
+	CONDITION_VARS(cPlayerCond, eCond);
+	cPlayerCond.CondVarForModify() |= cPlayerCond.CondBit();
+#else
 	CConditionVars<int> playerCond( m_nForceConditions, m_nForceConditionsEx, m_nForceConditionsEx2, m_nForceConditionsEx3, m_nForceConditionsEx4, eCond );
 	playerCond.CondVar() |= playerCond.CondBit();
+#endif
 }
 
 //-----------------------------------------------------------------------------

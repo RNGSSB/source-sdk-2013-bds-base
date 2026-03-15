@@ -1609,7 +1609,12 @@ const char *g_szWeaponTypeSubstrings[] =
 	"SECONDARY2",
 	"PRIMARY2",
 	"ITEM3",
+#ifdef BDSBASE
+	"ITEM4",
+	"PASSTIME_BALL"
+#else
 	"ITEM4"
+#endif
 };
 COMPILE_TIME_ASSERT( ARRAYSIZE( g_szWeaponTypeSubstrings ) == TF_WPN_TYPE_COUNT );
 

@@ -22,6 +22,9 @@
 
 extern ConVar tf_flamethrower_burstammo;
 
+#ifdef BDSBASE
+extern ConVar tf_fireball_distance;
+#endif
 
 //=============================================================================
 //
@@ -154,8 +157,16 @@ CBaseEntity* CTFWeaponFlameBall::FireProjectile( CTFPlayer *pPlayer )
 	RemoveProjectileAmmo( pPlayer );
 
 #ifdef GAME_DLL
+#ifdef BDSBASE
+	QAngle angForward = pPlayer->EyeAngles();
+#endif
+
 	Vector vecForward, vecRight, vecUp;
-	AngleVectors( pPlayer->EyeAngles(), &vecForward, &vecRight, &vecUp );
+#ifdef BDSBASE
+	AngleVectors(angForward, &vecForward, &vecRight, &vecUp);
+#else
+	AngleVectors(pPlayer->EyeAngles(), &vecForward, &vecRight, &vecUp);
+#endif
 
 #ifdef BDSBASE
 	if (IsViewModelFlipped())
@@ -169,6 +180,10 @@ CBaseEntity* CTFWeaponFlameBall::FireProjectile( CTFPlayer *pPlayer )
 		fRight *= -1;
 	}
 #endif
+#ifdef BDSBASE
+	Vector vecShootPos = pPlayer->Weapon_ShootPosition();
+	Vector vecSrc = vecShootPos + (vecUp * -9.0f) + (vecRight) + (vecForward * 3.0f);
+#else
 	Vector vecSrc = pPlayer->Weapon_ShootPosition();
 	// Shoot from the right location
 	vecSrc = vecSrc + (vecUp * -9.0f) + (vecRight * 7.0f) + (vecForward * 3.0f);
@@ -179,6 +194,7 @@ CBaseEntity* CTFWeaponFlameBall::FireProjectile( CTFPlayer *pPlayer )
 	Vector vecEye = pPlayer->EyePosition();
 	CTraceFilterSimple traceFilter( this, COLLISION_GROUP_NONE );
 	UTIL_TraceHull( vecEye, vecSrc, -Vector(8,8,8), Vector(8,8,8), MASK_SOLID_BRUSHONLY, &traceFilter, &trace );
+#endif
 
 	CTFProjectile_Rocket *pRocket = static_cast<CTFProjectile_Rocket*>( CBaseEntity::CreateNoSpawn( "tf_projectile_balloffire", vecSrc, angForward, pPlayer ) );
 	if ( pRocket )
@@ -190,10 +206,19 @@ CBaseEntity* CTFWeaponFlameBall::FireProjectile( CTFPlayer *pPlayer )
 		pRocket->SetOwnerEntity( pPlayer );
 		pRocket->SetLauncher( this ); 
 
+#ifdef BDSBASE
+		float flEndDist = tf_fireball_distance.GetFloat();
+
+		Vector vecProjForward = (vecShootPos + vecForward * flEndDist) - vecSrc;
+		VectorNormalize(vecProjForward);
+
+		pRocket->SetAbsVelocity(vecProjForward * 600);
+#else
 		Vector vForward;
 		AngleVectors( angForward, &vForward, NULL, NULL );
 
 		pRocket->SetAbsVelocity( vForward * 600 );
+#endif
 
 		pRocket->SetDamage( 20 );
 		pRocket->ChangeTeam( pPlayer->GetTeamNumber() );

@@ -559,6 +559,9 @@ void CTFPlayerModelPanel::SwitchHeldItemTo( CEconItemView *pItem )
 
 	m_StatTrackModel.m_bDisabled = true;
 	m_StatTrackModel.m_MDL.SetMDL( MDLHANDLE_INVALID );
+#ifdef BDSBASE
+	m_StatTrackModel.m_pStudioHdr = NULL;  // ADDED: Clear the studio header
+#endif
 
 	CAttribute_String attrModule;
 	if ( GetStattrak( m_pHeldItem, &attrModule ) )
@@ -599,6 +602,29 @@ void CTFPlayerModelPanel::SwitchHeldItemTo( CEconItemView *pItem )
 			{
 				hStatTrackMDL = MDLHANDLE_INVALID;
 			}
+#ifdef BDSBASE
+			if (hStatTrackMDL != MDLHANDLE_INVALID)
+			{
+				m_StatTrackModel.m_MDL.SetMDL(hStatTrackMDL);
+
+				studiohdr_t* pStudioHdr = mdlcache->GetStudioHdr(hStatTrackMDL);
+				if (pStudioHdr)
+				{
+					if (!m_StatTrackModel.m_pStudioHdr)
+					{
+						m_StatTrackModel.m_pStudioHdr = new CStudioHdr();
+					}
+					m_StatTrackModel.m_pStudioHdr->Init(pStudioHdr, mdlcache);
+				}
+
+				mdlcache->Release(hStatTrackMDL);
+
+				m_StatTrackModel.m_MDL.m_pProxyData = static_cast<IClientRenderable*>(pItem);
+				m_StatTrackModel.m_bDisabled = false;
+				m_StatTrackModel.m_MDL.m_nSequence = ACT_IDLE;
+				SetIdentityMatrix(m_StatTrackModel.m_MDLToWorld);
+			}
+#else
 			m_StatTrackModel.m_MDL.SetMDL( hStatTrackMDL );
 			mdlcache->Release( hStatTrackMDL ); // counterbalance addref from within FindMDL
 
@@ -606,6 +632,7 @@ void CTFPlayerModelPanel::SwitchHeldItemTo( CEconItemView *pItem )
 			m_StatTrackModel.m_bDisabled = false;
 			m_StatTrackModel.m_MDL.m_nSequence = ACT_IDLE;
 			SetIdentityMatrix( m_StatTrackModel.m_MDLToWorld );
+#endif
 		}
 	}
 
@@ -964,6 +991,9 @@ static const char *s_pszDefaultAnimForWpnSlot[] =
 	"ACT_MP_STAND_PRIMARY",			// TF_WPN_TYPE_PRIMARY2
 	"ACT_MP_STAND_ITEM3",			// TF_WPN_TYPE_ITEM3
 	"ACT_MP_STAND_ITEM4",			// TF_WPN_TYPE_ITEM4
+#ifdef BDSBASE
+	"ACT_MP_STAND_PASSTIME",		// TF_WPN_TYPE_PASSTIME_BALL
+#endif
 };
 COMPILE_TIME_ASSERT( ARRAYSIZE( s_pszDefaultAnimForWpnSlot ) == TF_WPN_TYPE_COUNT );
 
@@ -1299,6 +1329,16 @@ void CTFPlayerModelPanel::UpdatePreviewVisuals()
 		SetMDLSkinForTeam( GetMergeMDL( m_MergeMDL ), GetPreviewItem( m_pHeldItem ), m_iTeam );
 	}
 
+#ifdef BDSBASE
+	// Set the StatTrack model skin
+	if (!m_StatTrackModel.m_bDisabled)
+	{
+		int iSkin = 0;
+		iSkin = m_iTeam == TF_TEAM_RED ? 0 : 1;
+		m_StatTrackModel.m_MDL.m_nSkin = iSkin;
+	}
+#endif
+
 	// Set the skin for all other equipped items (wearables, etc).
 	for ( int i=0; i<m_vecDynamicAssetsLoaded.Count(); i++ )
 	{
@@ -1565,17 +1605,45 @@ bool CTFPlayerModelPanel::RenderStatTrack( CStudioHdr *pStudioHdr, matrix3x4_t *
 	{
 		matrix3x4_t matMergeBoneToWorld[MAXSTUDIOBONES];
 
+#ifdef BDSBASE
+		// Get the StatTrak model's studio header from the MDL cache
+		CStudioHdr* pStatTrackStudioHdr = m_StatTrackModel.m_pStudioHdr;
+
+		// If m_pStudioHdr isn't set, try to get it from the MDL directly
+		if (!pStatTrackStudioHdr)
+		{
+			MDLHandle_t hStatTrackMDL = m_StatTrackModel.m_MDL.GetMDL();
+			if (hStatTrackMDL != MDLHANDLE_INVALID)
+			{
+				pStatTrackStudioHdr = GetMergeMDLStudioHdr(hStatTrackMDL);
+			}
+		}
+
+		matrix3x4_t* pMergeBoneToWorld = &matMergeBoneToWorld[0];
+#else
 		// Get the merge studio header.
 		CStudioHdr *pStatTrackStudioHdr = m_StatTrackModel.m_pStudioHdr;
 		matrix3x4_t *pMergeBoneToWorld = &matMergeBoneToWorld[0];
+#endif
 
 		// If we have a valid mesh, bonemerge it. If we have an invalid mesh we can't bonemerge because
 		// it'll crash trying to pull data from the missing header.
+#ifdef BDSBASE
+		if (pStatTrackStudioHdr != NULL && pStudioHdr != NULL)
+		{
+			// The StatTrak model should bone-merge with the WEAPON (pStudioHdr), not the player model
+			// Parameters: (source header, output matrices, parent header, parent matrices, local transform)
+			m_StatTrackModel.m_MDL.SetupBonesWithBoneMerge(pStatTrackStudioHdr, pMergeBoneToWorld, pStudioHdr, pWorldMatrix, m_StatTrackModel.m_MDLToWorld);
+
+			// Scale the StatTrak model's bones, not the player model bones
+			for (int i = 0; i < pStatTrackStudioHdr->numbones(); ++i)
+#else
 		if ( pStatTrackStudioHdr != NULL )
 		{
 			CStudioHdr &mergeHdr = *m_RootMDL.m_pStudioHdr;
 			m_StatTrackModel.m_MDL.SetupBonesWithBoneMerge( &mergeHdr, pMergeBoneToWorld, pStudioHdr, pWorldMatrix, m_StatTrackModel.m_MDLToWorld );
 			for ( int i=0; i<mergeHdr.numbones(); ++i )
+#endif
 			{
 				MatrixScaleBy( m_flStatTrackScale, pMergeBoneToWorld[i] );
 			}

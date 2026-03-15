@@ -186,6 +186,15 @@ void C_ObjectTeleporter::StopActiveEffects()
 		ParticleProp()->StopEmission( m_hChargedRightArmEffect );
 		m_hChargedRightArmEffect = NULL;
 	}
+
+#ifdef BDSBASE
+	if (m_pSpinSound && IsCarried())
+	{
+		CSoundEnvelopeController& controller = CSoundEnvelopeController::GetController();
+		controller.SoundDestroy(m_pSpinSound);
+		m_pSpinSound = NULL;
+	}
+#endif
 }
 
 //-----------------------------------------------------------------------------

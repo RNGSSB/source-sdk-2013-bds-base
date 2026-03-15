@@ -1287,7 +1287,11 @@ void CCharInfoLoadoutSubPanel::OnKeyCodePressed(vgui::KeyCode code)
 	{
 		// let escape and B (aka "go back") through so we 
 		// can actually get out of the loadout screen
+#ifdef BDSBASE
+		if (nButtonCode == KEY_XBUTTON_B || nButtonCode == STEAMCONTROLLER_B)
+#else
 		if ( nButtonCode == KEY_XBUTTON_B )
+#endif
 		{
 			BaseClass::OnKeyCodePressed( code );
 		}
