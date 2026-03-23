@@ -1,8 +1,8 @@
 Quiver IRB 2.0.0:
 Details:
 - Removed bunnyhopping.
-- Removed al current custom weapons.
-- Gave the Artillery Cannon's skin to the Tomislav.
+- Removed most current custom weapons.
+- The Tomislav is now shiny.
 - Fixed issues with some panels.
 
 ---------------------------------------------------------------------------------------------
