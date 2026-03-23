@@ -1,0 +1,7 @@
+"Unlitgeneric"
+{
+	"$baseTexture" "Play_assist\PA_drinkj"
+	"$translucent" "1"
+	"$ignorez" 1
+	"$spriteorigin" "[ 0.43 1.25 ]"
+}

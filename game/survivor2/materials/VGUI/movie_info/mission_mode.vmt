@@ -1,0 +1,10 @@
+"UnlitGeneric"
+{
+	"$baseTexture" "VGUI\movie_info/mission_mode"
+	"$translucent" "1"
+	"$vertexcolor" "1"
+	"$vertexalpha" "1"
+	"$ignorez" "1"
+	"$nocull" "1"
+}
+

@@ -1,0 +1,9 @@
+"Ac2d"
+{
+	"$baseTexture" "ac2d\ex_battle_member_introduction/Image29"
+	"$translucent" "1"
+	"$vertexcolor" "1"
+	"$vertexalpha" "1"
+	"$ignorez" "1"
+	"$nocull" "1"
+}

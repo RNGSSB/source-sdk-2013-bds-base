@@ -1,0 +1,9 @@
+"UnlitGeneric"
+{
+	"$baseTexture" "VGUI\basic2d/battle_loading_02"
+	"$translucent" "1"
+	"$vertexcolor" "1"
+	"$vertexalpha" "1"
+	"$ignorez" "1"
+	"$additive" "1"
+}

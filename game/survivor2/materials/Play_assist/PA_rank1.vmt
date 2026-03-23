@@ -1,0 +1,8 @@
+"UnlitGeneric"
+{
+	"$baseTexture" "Play_assist\PA_rank1"
+	"$translucent" "1"
+	"$ignorez" 1
+	"$spriteorigin" "[ -0.25 3.6 ]"
+
+}

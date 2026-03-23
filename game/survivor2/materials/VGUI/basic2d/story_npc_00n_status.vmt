@@ -1,0 +1,9 @@
+"UnlitGeneric"
+{
+	"$baseTexture" "VGUI\basic2d/story_npc_00n_status"
+	"$translucent" "1"
+	"$vertexcolor" "1"
+	"$vertexalpha" "1"
+	"$ignorez" "1"
+	"$additive" "1"
+}

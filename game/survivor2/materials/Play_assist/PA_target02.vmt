@@ -1,0 +1,18 @@
+"spritetwotexture"
+{
+	"$basetexture" "Play_assist\PA_target"
+	"$texture2" "Play_assist/PA_digital01"
+	"$translucent" "1"
+	"$spriteorigin" "[ 0.50 1.20 ]"
+	"$ignorez" 1
+
+	"Proxies"
+	{
+		"TextureScroll"
+		{
+			"texturescrollvar" "$texture2transform"
+			"texturescrollrate" .50
+			"texturescrollangle" 90
+		}
+	}
+}

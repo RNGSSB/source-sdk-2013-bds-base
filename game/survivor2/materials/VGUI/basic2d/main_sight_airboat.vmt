@@ -1,0 +1,8 @@
+"UnlitGeneric"
+{
+	"$baseTexture" "VGUI\basic2d/main_sight_airboat"
+	"$translucent" "1"
+	"$vertexcolor" "1"
+	"$vertexalpha" "1"
+	"$ignorez" "1"
+}

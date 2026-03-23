@@ -1,0 +1,8 @@
+"UnlitGeneric"
+{
+	"$baseTexture" "VGUI\basic2d_linear/bullet_gauge_mask"
+	"$translucent" "1"
+	"$vertexcolor" "1"
+	"$vertexalpha" "1"
+	"$ignorez" "1"
+}

@@ -1,0 +1,9 @@
+"UnlitGeneric"
+{
+	"$baseTexture" "VGUI\basic2d/weapon_sel_hex_flash"
+	"$translucent" "1"
+	"$vertexcolor" "1"
+	"$vertexalpha" "1"
+	"$ignorez" "1"
+	"$additive" "1"
+}

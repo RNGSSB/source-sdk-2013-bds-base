@@ -1,0 +1,29 @@
+"Unlittwotexture"
+{
+	"$baseTexture" "Play_assist\PA_danger_name_orange"
+	"$texture2" "Play_assist/PA_digital01"
+	"$translucent" "1"
+//	"$additive" 1
+	"$spriteorigin" "[ 0.50 1.00 ]"
+	"$ignorez" 1
+
+	"Proxies"
+	{
+
+//		"Sine"
+//		{
+//			"sineperiod"	.2
+//			"sinemin"	".2"
+//			"sinemax"	"1.0"
+//			"resultVar"	"$alpha"
+//		}
+
+
+		"TextureScroll"
+		{
+			"texturescrollvar" "$texture2transform"
+			"texturescrollrate" .50
+			"texturescrollangle" 90
+		}
+	}
+}

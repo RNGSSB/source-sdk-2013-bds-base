@@ -1,0 +1,20 @@
+"Unlittwotexture"
+{
+	"$basetexture" "Play_assist\PA_arrow_red"
+	"$texture2" "Play_assist/PA_digital02"
+	"$translucent" "1"
+//	"$additive" 1
+//	"$ignorez" 1
+
+	"Proxies"
+	{
+
+
+		"TextureScroll"
+		{
+			"texturescrollvar" "$texture2transform"
+			"texturescrollrate" .50
+			"texturescrollangle" 0
+		}
+	}
+}

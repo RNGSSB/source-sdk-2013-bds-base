@@ -1,0 +1,9 @@
+"Ac2d"
+{
+	"$baseTexture" "VGUI\basic2d/circle_graph_mask_color"
+	"$translucent" "1"
+	"$vertexcolor" "1"
+	"$vertexalpha" "1"
+	"$ignorez" "1"
+	"$nocull" "1"
+}

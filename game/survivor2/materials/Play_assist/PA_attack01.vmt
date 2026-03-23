@@ -1,0 +1,28 @@
+"Unlittwotexture"
+{
+	"$basetexture" "Play_assist/PA_attack01"
+	"$texture2" "Play_assist/PA_digital01"
+	"$translucent" "1"
+//	"$additive" "1"
+	"$ignorez" 1
+
+	"Proxies"
+	{
+
+//		"Sine"
+//		{
+//			"sineperiod"	.3
+//			"sinemin"	".1"
+//			"sinemax"	"2.0"
+//			"resultVar"	"$alpha"
+//		}
+
+
+		"TextureScroll"
+		{
+			"texturescrollvar" "$texture2transform"
+			"texturescrollrate" .60
+			"texturescrollangle" 270
+		}
+	}
+}

@@ -1,0 +1,18 @@
+"Unlittwotexture"
+{
+	"$baseTexture" "Play_assist\PA_sentry_red"
+	"$texture2" "Play_assist/PA_digital01"
+	"$translucent" "1"
+	"$ignorez" 1
+	"$spriteorigin" "[ 0.43 1.25 ]"
+
+	"Proxies"
+	{
+		"TextureScroll"
+		{
+			"texturescrollvar" "$texture2transform"
+			"texturescrollrate" .50
+			"texturescrollangle" 270
+		}
+	}
+}

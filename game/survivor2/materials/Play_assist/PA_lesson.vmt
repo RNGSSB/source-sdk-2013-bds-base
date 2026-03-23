@@ -1,0 +1,20 @@
+"Unlittwotexture"
+{
+	"$basetexture" "Play_assist/PA_lesson"
+	"$texture2" "Play_assist/PA_lesson"
+	"$translucent" "1"
+	"$additive" 1
+	"$nodecal" 1
+
+	"Proxies"
+	{
+
+
+		"TextureScroll"
+		{
+			"texturescrollvar" "$texture2transform"
+			"texturescrollrate" 1
+			"texturescrollangle" 90
+		}
+	}
+}

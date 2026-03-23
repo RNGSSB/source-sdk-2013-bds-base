@@ -1,0 +1,10 @@
+"Ac2d_mask"
+{
+	"$baseTexture" "ac2d/menu_entry/Image40"
+	"$translucent" "1"
+	"$vertexcolor" "1"
+	"$vertexalpha" "1"
+	"$ignorez" "1"
+	"$nocull" "1"
+	"$mask_tex" "mask_tex"
+}

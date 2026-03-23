@@ -1,0 +1,30 @@
+"spritetwotexture"
+{
+	"$baseTexture" "Play_assist\PA_delta_goal"
+	"$texture2" "Play_assist/PA_digital01"
+	"$translucent" "1"
+//	"$additive" "1"
+	"$ignorez" 1
+	"$spriteorigin" "[ 0.50 1.00 ]"
+	"$spriteorientation" "vp_parallel_noscale"
+
+	"Proxies"
+	{
+
+//		"Sine"
+//		{
+//			"sineperiod"	1.0
+//			"sinemin"	".0"
+//			"sinemax"	"1.5"
+//			"resultVar"	"$alpha"
+//		}
+
+
+		"TextureScroll"
+		{
+			"texturescrollvar" "$texture2transform"
+			"texturescrollrate" .50
+			"texturescrollangle" 270
+		}
+	}
+}

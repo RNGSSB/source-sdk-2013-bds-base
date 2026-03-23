@@ -1,0 +1,7 @@
+"UnlitGeneric"
+{
+	"$baseTexture" "Play_assist\PA_transceiver_pink"
+	"$translucent" "1"
+	"$ignorez" 1
+	"$spriteorigin" "[ 0.5 3.75 ]"
+}

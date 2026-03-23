@@ -1,0 +1,20 @@
+"Unlittwotexture"
+{
+	"$basetexture" "Play_assist/PA_ammo_shelf"
+	"$texture2" "Play_assist/PA_ammo_shelf"
+	"$translucent" "1"
+	"$additive" 1
+	"$nodecal" 1
+
+	"Proxies"
+	{
+
+
+		"TextureScroll"
+		{
+			"texturescrollvar" "$texture2transform"
+			"texturescrollrate" 1
+			"texturescrollangle" 90
+		}
+	}
+}

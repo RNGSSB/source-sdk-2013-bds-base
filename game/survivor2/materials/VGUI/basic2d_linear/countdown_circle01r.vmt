@@ -1,0 +1,9 @@
+"UnlitGeneric"
+{
+	"$baseTexture" "VGUI\basic2d_linear/countdown_circle01r"
+	"$translucent" "1"
+	"$vertexcolor" "1"
+	"$vertexalpha" "1"
+	"$ignorez" "1"
+	"$additive" "1"
+}

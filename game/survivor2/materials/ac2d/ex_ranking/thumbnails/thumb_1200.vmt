@@ -1,0 +1,9 @@
+"UnlitGeneric"
+{
+	"$baseTexture" "ac2d/ex_ranking/thumbnails/thumb_1200"
+	"$translucent" "1"
+	"$vertexcolor" "1"
+	"$vertexalpha" "1"
+	"$ignorez" "1"
+	"$nocull" "1"
+}

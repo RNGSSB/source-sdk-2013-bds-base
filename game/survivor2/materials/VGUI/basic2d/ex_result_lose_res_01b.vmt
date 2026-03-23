@@ -1,0 +1,8 @@
+"UnlitGeneric"
+{
+	"$baseTexture" "VGUI\basic2d/ex_result_lose_res_01b"
+	"$translucent" "1"
+	"$vertexcolor" "1"
+	"$vertexalpha" "1"
+	"$ignorez" "1"
+}
