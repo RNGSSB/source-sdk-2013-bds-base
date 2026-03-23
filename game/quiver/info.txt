@@ -1,6 +1,6 @@
 INFO:
 
-Quiver Fortress is a modification for one of the greatest online shooters ever made that takes elements from older Team Fortress titles, older versions of TF2, cut content, and some changes of its own to bring a fast paced and brutal experience.
+Quiver Fortress is a modification for one of the greatest online shooters ever made that turns it into a faster paced game that brings it down to the bare essentials.
 
 CRACKIN' SHELLS
 
@@ -8,11 +8,11 @@ Quiver Fortress gives all classes enhanced speed and agility, as well as a break
 
 THE HIT LIST
 
-Quiver Fortress introduces a item whitelist, where only certain weapons are allowed to be used in combat. In addition, whitelisted items will introduce balancing changes specific to Quiver Fortress, which changes their utility while not compromising their identity. Some weapon changes will also change them to resemble past versions, bringing some weapons back to their former glory.
+Quiver Fortress introduces an item whitelist, where only certain weapons are allowed to be used in combat. In addition, whitelisted items will introduce balancing changes specific to Quiver Fortress, which changes their utility while not compromising their identity. Some weapon changes will also change them to resemble past versions, bringing some weapons back to their former glory.
 
 NEW ARRIVALS!
 
-Quiver Fortress includes innovative weapon concepts built to expand class roles even further. New weapons are inspired by older TF titles and TF2 betas, alongside original weapon design concepts. Mix and match these new weapons with existing TF2 weapons to build your ideal arsenal for your favorite class.
+Quiver Fortress includes innovative weapon concepts built to expand class roles even further. New weapons are fine-tuned to work with the faster gameplay. Mix and match these new weapons with existing TF2 weapons to build your ideal arsenal for your favorite class.
 
 A COAT OF PAINT
 

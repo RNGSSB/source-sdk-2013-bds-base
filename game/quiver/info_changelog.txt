@@ -1,4 +1,15 @@
-Quiver Private Alpha 1.3.0 (LAST UPDATE):
+Quiver IRB 2.0.0:
+Details:
+- Removed bunnyhopping.
+- Removed al current custom weapons.
+- Gave the Artillery Cannon's skin to the Tomislav.
+- Fixed issues with some panels.
+
+---------------------------------------------------------------------------------------------
+IRB (Internal Revival Build)
+---------------------------------------------------------------------------------------------
+
+Quiver Private Alpha 1.3.0 (unreleased, included in first IRB):
 Added the following Source SDK Pull Requests:
 	- #1565: Fix the Pumpkin Bombs Halloween spell missing an underwater version of it's rocket trail particle.
 	- #1572: Fix TFBot crash related to moving control points
@@ -456,6 +467,8 @@ Details:
 - Added a disclaimer on the HUD about the mod's development state.
 
 ---------------------------------------------------------------------------------------------
+Private Alpha (pre revival)
+---------------------------------------------------------------------------------------------
 
 Quiver Private Test 4:
 Whitelists:
@@ -572,3 +585,7 @@ Quiver Private Test 2:
 
 Quiver Private Test 1:
 - Initial playtesting release build.
+
+---------------------------------------------------------------------------------------------
+Private Test (pre revival)
+---------------------------------------------------------------------------------------------

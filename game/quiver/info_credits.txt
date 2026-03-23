@@ -8,7 +8,6 @@ Credits:
 - Mudley for making the Blue Pants for ScoutBot skin (https://gamebanana.com/mods/205192)
 - Missing Killicons Pack by NeoDement
 - Ultimate Visual Fix Pack by agrastiOs, Nonhuman, N-Cognito, Whurr, PieSavvy, JarateKing, and FlaminSarge
-- Afterburner by NeoDement
 - Fixed Spy's View Model Sleev V2 by Hecates and H.Gaspar (https://gamebanana.com/mods/193390)
 - The Valve Developer Community for the following articles:
 https://developer.valvesoftware.com/wiki/Detail_props/Aspect_ratio_fix

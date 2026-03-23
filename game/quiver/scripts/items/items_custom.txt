@@ -40,429 +40,58 @@
 			"item_description"	"#Quiver_Test_Desc"
 			"staging" "1"
 		}
-	
-		// custom
-		"weapon_quiver_artillery_cannon"
+		
+		"armor"
 		{
-			"enabled"	"1"
-			"prefab"		"quiver_customweapon"
-			"item_class"	"tf_weapon_minigun"
-			"craft_class"	"weapon"
-			"craft_material_type"	"weapon"
+			"prefab"		"misc"
+			"item_class"	"tf_wearable"
 			"capabilities"
 			{
 				"nameable"		"1"
-				"can_craft_count"	"1"
-			}
-			"tags"
-			{
-				"can_deal_damage"			"1"
-				"can_deal_critical_damage"	"1"
-				"can_deal_mvm_penetration_damage"	"1"
-				"can_deal_long_distance_damage"	"1"
+				"paintable"		"1"
 			}
 			"show_in_armory"	"1"
-			"item_type_name"	"#TF_Weapon_Minigun"
-			"item_name"	"#Quiver_Artillery_Cannon"
-			"item_slot"	"primary"
-			"item_logname"	"artillery_cannon"
-			"item_iconname"	"tomislav"
-			"image_inventory"	"backpack/quiver/weapons/c_tomislav_artillery"
-			"image_inventory_size_w"		"128"
-			"image_inventory_size_h"		"82"
-			"model_player"	"models/weapons/c_models/c_tomislav/c_tomislav.mdl"
-			"attach_to_hands"	"1"
-			"inspect_panel_dist" "88"
+			"item_type_name"	"#TF_Wearable_Armor"
+			"item_name"			"#QF_Armor"
+			"equip_region"		"feet"
+			"item_quality"		"normal"
+			"model_player"		"models/player/items/resist_shield_armor.mdl"
+			"model_player_per_class"
+			{
+				"scout"	"models/player/items/resist_shield_armor.mdl"
+				"sniper"	"models/player/items/resist_shield_armor.mdl"
+				"soldier"	"models/player/items/resist_shield_armor.mdl"
+				"demoman"	"models/player/items/resist_shield_armor.mdl"
+				"medic"	"models/player/items/resist_shield_armor.mdl"
+				"heavy"	"models/player/items/resist_shield_armor_heavy.mdl"
+				"spy" "models/player/items/resist_shield_armor.mdl"
+				"engineer" "models/player/items/resist_shield_armor.mdl"
+				"pyro" "models/player/items/resist_shield_armor.mdl"
+			}
 			"used_by_classes"
 			{
-				"heavy"	"1"
-			}
-			"static_attrs"
-			{
-				"min_viewmodel_offset"		"10 0 -9"
-			}
-			"visuals"
-			{
-				"sound_reload"	"Weapon_Gatling.Reload"
-				"sound_empty"	"Weapon_Tomislav.WindDown"
-				"sound_double_shot"	"Weapon_Tomislav.Fire"
-				"sound_burst"	"Weapon_Tomislav.FireCrit"
-				"sound_special1"	"Weapon_Tomislav.WindUp"
-				"sound_special2"	"Weapon_Tomislav.WindDown"
-				"styles"
-				{
-					"0"
-					{
-						"skin_red"	"4"
-						"skin_blu"	"5"
-						"selectable"	"0"
-					}
-				}
-			}
-			"mouse_pressed_sound"	"ui/item_heavy_gun_pickup.wav"
-			"drop_sound"		"ui/item_heavy_gun_drop.wav"
-			"attributes"
-			{
-				"reverse damage falloff hidden"
-				{
-					"attribute_class"	"reverse_damage_falloff"
-					"value"	"1"
-				}
-				"no damage rampup"
-				{
-					"attribute_class"	"no_damage_rampup"
-					"value"	"1"
-				}
-				"fire rate penalty"
-				{
-					"attribute_class"	"mult_postfiredelay"
-					"value"	"1.9"
-				}
-				"damage penalty"
-				{
-					"attribute_class"	"mult_dmg"
-					"value"	"0.75"
-				}
-				"aiming movespeed decreased"
-				{
-					"attribute_class"	"mult_player_aiming_movespeed"
-					"value" "0.65"
-				}
-				"weapon spread bonus"
-				{
-					"attribute_class"	"mult_spread_scale"
-					"value"	"0.15"
-				}
-				"item style override"
-				{
-					"attribute_class"	"item_style_override"
-					"value"	"0"
-				}
-				"reverse damage falloff damage bonus"
-				{
-					"attribute_class"	"reverse_damage_falloff_mult_dmg"
-					"value"	"2.00"
-				}
-			}
-		}
-		"weapon_quiver_railgun"
-		{
-			"prefab"	"quiver_customweapon weapon_sniperrifle_alt1"
-			"enabled"	"1"
-			"item_class"	"tf_weapon_sniperrifle_classic"
-			"craft_material_type"	"weapon"
-			"craft_class"	"weapon"
-			"base_item_name"	"Railgun"
-			"capabilities"
-			{
-				"nameable"		"1"
-				"can_craft_count"	"1"
-			}
-			"tags"
-			{
-				"can_deal_damage"		"1"
-				"can_headshot"			"1"
-				"can_deal_mvm_penetration_damage"	"1"
-				"can_deal_long_distance_damage"	"1"
-			}
-			"item_type_name"	"#Quiver_Railgun_Type"
-			"item_name"	"#Quiver_Railgun"
-			"item_description"	"#TF_DEX_Rifle_Desc"
-			"item_slot"	"primary"
-			"propername"	"1"
-			"item_logname"	"railgun"
-			"item_iconname"		"shooting_star"
-			"image_inventory"		"backpack/workshop/weapons/c_models/c_invasion_sniperrifle/c_invasion_sniperrifle"
-			"image_inventory_size_w"		"128"
-			"image_inventory_size_h"		"82"
-			"model_player"		"models/workshop/weapons/c_models/c_invasion_sniperrifle/c_invasion_sniperrifle.mdl"
-			"attach_to_hands" "1"
-			"used_by_classes"
-			{
+				"scout"	"1"
 				"sniper"	"1"
-			}
-			"static_attrs"
-			{
-				"weapon_allow_inspect"		"1"
-				"ragdolls become ash"		"1"
-			}
-			"attributes"
-			{
-				"sniper penetrate players when charged"
-				{
-					"attribute_class"	"sniper_penetrate_players_when_charged"
-					"value"	"1"
-				}
-				"sniper crit no scope"
-				{
-					"attribute_class"	"sniper_crit_no_scope"
-					"value" "1"
-				}
-				"sniper fires tracer"
- 				{
-					"attribute_class"	"sniper_fires_tracer"
-					"value"	"1"
-				}
-				"crit on hard hit"
-				{
-					"attribute_class"	"crit_on_hard_hit"
-					"value"	"1"
-				}
-				"lunchbox adds minicrits"
-				{
-					"attribute_class"	"set_weapon_mode"
-					"value"	"2"
-				}
-				"sniper classic allow jump"
-				{
-					"attribute_class"	"sniper_classic_allow_jump"
-					"value"	"1"
-				}
-				"zoom speed mod disabled"
-				{
-					"attribute_class"	"unimplemented_mod_zoom_speed_disabled"
-					"value" "1"
-				}
-				"move speed penalty"
-				{
-					"attribute_class"	"mult_player_movespeed"
-					"value"	"0.85"
-				}
-			}
-			"visuals"
-			{
-				"sound_single_shot"	"Weapon_SniperRailgun_Large.Single"
-				"sound_burst"		"Weapon_SniperRailgun_Large.SingleCrit"
-				"sound_reload"		"Weapon_SniperRailgun.WorldReload"
-				"sound_empty"		"Weapon_SniperRailgun.ClipEmpty"
-				"sound_special2"	"Weapon_SniperRailgun.NonScoped"
-				"sound_special3"	"Weapon_SniperRailgun.Single"
-				"muzzle_flash"		"dxhr_sniper_muzzleflash"
-			}
-			"mouse_pressed_sound"	"ui/item_heavy_gun_pickup.wav"
-			"drop_sound"		"ui/item_heavy_gun_drop.wav"
-		}
-		"weapon_quiver_sentrypda"
-		{
-			"base_item_name"	"Valkyrie"
-			"prefab"	"quiver_customweapon"
-			"capabilities"
-			{
-				"nameable"		"1"
-			}
-			"first_sale_date"	"2010/09/29"
-			"item_class"	"tf_weapon_pda_engineer_build"
-			"craft_class"	"weapon"
-			"craft_material_type"	"weapon"
-			"item_name"	"#Quiver_SentryPDA"
-			"item_type_name"	"#TF_Weapon_PDA_Engineer"
-			"item_slot"	"pda"
-			"attach_to_hands" "1"
-			"image_inventory"	"backpack/weapons/w_models/w_builder"
-			"image_inventory_size_w"		"128"
-			"image_inventory_size_h"		"82"
-			"model_player"	"models/weapons/c_models/c_builder/c_builder.mdl"
-			"used_by_classes"
-			{
-				"engineer"	"1"
-			}
-			"static_attrs"
-			{
-				"min_viewmodel_offset"					"10 0 -10"	
-			}
-			"attributes"
-			{
-				"sentry turn rate bonus"
-				{
-					"attribute_class"	"mod_sentry_turn_rate"
-					"value" 	"1.35" 
-				}
-				"engy building health penalty"
-				{
-					"attribute_class"	"mult_engy_building_health"
-					"value" 	"0.75" 
-				}
-				"kill eater score type"
-				{
-					"attribute_class"	"kill_eater_score_type"
-					"value" 	"3" 
-				}
-				"kill eater score type 2"
-				{
-					"attribute_class"	"kill_eater_score_type_2"
-					"value" 	"59" 
-				}
-				"kill eater score type 3"
-				{
-					"attribute_class"	"kill_eater_score_type_3"
-					"value" 	"60" 
-				}
-			}
-			"mouse_pressed_sound"	"ui/item_metal_weapon_pickup.wav"
-			"drop_sound"		"ui/item_metal_weapon_drop.wav"
-			"visuals"
-			{
-				"animation_replacement"
-				{
-					"ACT_VM_IDLE"	"ACT_ENGINEER_PDA2_VM_IDLE"
-					"ACT_VM_DRAW"	"ACT_ENGINEER_PDA2_VM_DRAW"
-				}
-			}
-		}
-		"weapon_quiver_pickaxe"
-		{
-			"base_item_name"	"Vitality Glitch"
-			"prefab"	"quiver_customweapon"
-			"first_sale_date"	"2010/09/29"
-			"item_class"	"tf_weapon_shovel"
-			"craft_class"	"weapon"
-			"craft_material_type"	"weapon"
-			"capabilities"
-			{
-				"nameable"		"1"
-			}
-			"tags"
-			{
-				"can_deal_damage"			"1"
-				"can_be_equipped_by_soldier_or_demo"	"1"
-				"can_deal_critical_damage"	"1"
-				"can_deal_taunt_damage"		"1"
-			}
-			"show_in_armory"	"1"
-			"item_type_name"	"#TF_Weapon_Pickaxe"
-			"item_name"	"#Quiver_Pickaxe"
-			"item_description"	"#Quiver_Inspired_TF2PostLaunch"
-			"item_logname"	"unique_pickaxe"
-			"item_slot"	"melee"
-			"propername"	"1"
-			"min_ilevel"	"10"
-			"max_ilevel"	"10"
-			"image_inventory" "backpack/weapons/c_models/c_pickaxe/c_pickaxe"
-			"image_inventory_size_w"		"128"
-			"image_inventory_size_h"		"82"
-			"inspect_panel_dist" 				"50"			
-			"model_player"	"models/weapons/c_models/c_pickaxe/c_pickaxe.mdl"
-			"attach_to_hands" "1"
-			"used_by_classes"
-			{
 				"soldier"	"1"
+				"demoman"	"1"
+				"medic"	"1"
+				"heavy"	"1"
+				"spy" "1"
+				"engineer" "1"
+				"pyro" "1"
 			}
 			"static_attrs"
 			{
-				"min_viewmodel_offset"		"10 -3 -11"
+				"cosmetic_is_hidden_in_ui"				"1"
+				"cosmetic_disable_ubermaterial"			"1"
+				"cosmetic_disable_shadow"				"1"
+				"cosmetic_hide_on_cloak"				"1"
 			}
-			"attributes"
-			{
-				"fire rate penalty"
-				{
-					"attribute_class"	"mult_postfiredelay"
-					"value"	"1.25"
-				}
-				"provide on active"
-				{
-					"attribute_class"	"provide_on_active"
-					"value" "1"
-				}
-				"mod shovel speed and damage boost"
-				{
-					"attribute_class"	"set_weapon_mode"
-					"value"	"3"
-				}
-				"special taunt"
-				{
-					"attribute_class"	"special_taunt"
-					"value" "1"
-				}	
-				"armor damage taken increased"
-				{
-					"attribute_class"	"mult_armor"
-					"value"	"1.50"
-				}
-				"self mark for death"
-				{
-					"attribute_class"	"self_mark_for_death"
-					"value"	"1"
-				}
-				"damage penalty"
-				{
-					"attribute_class"	"mult_dmg"
-					"value"	"0.75"
-				}
-				"move speed penalty"
-				{
-					"attribute_class"	"mult_player_movespeed"
-					"value"	"0.85"
-				}
-				"crit mod disabled"
-				{
-					"attribute_class"	"mult_crit_chance"
-					"value"	"0"
-				}
-			}
-			"visuals"
-			{
-				"sound_melee_miss"	"Weapon_PickAxe.Swing"
-				"sound_melee_hit"	"Weapon_PickAxe.HitFlesh"
-				"sound_burst"		"Weapon_PickAxe.SwingCrit"
-			}
-			"mouse_pressed_sound"	"ui/item_metal_weapon_pickup.wav"
-			"drop_sound"		"ui/item_metal_weapon_drop.wav"
+			"mouse_pressed_sound"	"ui/item_hat_pickup.wav"
+			"drop_sound"		"ui/item_hat_drop.wav"
 		}
 		
-		"weapon_quiver_joke_lexecuteur"
-		{
-			"base_item_name"	"L'Executeur"
-			"prefab"	"quiver_jokeweapon"
-			"item_class"	"tf_weapon_revolver"
-			"craft_class"	"weapon"
-			"craft_material_type"	"weapon"
-			"capabilities"
-			{
-				"nameable"		"1"
-				"can_craft_count"	"1"
-			}
-			"tags"
-			{
-				"can_deal_damage"			"1"
-				"can_deal_critical_damage"	"1"
-				"can_deal_mvm_penetration_damage"	"1"
-				"can_deal_long_distance_damage"	"1"
-			}
-			"item_type_name"	"#TF_Weapon_Revolver"
-			"item_name"	"#Quiver_Joke_lexecutor"
-			"item_description"	"#Quiver_Joke_lexecutor_Desc"
-			"item_slot"	"secondary"
-			"propername"	"1"
-			"item_logname"	"bleedfor8seconds"
-			"item_iconname"	"enforcer"
-			"image_inventory"	"backpack/workshop/weapons/c_models/c_snub_nose/c_snub_nose"
-			"image_inventory_size_w"		"128"
-			"image_inventory_size_h"		"82"
-			"inspect_panel_dist" 			"32"
-			"model_player"	"models/workshop/weapons/c_models/c_snub_nose/c_snub_nose.mdl"
-			"attach_to_hands" "1"
-			"used_by_classes"
-			{
-				"spy"	"1"
-			}
-			"static_attrs"
-			{
-				"min_viewmodel_offset"		"10 0 -6"
-				"damage penalty" "0.01"
-				"maxammo secondary reduced" "0.33"
-				"clip size penalty" "0.16"
-				"Reload time increased" "2"
-				"bleeding duration" "8"
-			}
-			"mouse_pressed_sound"	"ui/item_light_gun_pickup.wav"
-			"drop_sound"		"ui/item_light_gun_drop.wav"
-			"visuals"
-			{
-				"sound_single_shot"	"Weapon_Enforcer.Single"
-				"sound_burst"	"Weapon_Enforcer.SingleCrit"
-			}
-		}
-		
+		// custom weapons go here
 		"weapon_quiver_armor_medigun"
 		{
 			"base_item_name"	"Armor Healing Medigun"
@@ -574,406 +203,12 @@
 			"mouse_pressed_sound"	"ui/item_heavy_gun_pickup.wav"
 			"drop_sound"		"ui/item_heavy_gun_drop.wav"
 		}
-		
-		"weapon_quiver_jumpshield"
-		{
-			"enabled"		"1"
-			"prefab"	"quiver_customweapon"
-			"item_class"		"tf_wearable_demoshield"
-			"craft_class"	"weapon"
-			"craft_material_type"	"weapon"
-			"capabilities"
-			{
-				"nameable"		"1"
-			}
-			"tags"
-			{
-				"can_deal_damage"			"1"
-				"can_be_equipped_by_soldier_or_demo"	"1"
-			}
-			"base_item_name"	"Jump Shield"
-			"show_in_armory"	"1"
-			"item_type_name" 	"#TF_Wearable_Shield"
-			"item_name"		"#Quiver_JumpShield"
-			"item_description"	"#TF_Unique_Achievement_Shield_Desc"
-			"item_slot"		"secondary"
-			"equip_region"	"arms"
-			"anim_slot"		"FORCE_NOT_USED"
-			"propername"	"1"
-			"min_ilevel"		"1"
-			"max_ilevel"		"99"
-			"item_logname"	"jumpshield"
-			"item_iconname"	"jumpshield"
-			"image_inventory"	"backpack/weapons/c_models/c_targe/c_targe"
-			"image_inventory_size_w"		"128"
-			"image_inventory_size_h"		"82"
-			"inspect_panel_dist" 			"33"
-			"model_player"	"models/weapons/c_models/c_targe/c_targe.mdl"
-			"act_as_wearable" "1"
-			"attach_to_hands"	"0"
-			"attach_to_hands_vm_only"	"1"
-			"drop_type"	"drop"
-			"used_by_classes"
-			{
-				"demoman"	"1"
-			}
-			"attributes"
-			{
-				"mult charge turn control"
-				{
-					"attribute_class"	"charge_turn_control"
-					"value"			"2"
-				}
-				"armor damage taken reduced"
-				{
-					"attribute_class"	"mult_armor"
-					"value"			"0.7"
-				}
-				"armor taken from dispensers decreased"
-				{
-					"attribute_class"	"mult_dispenser_armor_rate"
-					"value"			"0.5"
-				}
-				"armor repair cost increased on reciever"
-				{
-					"attribute_class"	"mult_armor_repair_cost_reciever"
-					"value"			"1.40"
-				}
-				"charge allow jump for charge"
-				{
-					"attribute_class"	"charge_allow_jump_for_charge"
-					"value"			"0.20"
-				}
-				"bhop penalty on charge"
-				{
-					"attribute_class"	"mod_bhop_boost_from_charge"
-					"value" "0.7"
-				}
-				"max armor additive penalty"
-				{
-					"attribute_class"	"add_maxarmor"
-					"value" "-15"
-				}
-				"allowed in medieval mode"
-				{
-					"attribute_class"	"allowed_in_medieval_mode"
-					"value"	"1"
-				}
-			}
-			"mouse_pressed_sound"	"ui/item_wood_pole_pickup.wav"
-			"drop_sound"		"ui/item_wood_pole_drop.wav"
-			"xifier_class_remap"	"weapon_targe"
-		}
-		
-		"weapon_quiver_afterburner"
-		{
-			"enabled"	"1"
-			"prefab"	"quiver_customweapon weapon_baseflamethrower"
-			"capabilities"
-			{
-				"nameable"		"1"
-			}
-			"tags"
-			{
-				"can_deal_damage"			"1"
-				"can_reflect_projectiles"	"1"
-				"can_extinguish"			"1"
-				"can_deal_posthumous_damage"	"1"
-				"can_deal_critical_damage"	"1"
-				"is_flamethrower" "1"
-			}
-			"item_logname"	"afterburner"
-			"item_iconname"	"afterburner"
-			"show_in_armory"	"1"
-			"item_name"		"#Quiver_Afterburner"
-			"item_description"	"#Quiver_Inspired_TF2PostLaunch"
-			"image_inventory"	"backpack/workshop/weapons/c_models/c_pilot_flamer/c_pilot_flamer"
-			"image_inventory_size_w"		"128"
-			"image_inventory_size_h"		"82"
-			"model_player"	"models/workshop/weapons/c_models/c_pilot_flamer/c_pilot_flamer.mdl"
-			"attach_to_hands"	"1"
-			"inspect_panel_dist" "91"
-			"propername"	"1"
-			"used_by_classes"
-			{
-				"pyro"	"1"
-			}
-			"static_attrs"
-			{
-				"min_viewmodel_offset"					"10 0 -10"
-				"airblast cost increased"				"1.25"
-				"airblast_self_knockback"				"1"
-				"mult airblast refire time penalty"		"1.30"
-				"charged airblast"						"1"
-				"charged_airblast_minblast"				"0.5"
-				"charged_airblast_maxblast"				"1.75"
-				"charged_airblast_uses_ammo"			"1"
-				"lunchbox adds minicrits"				"4"
-			}
-			"visuals"
-			{
-				"sound_single_shot"	"Weapon_Degreaser.FireStart"
-				"sound_special1"	"Weapon_Degreaser.FireLoop"
-				"sound_burst"	"Weapon_Degreaser.FireLoopCrit"
-				"sound_special3"	"Weapon_Degreaser.FireEnd"
-			}
-			"mouse_pressed_sound"	"ui/item_heavy_gun_pickup.wav"
-			"drop_sound"		"ui/item_heavy_gun_drop.wav"
-		}
-		
-		"weapon_quiver_syringe"
-		{
-			"enabled"	"1"
-			"prefab"		"quiver_customweapon"
-			"item_class"	"tf_weapon_bonesaw"
-			"craft_material_type"	"weapon"
-			"capabilities"
-			{
-				"nameable"			"1"
-			}
-			"tags"
-			{
-				"can_deal_damage"			"1"
-				"can_deal_posthumous_damage"	"1"
-				"can_deal_critical_damage"	"1"
-				"can_heal_allies"		"1"
-			}
-			"base_item_name"	"Syringe"
-			"item_logname"		"syringe"
-			"item_iconname"		"syringe"
-			"show_in_armory"	"1"
-			"item_type_name"	"#Quiver_Syringe_Type"
-			"item_name"			"#Quiver_Syringe"
-			"item_description"	"#Quiver_Inspired_QWTF-TFC"
-			"item_slot"			"melee"
-			"image_inventory"	"backpack/weapons/w_models/w_syringe"
-			"image_inventory_size_w"		"128"
-			"image_inventory_size_h"		"82"
-			"inspect_panel_dist" 				"42"			
-			"attach_to_hands"	"1"
-			"model_player"	"models/weapons/w_models/w_syringe.mdl"
-			"used_by_classes"
-			{
-				"medic"	"1"
-			}
-			"static_attrs"
-			{
-				"min_viewmodel_offset"		"10 0 -12"
-				"fire rate penalty"		"1.45"
-				"add_give_health_to_teammate_on_hit_alt" "25"
-				"theres_this_disease_going_around_killing_people_and_i_think_i_have_it_uh_oh"		"1"
-				"damage penalty" "0.80"
-				"lunchbox adds minicrits" "5"
-			}
-			"mouse_pressed_sound"	"ui/item_metal_weapon_pickup.wav"
-			"drop_sound"		"ui/item_metal_weapon_drop.wav"
-		}
-		
-		"armor"
-		{
-			"prefab"		"misc"
-			"item_class"	"tf_wearable"
-			"capabilities"
-			{
-				"nameable"		"1"
-				"paintable"		"1"
-			}
-			"show_in_armory"	"1"
-			"item_type_name"	"#TF_Wearable_Armor"
-			"item_name"			"#QF_Armor"
-			"equip_region"		"feet"
-			"item_quality"		"normal"
-			"model_player"		"models/player/items/resist_shield_armor.mdl"
-			"model_player_per_class"
-			{
-				"scout"	"models/player/items/resist_shield_armor.mdl"
-				"sniper"	"models/player/items/resist_shield_armor.mdl"
-				"soldier"	"models/player/items/resist_shield_armor.mdl"
-				"demoman"	"models/player/items/resist_shield_armor.mdl"
-				"medic"	"models/player/items/resist_shield_armor.mdl"
-				"heavy"	"models/player/items/resist_shield_armor_heavy.mdl"
-				"spy" "models/player/items/resist_shield_armor.mdl"
-				"engineer" "models/player/items/resist_shield_armor.mdl"
-				"pyro" "models/player/items/resist_shield_armor.mdl"
-			}
-			"used_by_classes"
-			{
-				"scout"	"1"
-				"sniper"	"1"
-				"soldier"	"1"
-				"demoman"	"1"
-				"medic"	"1"
-				"heavy"	"1"
-				"spy" "1"
-				"engineer" "1"
-				"pyro" "1"
-			}
-			"static_attrs"
-			{
-				"cosmetic_is_hidden_in_ui"				"1"
-				"cosmetic_disable_ubermaterial"			"1"
-				"cosmetic_disable_shadow"				"1"
-				"cosmetic_hide_on_cloak"				"1"
-			}
-			"mouse_pressed_sound"	"ui/item_hat_pickup.wav"
-			"drop_sound"		"ui/item_hat_drop.wav"
-		}
-		
-		"quiver_weapon_autopistol"
-		{
-			"base_item_name" "Auto Pistol"
-			"prefab"		"quiver_customweapon_staging"
-			"capabilities"
-			{
-				"nameable"		"1"
-				"can_craft_count"	"1"
-			}
-			"tags"
-			{
-				"can_deal_damage"			"1"
-				"can_deal_critical_damage"	"1"
-				"can_deal_mvm_penetration_damage"	"1"
-				"can_deal_long_distance_damage"	"1"
-			}
-			"item_class"	"tf_weapon_pistol"
-			"craft_class"	"weapon"
-			"craft_material_type"	"weapon"
-			"item_type_name"	"#TF_Weapon_Pistol"
-			"item_name"	"#Quiver_AutoPistol"
-			"item_slot"	"secondary"
-			"show_in_armory"	"1"
-			"attach_to_hands"	"1"
-			"image_inventory"	"backpack/weapons/c_models/c_pistol"
-			"model_player"	"models/weapons/c_models/c_pistol/c_pistol.mdl"
-			"capabilities"
-			{
-				"can_collect" "1"
-			}
-			"used_by_classes"
-			{
-				"scout"	"1"
-			}
-			"static_attrs"
-			{
-				"min_viewmodel_offset"					"10 0 -10"
-			}
-			"attributes"
-			{
-				"fire rate bonus"
-				{
-					"attribute_class"	"mult_postfiredelay"
-					"value" "0.55"
-				}
-				"clip size bonus"
-				{
-					"attribute_class"	"mult_clipsize"
-					"value" "2"
-				}
-				"maxammo secondary increased"
-				{
-					"attribute_class"	"mult_maxammo_secondary"
-					"value"	"3"
-				}
-				"damage penalty"
-				{
-					"attribute_class"	"mult_dmg"
-					"value" "0.85"
-				}
-				"spread penalty"
-				{
-					"attribute_class" 	"mult_spread_scale"
-					"value" "1.35"
-				}
-				"armor damage reduced on target"
-				{
-					"attribute_class"	"mult_armor_onhit"
-					"value"				"0.85"
-				}
-			}
-			"mouse_pressed_sound"	"ui/item_light_gun_pickup.wav"
-			"drop_sound"		"ui/item_light_gun_drop.wav"
-		}
 	}
 
 	"items"
 	{
 		// custom items
 		"34400"
-		{
-			"name"		"Artillery Cannon"
-			"prefab"	"weapon_quiver_artillery_cannon"
-			"first_sale_date"	"2010/09/29"
-			"xifier_class_remap"	"weapon_quiver_artillery_cannon"
-		}
-		"34401"
-		{
-			"name"	"Railgun"
-			"first_sale_date"	"2011/08/11"
-			"prefab"	"weapon_quiver_railgun"
-			"item_name"	"#Quiver_Railgun"
-			"item_description"	"#TF_DEX_Rifle_Desc"
-			"visuals"
-			{
-				"sound_single_shot"		"Weapon_ShootingStar.SingleCharged"
-				"sound_burst"		"Weapon_ShootingStar.SingleCrit"
-				"sound_reload"		"Weapon_SniperRailgun.WorldReload"
-				"sound_empty"		"Weapon_SniperRailgun.ClipEmpty"
-				"sound_special2"		"Weapon_SniperRailgun.NonScoped"
-				"sound_special3"		"Weapon_ShootingStar.Single"
-				"muzzle_flash"		"dxhr_sniper_muzzleflash"
-			}
-			"xifier_class_remap"	"weapon_quiver_railgun"
-		}
-		"34402"
-		{
-			"name"		"Valkyrie"
-			"prefab"	"weapon_quiver_sentrypda"
-			"first_sale_date"	"2010/09/29"
-			"xifier_class_remap"	"weapon_quiver_sentrypda"
-		}
-		"34403"
-		{
-			"name"		"Vitality Glitch"
-			"prefab"	"weapon_quiver_pickaxe"
-			"first_sale_date"	"2010/09/29"
-			"xifier_class_remap"	"weapon_quiver_pickaxe"
-		}
-		"34404"
-		{
-			"name"		"L'Executeur"
-			"prefab"	"weapon_quiver_joke_lexecuteur"
-			"first_sale_date"	"2024/06/14"
-			"xifier_class_remap"	"weapon_quiver_joke_lexecuteur"
-		}
-		"34405"
-		{
-			"name"		"Armor Healing Medigun"
-			"prefab"	"weapon_quiver_armor_medigun"
-			"first_sale_date"	"2010/09/29"
-			"xifier_class_remap"	"weapon_quiver_armor_medigun"
-		}
-		"34406"
-		{
-			"name"		"Jump Shield"
-			"prefab"	"weapon_quiver_jumpshield"
-			"first_sale_date"	"2010/09/29"
-			"xifier_class_remap"	"weapon_quiver_jumpshield"
-		}
-		"34407"
-		{
-			"name"		"Afterburner"
-			"prefab"	"weapon_quiver_afterburner"
-			"first_sale_date"	"2010/09/29"
-			"xifier_class_remap"	"weapon_quiver_afterburner"
-		}
-		"34408"
-		{
-			"name"		"Syringe"
-			"prefab"	"weapon_quiver_syringe"
-			"first_sale_date"	"2010/09/29"
-			"xifier_class_remap"	"weapon_quiver_syringe"
-		}
-		"34409"
 		{
 			"name"		"Armor"
 			"prefab"	"armor"
@@ -994,7 +229,7 @@
 				}
 			}
 		}
-		"34410"
+		"34401"
 		{
 			"name"		"Robot Armor"
 			"item_name"	"#QF_Robot_Armor"
@@ -1016,12 +251,12 @@
 				}
 			}
 		}
-		"34411"
+		"34402"
 		{
-			"name"		"Auto Pistol"
-			"prefab"	"quiver_weapon_autopistol"
+			"name"		"Armor Healing Medigun"
+			"prefab"	"weapon_quiver_armor_medigun"
 			"first_sale_date"	"2010/09/29"
-			"xifier_class_remap"	"quiver_weapon_autopistol"
+			"xifier_class_remap"	"weapon_quiver_armor_medigun"
 		}
 	}
 	

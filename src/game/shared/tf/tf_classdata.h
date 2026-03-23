@@ -57,9 +57,6 @@ struct TFPlayerClassData_t
 	float		m_flArmorRatio;
 	float		m_flArmorAdditionalCostMult;
 	float		m_flArmorMetalPenaltyMult;
-
-	float		m_flBhopBoost;
-	float		m_flAirSpeedCapMultiplier;
 	float		m_flAimedSpeedAdjust;
 #endif
 	int			m_aWeapons[TF_PLAYER_WEAPON_COUNT];

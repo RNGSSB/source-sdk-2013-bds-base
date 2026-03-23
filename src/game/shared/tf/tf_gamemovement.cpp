@@ -100,12 +100,7 @@ extern ConVar sv_bhop;
 extern ConVar sv_bhop_mode;
 extern ConVar sv_bhop_boost;
 ConVar sv_bhop_tf_cap("sv_bhop_tf_cap", "1", FCVAR_REPLICATED | FCVAR_NOTIFY);
-#if defined(QUIVER_DLL)
-ConVar sv_bhop_tf_cap_boost("sv_bhop_tf_cap_boost", "2", FCVAR_REPLICATED | FCVAR_NOTIFY);
-ConVar sv_bhop_qf_classboost_disable("sv_bhop_qf_classboost_disable", "0", FCVAR_REPLICATED | FCVAR_NOTIFY);
-#else
 ConVar sv_bhop_tf_cap_boost("sv_bhop_tf_cap_boost", "1.2", FCVAR_REPLICATED | FCVAR_NOTIFY);
-#endif
 #endif
 
 #ifdef BDSBASE
@@ -1387,33 +1382,33 @@ bool CTFGameMovement::CheckJumpButton()
 	}
 
 #ifdef BDSBASE
-#if defined(QUIVER_DLL)
-	float flBhopBoost = (sv_bhop_qf_classboost_disable.GetBool() ? sv_bhop_boost.GetFloat() : m_pTFPlayer->GetPlayerClass()->GetBhopSpeedBoost());
-	//charging
-	if (m_pTFPlayer->m_Shared.InCond(TF_COND_SHIELD_CHARGE))
-	{
-		//charging
-		CALL_ATTRIB_HOOK_FLOAT_ON_OTHER(m_pTFPlayer, flBhopBoost, mod_bhop_boost_from_charge);
-	}
-	else
-	{
-		// Passive version
-		CALL_ATTRIB_HOOK_FLOAT_ON_OTHER(m_pTFPlayer, flBhopBoost, mod_bhop_boost);
-	}
-
-	// Weapon-restricted version
-	CTFWeaponBase* pWpn = m_pTFPlayer->GetActiveTFWeapon();
-	if (pWpn)
-	{
-		CALL_ATTRIB_HOOK_FLOAT_ON_OTHER(pWpn, flBhopBoost, mod_bhop_boost_from_weapon);
-	}
-#else
-	float flBhopBoost = sv_bhop_boost.GetFloat();
-#endif
 	bool canBHop = ((sv_bhop.GetBool()) ? true : (gpGlobals->maxClients == 1));
 
 	if (canBHop)
 	{
+		float flBhopBoost = sv_bhop_boost.GetFloat();
+
+#if defined(QUIVER_DLL)
+		//charging
+		if (m_pTFPlayer->m_Shared.InCond(TF_COND_SHIELD_CHARGE))
+		{
+			//charging
+			CALL_ATTRIB_HOOK_FLOAT_ON_OTHER(m_pTFPlayer, flBhopBoost, mod_bhop_boost_from_charge);
+		}
+		else
+		{
+			// Passive version
+			CALL_ATTRIB_HOOK_FLOAT_ON_OTHER(m_pTFPlayer, flBhopBoost, mod_bhop_boost);
+		}
+
+		// Weapon-restricted version
+		CTFWeaponBase* pWpn = m_pTFPlayer->GetActiveTFWeapon();
+		if (pWpn)
+		{
+			CALL_ATTRIB_HOOK_FLOAT_ON_OTHER(pWpn, flBhopBoost, mod_bhop_boost_from_weapon);
+		}
+#endif
+
 		Vector vecAdjusted = vec3_origin;
 
 		if (sv_bhop_mode.GetInt() == 1)
@@ -1534,9 +1529,7 @@ bool CTFGameMovement::CheckJumpButton()
 	// Passive version
 	CALL_ATTRIB_HOOK_FLOAT_ON_OTHER( m_pTFPlayer, flJumpMod, mod_jump_height );
 	// Weapon-restricted version
-#if !defined(QUIVER_DLL)
 	CTFWeaponBase *pWpn = m_pTFPlayer->GetActiveTFWeapon();
-#endif
 	if ( pWpn )
 	{
 		CALL_ATTRIB_HOOK_FLOAT_ON_OTHER( pWpn, flJumpMod, mod_jump_height_from_weapon );
@@ -2301,14 +2294,6 @@ float CTFGameMovement::GetAirSpeedCap( void )
 	else
 	{
 		float flCap = BaseClass::GetAirSpeedCap();
-
-#if defined(QUIVER_DLL)
-		float flCapMult = m_pTFPlayer->GetPlayerClass()->GetSpeedCapMultiplier();
-		if (flCapMult > 0.0f)
-		{
-			flCap *= flCapMult;
-		}
-#endif
 /*
 #ifdef STAGING_ONLY
 		if ( m_pTFPlayer->m_Shared.InCond( TF_COND_SPACE_GRAVITY ) )
