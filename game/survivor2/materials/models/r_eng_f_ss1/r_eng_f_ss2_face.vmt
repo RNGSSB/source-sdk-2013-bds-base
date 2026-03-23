@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\r_eng_f_ss1\r_eng_f_ss2_face"
+	"$halflambert" 1
+	"$selfillum" 1
+}

@@ -1,0 +1,9 @@
+"vertexlitgeneric"
+{
+	"$baseTexture" "models\r_sni_f_ss1\r_sni_f_ss1_hair"
+	"$translucent" 1
+	"$model" 1
+	"$alpha" 1
+//	"$nocull" 1
+	"$halflambert" 1
+}

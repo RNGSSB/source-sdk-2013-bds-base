@@ -1,0 +1,11 @@
+"VertexLitGeneric"
+{
+	// Original shader: VertexLitTexture
+	"$basetexture" "Models/weapons/w_sparkg/sbox_sheet"
+//	"$bumpmap" "models\weapons\w_sparkg\sbox_normal"
+//	"$normalmapalphaenvmapmask" 1
+//	"$envmap" "env_cubemap"
+//	"$envmapsaturation" .5
+//	"$envmapcontrast" 1
+	"$selfillum" 1
+}

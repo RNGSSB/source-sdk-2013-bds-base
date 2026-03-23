@@ -1,0 +1,20 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\c_med_m_b\com_med_m_eye_b"
+	"$envmap" "env_cubemap"	
+	"$envmapcontrast" 1
+	"$surfaceprop" "flesh"
+	"$model" 1
+	"$selfillum" 1
+	"$halflambert" 1
+	"Proxies"
+	{
+		"Sine"
+		{
+			"resultVar" "$selfillumtint"
+			"sineperiod" 2.00
+			"sinemin" 0.5
+			"sinemax" 10
+		}
+	}
+}

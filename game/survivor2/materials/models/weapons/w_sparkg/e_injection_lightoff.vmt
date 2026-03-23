@@ -1,0 +1,23 @@
+"UnLitGeneric"
+{
+	// Original shader: VertexLitMaskedEnvMappedTexture
+	"$baseTexture" "models\weapons\w_sparkg\e_injection_lighton"
+        "$bumpmap" "models\weapons\w_sparkg\r_injection_light_normal"
+	"$envmapmask" "models\weapons\v_shaketrapAC\v_shake_right_mask"
+	"$envmap" "env_cubemap"
+	"$envmapsaturation" "[1 1 1]"
+	"$envmapcontrast" 1
+	"$surfaceprop" "flesh"
+	"$model" "1"
+         "Proxies"
+
+	{
+		"Sine"
+		{
+			"sineperiod"	1.0
+			"sinemin"	".5"
+			"sinemax"	"1.0"
+			"resultVar"	"$color"
+		}
+	}
+}

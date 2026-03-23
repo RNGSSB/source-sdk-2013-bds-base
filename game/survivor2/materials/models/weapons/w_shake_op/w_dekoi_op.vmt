@@ -1,0 +1,19 @@
+"Unlittwotexture"
+{
+	"$baseTexture" "models\weapons\w_shake_op\w_dekoi_op"
+	"$texture2" "models\weapons\w_shake_op\w_dekoi_op"
+	"$translucent" "1"
+	"$additive" 1
+ 	"$model" 1
+	"$nocull" 1
+	"Proxies"
+	{
+		"TextureScroll"
+		{
+			"texturescrollvar" "$texture2transform"
+			"texturescrollrate" .50
+//			"texturescrollangle" 70
+		}
+
+	}
+}

@@ -1,0 +1,8 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" 	"models\r_nor_f_ss1\r_nor_goggle"
+	"$envmap" "env_cubemap"	
+	"$envmapmask" "models\r_nor_f_ss1\r_nor_goggle_mask"
+	"$envmapcontrast" "1"
+	"$model" 1
+}

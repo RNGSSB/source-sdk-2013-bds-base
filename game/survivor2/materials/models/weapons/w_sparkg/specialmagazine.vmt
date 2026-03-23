@@ -1,0 +1,26 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\weapons\w_sparkg\specialmagazine"
+	"$bumpmap" "models\weapons\w_sparkg\specialmagazine_normal"
+	"$normalmapalphaenvmapmask" 1
+	"$envmap" "env_cubemap"
+	"$envmapsaturation" .5
+	"$envmapcontrast" 1
+	"$selfillum" 1
+}
+
+
+
+
+
+//"VertexLitGeneric"
+//{
+//	"$baseTexture" "models\weapons\w_sparkg\specialmagazine"
+//	"$bumpmap" "models\weapons\w_sparkg\specialmagazine_normal"
+//	"$selfillum" "1"
+//	"$envmap" "Env_cubemap"
+//	"$normalmapalphaenvmapmask" 1
+//	"$envmapcontrast" "1"
+//	"$envmaptint" "[.6 .7 .8]"nokosi
+//	"$envmapsaturation" "[1 1 1]"
+//}

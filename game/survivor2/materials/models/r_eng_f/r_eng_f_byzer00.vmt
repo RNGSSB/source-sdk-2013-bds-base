@@ -1,0 +1,9 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\r_eng_f\r_eng_f_byzer00"
+	"$translucent" "1"
+	"$envmap" "env_cubemap"
+	"$envmapcontrast" 1.25
+ 	"$model" 1
+//	"$additive" 1
+}

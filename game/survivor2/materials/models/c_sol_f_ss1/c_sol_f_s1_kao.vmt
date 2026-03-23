@@ -1,0 +1,11 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\c_sol_f_ss1\c_sol_f_s1_kao"
+	"$envmap" "env_cubemap"	
+	"$bumpmap" "models\c_sol_f_ss1\c_sol_f_s1_kao_normal"
+	"$normalmapalphaenvmapmask" 1
+	"$envmapcontrast" "1.25"
+	"$model" 1
+	"$selfillum" 1
+	"$halflambert" 1
+}

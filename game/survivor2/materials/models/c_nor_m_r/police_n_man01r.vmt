@@ -1,0 +1,13 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\c_nor_m_r\police_n_man01r"
+	"$envmap" "env_cubemap"	
+	"$envmapmask" "models\c_nor_m\police_n_m_mask"
+	"$envmapcontrast" 1
+	"$surfaceprop" "flesh"
+	"$selfillum" 1
+	"$model" 1
+	"$halflambert" 1
+}
+
+

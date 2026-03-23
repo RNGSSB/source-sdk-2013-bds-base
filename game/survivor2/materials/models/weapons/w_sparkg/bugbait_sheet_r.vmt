@@ -1,0 +1,5 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\weapons\w_sparkg\bugbait_sheet_r"
+        "$selfillum" "1"
+}

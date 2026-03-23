@@ -1,0 +1,11 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\weapons\w_sparkg\spark_sheet_r"
+	"$bumpmap" "models\weapons\w_sparkg\rollermine_normal"
+	"$selfillum" "1"
+	"$envmap" "Env_cubemap"
+	"$normalmapalphaenvmapmask" 1
+	"$envmapcontrast" "1"
+//	"$envmaptint" "[.6 .7 .8]"
+	"$envmapsaturation" "[1 1 1]"
+}

@@ -1,0 +1,17 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\weapons\w_sparkg\prebar"
+	"$bumpmap" "Models/Weapons/v_crossbow/rebar_normal"
+//	"$envmap" "env_cubemap"
+//	"$normalmapalphaenvmapmask" 1
+	"$selfillum" 1
+}
+
+
+//"VertexLitGeneric"
+//{
+//	"$baseTexture" "models\weapons\w_sparkg\prebar"
+//        "$bumpmap" "Models/Weapons/v_crossbow/rebar_normal"
+//	"$envmap" "env_cubemap"
+//	"$normalmapalphaenvmapmask" 1
+//}

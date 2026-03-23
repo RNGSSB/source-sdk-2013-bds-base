@@ -1,0 +1,15 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\r_sol_f_ss2\r_sol_f_ss2_sunglass"
+	"$envmap" "env_cubemap"	
+	"$envmapmask" "models\r_sol_f_ss2\r_sol_f_ss2_sunglass_mask"
+	"$translucent" 1
+	"$envmapcontrast" 1
+	"$surfaceprop" "flesh"
+//	"$selfillum" 1
+	"$model" 1
+	"$halflambert" 1
+}
+
+
+

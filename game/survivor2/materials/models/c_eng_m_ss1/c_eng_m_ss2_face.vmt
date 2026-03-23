@@ -1,0 +1,11 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\c_eng_m_ss1\c_eng_m_ss2_face"
+	"$envmap" "env_cubemap"	
+	"$bumpmap" "models\c_eng_m_ss1\c_eng_m_ss2_face_mask"
+        "$normalmapalphaenvmapmask" 1
+	"$envmapcontrast" 1
+	"$surfaceprop" "flesh"
+	"$selfillum" 1
+	"$model" 1
+}

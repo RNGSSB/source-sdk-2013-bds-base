@@ -1,0 +1,21 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\weapons\w_sparkg\invisiblesuit_02_4"
+	"$envmapmask" "models\weapons\w_sparkg\invisiblesuit_spe"
+	"$envmap" "env_cubemap"	
+	"$envmapcontrast" 1
+	"$selfillum" 1
+	"$model" 1
+	"Proxies"
+	{
+		"Sine"
+		{
+			"resultVar" "$selfillumtint"
+			"sineperiod" 0.30
+			"sinemin" 0.5
+			"sinemax" 5
+		}
+		
+	}
+}
+

@@ -1,0 +1,26 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\weapons\w_sparkg\invisiblesuit_02_3"
+	"$envmapmask" "models\weapons\w_sparkg\invisiblesuit_spe"
+	"$envmap" "env_cubemap"	
+	"$envmapcontrast" 1
+	"$selfillum" 1
+	"$model" 1
+	"Proxies"
+{
+		"TextureScroll"
+		{
+			"texturescrollvar" "$basetexturetransform"
+			"texturescrollrate" 1.2
+			"texturescrollangle" -90
+		}
+		
+		"Sine"
+		{
+			"resultVar" "$selfillumtint"
+			"sineperiod" 1.00
+			"sinemin" 0.5
+			"sinemax" 5
+		}
+	}
+}

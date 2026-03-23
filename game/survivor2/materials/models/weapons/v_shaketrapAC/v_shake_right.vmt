@@ -1,0 +1,22 @@
+"UnLitGeneric"
+{
+	// Original shader: VertexLitMaskedEnvMappedTexture
+	"$basetexture" "models\weapons\v_shaketrapAC\v_shake_right"
+	"$envmapmask" "models\weapons\v_shaketrapAC\v_shake_right_mask"
+	"$envmap" "env_cubemap"
+	"$envmapsaturation" "[1 1 1]"
+	"$envmapcontrast" 1
+	"$surfaceprop" "flesh"
+	"$model" "1"
+         "Proxies"
+
+	{
+		"Sine"
+		{
+			"sineperiod"	2.0
+			"sinemin"	".2"
+			"sinemax"	"1.0"
+			"resultVar"	"$color"
+		}
+	}
+}

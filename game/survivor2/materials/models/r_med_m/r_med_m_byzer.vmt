@@ -1,0 +1,7 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\r_med_m\r_med_m_byzer"
+	"$envmap" "env_cubemap"
+	"$envmapcontrast" 1.5
+ 	"$model" 1
+}

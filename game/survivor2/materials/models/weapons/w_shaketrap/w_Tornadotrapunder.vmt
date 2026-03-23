@@ -1,0 +1,12 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\weapons\w_shaketrap\w_Tornadotrapunder"
+        "$bumpmap" "models\weapons\\w_shaketrap\w_shaketrapunder_normal"
+	"$normalmapalphaenvmapmask" 1
+	"$envmap" "env_cubemap"
+	"$envmapsaturation" "[1 1 1]"
+	"$envmapcontrast" 1
+	"$surfaceprop" "flesh"
+	"$model" 1
+	"$selfillum" 1
+}

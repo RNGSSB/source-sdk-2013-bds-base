@@ -1,0 +1,10 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" 	"models\c_nor_m_ss1\c_nor_m_ss1_hair"
+	"$translucent" 1
+	"$model" 1
+//	"$alphatest" 1
+//	"$nocull" 1
+//	"$selfillum" 1
+	"$halflambert" 1
+}

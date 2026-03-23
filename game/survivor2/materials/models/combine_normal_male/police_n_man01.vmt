@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\combine_normal_male\police_n_man01"
+	"$envmap" "env_cubemap"
+	"$basealphaenvmapmask" 1
+}

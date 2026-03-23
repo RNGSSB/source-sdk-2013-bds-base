@@ -1,0 +1,12 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\c_med_m_r\com_med_m_r_00"
+	"$envmap" "env_cubemap"	
+	"$bumpmap" "models\c_med_m\com_med_m_00_normal"
+	"$normalmapalphaenvmapmask" 1
+	"$envmapcontrast" 1
+	"$surfaceprop" "flesh"
+	"$model" 1
+	"$selfillum" 1
+	"$halflambert" 1
+}

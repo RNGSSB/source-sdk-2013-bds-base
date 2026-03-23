@@ -1,0 +1,5 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\r_sni_m_ss1\r_sni_m_ss2_head"
+        "$halflambert" 1
+}

@@ -1,0 +1,6 @@
+"UnlitGeneric"
+{
+	"$baseTexture" "models\weapons\w_sparkg\dekoi_c_sni_m_ss2_r"
+	"$translucent" "1"
+        "$spriteorigin" "[ 0.5 1 ]"
+}

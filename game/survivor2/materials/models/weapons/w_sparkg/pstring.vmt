@@ -1,0 +1,7 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\weapons\w_sparkg\pstring"
+	"$bumpmap" "Models/Weapons/v_crossbow/string_normal"
+//	"$envmap" "env_cubemap"
+	"$normalmapalphaenvmapmask" 1
+}

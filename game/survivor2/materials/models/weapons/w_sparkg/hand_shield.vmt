@@ -1,0 +1,26 @@
+"Unlittwotexture"
+{
+	"$baseTexture" "models\weapons\w_sparkg\hand_shield"
+ 	"$texture2" "models\weapons\w_p_shield_op\shield05d"
+      	"$translucent" "1"
+	"$additive" 1
+ 	"$model" 1
+	"Proxies"
+	{
+		"TextureScroll"
+		{
+			"texturescrollvar" "$texture2transform"
+			"texturescrollrate" .50
+			"texturescrollangle" 70
+		}
+		"Sine"
+		{
+			"sineperiod"	"2"
+			"sinemin"	".5"
+			"sinemax"	"1.0"
+			"resultVar"	"$color"
+		}
+	}
+}
+
+

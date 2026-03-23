@@ -1,0 +1,11 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\weapons\w_sparkg\timeG"
+        "$bumpmap" "models\weapons\w_sparkg\timeG_nomal"
+        "$normalmapalphaenvmapmask" 1
+	"$envmap" "env_cubemap"
+	"$envmapsaturation" .5
+	"$envmapcontrast" 1
+	"$selfillum" 1
+	"$nodecal" "1"
+}

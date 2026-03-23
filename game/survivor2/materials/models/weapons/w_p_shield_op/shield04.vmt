@@ -1,0 +1,19 @@
+"unlittwotexture"
+{
+	"$baseTEXTURE" "models\weapons\w_p_shield_op\shield02"
+	"$texture2" "models\weapons\w_p_shield_op\shield01d"
+	"$spriteorigin" "[ 0.5 0.8 ]"
+	"$translucent" "1"
+	"$additive" 1
+	"$ignorez" 1
+	"$model" 1
+	"Proxies"
+	{
+		"TextureScroll"
+		{
+			"texturescrollvar" "$texture2transform"
+			"texturescrollrate" 2.0
+			"texturescrollangle" -20
+		}
+	}
+}

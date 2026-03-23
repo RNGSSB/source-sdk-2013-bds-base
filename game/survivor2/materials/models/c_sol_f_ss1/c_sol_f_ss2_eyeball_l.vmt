@@ -1,0 +1,7 @@
+"eyes"
+{
+	"$basetexture" "models\c_sol_f_ss1\c_sol_f_ss2_eyeball_l"
+	"$iris" "models/c_sol_f_ss1/pupil_l"
+	"$halflambert" 1
+}
+

@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\r_sol_f_ss1_b\r_sol_f_bandana_b"
+	"$model" 1
+	"$selfillum" 1
+}

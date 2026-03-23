@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	// Original shader: VertexLitTranslucentTexture
+	"$translucent" 1
+	"$baseTexture" "models\weapons\w_sparkg\manhackblade001_b"
+}

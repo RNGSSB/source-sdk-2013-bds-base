@@ -1,0 +1,14 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\c_eng_m_ss1\combinesoldier_okada"
+	"$envmap" "env_cubemap"	
+	"$envmapmask" "models\c_eng_m_ss1\combinesoldier_okada_mask"
+	"$envmapcontrast" 1
+	"$surfaceprop" "flesh"
+	"$selfillum" 1
+	"$model" 1
+	"$halflambert" 1
+}
+
+
+

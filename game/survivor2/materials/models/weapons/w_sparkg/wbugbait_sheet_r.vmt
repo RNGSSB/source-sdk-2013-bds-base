@@ -1,0 +1,10 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\weapons\w_sparkg\wbugbait_sheet_r"
+        "$selfillum" "1"
+        "$bumpmap" "models\weapons\w_sparkg\wbugbait_sheet_nomal"
+	"$envmap" "Env_Cubemap"
+//	"$envmaptint" "[.4 .4 .4]"
+	"$normalmapalphaenvmapmask" 1
+}
+

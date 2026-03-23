@@ -1,0 +1,7 @@
+"eyes"
+{
+	"$baseTexture" "models\c_sni_f_ss1\mekaeyeball_l"
+//	"$iris" "models/Humans/Female/pupil_l"
+	"$iris" "models\c_sni_f_ss1\mek_pupil_l"
+	"$halflambert" 1
+}

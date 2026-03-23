@@ -1,0 +1,7 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models\r_eng_m_ss1\r_eng_m_ss1_face"
+	"$halflambert" 1
+//	"$bumpmap" "models\r_eng_m_ss1\r_eng_m_ss1_face_normal"
+//      "$normalmapalphaenvmapmask" 1
+}
