@@ -28,21 +28,21 @@ $Configuration
 		$PreprocessorDefinitions		"$BASE;BDSBASE_ACHIEVEMENT_NOTIFICATIONS" [$BDSBASE]
 		$PreprocessorDefinitions		"$BASE;BDSBASE_DISCORD" [$BDSBASE]
 		//$PreprocessorDefinitions		"$BASE;BDSBASE_NPC" [$BDSBASE]
-		//$PreprocessorDefinitions		"$BASE;BDSBASE_ECON_LOADOUT_ONLY" [$BDSBASE]
-		//$PreprocessorDefinitions		"$BASE;BDSBASE_DISABLE_ITEM_DROP_PANEL" [$BDSBASE]
+		$PreprocessorDefinitions		"$BASE;BDSBASE_ECON_LOADOUT_ONLY" [$BDSBASE]
+		$PreprocessorDefinitions		"$BASE;BDSBASE_DISABLE_ITEM_DROP_PANEL" [$BDSBASE]
 		//$PreprocessorDefinitions		"$BASE;BDSBASE_USES_LADDERS" [$BDSBASE]
 		//custom schema
 		$PreprocessorDefinitions		"$BASE;BDSBASE_USE_LOCAL_SCHEMA" [$BDSBASE]
-		//$PreprocessorDefinitions		"$BASE;BDSBASE_CUSTOM_SCHEMA" [$BDSBASE]
+		$PreprocessorDefinitions		"$BASE;BDSBASE_CUSTOM_SCHEMA" [$BDSBASE]
 		//legacy stuff
 		//$PreprocessorDefinitions		"$BASE;BDSBASE_LEGACY_MAINMENU" [$BDSBASE]
 		//$PreprocessorDefinitions		"$BASE;BDSBASE_LEGACY_VIEWMODELS" [$BDSBASE]
 		//curated item options
-		//$PreprocessorDefinitions		"$BASE;BDSBASE_CURATED_ITEMS" [$BDSBASE]
+		$PreprocessorDefinitions		"$BASE;BDSBASE_CURATED_ITEMS" [$BDSBASE]
 		//$PreprocessorDefinitions		"$BASE;BDSBASE_CURATED_ITEMS_ALLOWCOSMETICS" 	   [$BDSBASE]
 		//$PreprocessorDefinitions		"$BASE;BDSBASE_CURATED_ITEMS_ALLOWCOSMETICWEAPONS" [$BDSBASE]
 		//$PreprocessorDefinitions		"$BASE;BDSBASE_CURATED_ITEMS_DISABLE_CUSTOMITEMS"  [$BDSBASE] //USE WITH CUSTOM SCHEMA
-		//$PreprocessorDefinitions		"$BASE;BDSBASE_CURATED_ITEMS_GIVEWHITELISTEDITEMS" [$BDSBASE]
+		$PreprocessorDefinitions		"$BASE;BDSBASE_CURATED_ITEMS_GIVEWHITELISTEDITEMS" [$BDSBASE]
 	}
 }
 
