@@ -68,7 +68,7 @@ ConVar player_limit_jump_speed( "player_limit_jump_speed", "1", FCVAR_REPLICATED
 ConVar option_duck_method("option_duck_method", "1", FCVAR_REPLICATED|FCVAR_ARCHIVE );// 0 = HOLD to duck, 1 = Duck is a toggle
 
 #ifdef BDSBASE
-ConVar sv_bhop("sv_bhop", "0", FCVAR_REPLICATED | FCVAR_NOTIFY);
+ConVar sv_bhop("sv_bhop", "1", FCVAR_REPLICATED | FCVAR_NOTIFY);
 ConVar sv_bhop_mode("sv_bhop_mode", "1", FCVAR_REPLICATED | FCVAR_NOTIFY, "1 = 2006 bhopping, 2 = orangebox accelerated backhopping");
 ConVar sv_bhop_boost("sv_bhop_boost", "0.1", FCVAR_REPLICATED | FCVAR_NOTIFY);
 ConVar sv_wallstrafe("sv_wallstrafe", "1", FCVAR_REPLICATED | FCVAR_NOTIFY);
