@@ -430,5 +430,5 @@ bool IsFixedWeaponSpreadEnabled( CTFWeaponBase *pWeapon /*= NULL*/ )
 			return true;
 	}
 
-	return bFixedSpread;
+	return true;
 }
