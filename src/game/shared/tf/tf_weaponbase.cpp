@@ -1712,14 +1712,20 @@ bool CTFWeaponBase::CalcIsAttackCriticalHelper()
 		return false;
 
 	float flCritChance = 0.f;
-	float flPlayerCritMult = pPlayer->GetCritMult();
+	float flPlayerCritMult = 0.0;
 
 	if ( !CanFireCriticalShot() )
 		return false;
 
 	// Crit boosted players fire all crits
-	if ( pPlayer->m_Shared.IsCritBoosted() )
+	if (pPlayer->m_Shared.IsCritBoosted())
+	{
 		return true;
+	}
+	else {
+		return false;
+	}
+		
 
 	// For rapid fire weapons, allow crits while period is active
 	bool bRapidFire = m_pWeaponInfo->GetWeaponData( m_iWeaponMode ).m_bUseRapidFireCrits;
@@ -1799,7 +1805,7 @@ bool CTFWeaponBase::CalcIsAttackCriticalHelper()
 	else
 	{
 		// single-shot weapon, just use random pct per shot
-		flCritChance = TF_DAMAGE_CRIT_CHANCE * flPlayerCritMult;
+		flCritChance = 0.0;
 		CALL_ATTRIB_HOOK_FLOAT( flCritChance, mult_crit_chance );
 
 		// mess with the crit chance seed so it's not based solely on the prediction seed
@@ -1812,7 +1818,7 @@ bool CTFWeaponBase::CalcIsAttackCriticalHelper()
 		}
 
 		iRandom = RandomInt( 0, WEAPON_RANDOM_RANGE - 1 );
-		bCrit = ( iRandom < flCritChance * WEAPON_RANDOM_RANGE );
+		bCrit = ( 0.0 );
 	}
 
 #ifdef _DEBUG

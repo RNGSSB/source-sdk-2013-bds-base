@@ -1348,10 +1348,10 @@ bool CTFWeaponBaseMelee::CalcIsAttackCriticalHelperNoCrits( void )
 {
 	// This function was called because the tf_weapon_criticals ConVar is off, but if
 	// melee crits are set to be forced on, then call the regular crit helper function.
-	if ( tf_weapon_criticals_melee.GetInt() > 1 )
+	/*if (tf_weapon_criticals_melee.GetInt() > 1)
 	{
 		return CalcIsAttackCriticalHelper();
-	}
+	}*/
 
 	CTFPlayer *pPlayer = ToTFPlayer( GetPlayerOwner() );
 	if ( !pPlayer )
@@ -1375,10 +1375,10 @@ bool CTFWeaponBaseMelee::CalcIsAttackCriticalHelperNoCrits( void )
 bool CTFWeaponBaseMelee::CalcIsAttackCriticalHelper( void )
 {
 	// If melee crits are off, then check the NoCrits helper.
-	if ( tf_weapon_criticals_melee.GetInt() == 0 )
+	/*if (tf_weapon_criticals_melee.GetInt() == 0)
 	{
 		return CalcIsAttackCriticalHelperNoCrits();
-	}
+	}*/
 
 	CTFPlayer *pPlayer = ToTFPlayer( GetPlayerOwner() );
 	if ( !pPlayer )
@@ -1388,11 +1388,16 @@ bool CTFWeaponBaseMelee::CalcIsAttackCriticalHelper( void )
 		return false;
 
 	// Crit boosted players fire all crits
-	if ( pPlayer->m_Shared.IsCritBoosted() )
+	if (pPlayer->m_Shared.IsCritBoosted()) {
 		return true;
+	}
+	else {
+		return false;
+	}
+		
 
-	float flPlayerCritMult = pPlayer->GetCritMult();
-	float flCritChance = TF_DAMAGE_CRIT_CHANCE_MELEE * flPlayerCritMult;
+	float flPlayerCritMult = 0.0;
+	float flCritChance = 0.0;
 	CALL_ATTRIB_HOOK_FLOAT( flCritChance, mult_crit_chance );
 
 	// mess with the crit chance seed so it's not based solely on the prediction seed
