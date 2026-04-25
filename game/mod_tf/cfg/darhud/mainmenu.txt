@@ -1,0 +1,5 @@
+#base ../../custom/darhud/resource/ui/customizations/mainmenu/old_mainmenu.res 
+#base ../../custom/darhud/resource/ui/customizations/mainmenu/old_mainmenu.res 
+#base ../../custom/darhud/resource/ui/customizations/mainmenu/old_mainmenu.res 
+#base ../../custom/darhud/resource/ui/customizations/mainmenu/old_mainmenu.res 
+#base ../../custom/darhud/resource/ui/customizations/mainmenu/old_mainmenu.res 

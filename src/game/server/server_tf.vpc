@@ -36,7 +36,7 @@ $Configuration
 		$PreprocessorDefinitions		"$BASE;BDSBASE_CUSTOM_SCHEMA" [$BDSBASE]
 		//legacy stuff
 		$PreprocessorDefinitions		"$BASE;BDSBASE_LEGACY_MAINMENU" [$BDSBASE]
-		$PreprocessorDefinitions		"$BASE;BDSBASE_LEGACY_VIEWMODELS" [$BDSBASE]
+		//$PreprocessorDefinitions		"$BASE;BDSBASE_LEGACY_VIEWMODELS" [$BDSBASE]
 		//curated item options
 		$PreprocessorDefinitions		"$BASE;BDSBASE_CURATED_ITEMS" [$BDSBASE]
 		//$PreprocessorDefinitions		"$BASE;BDSBASE_CURATED_ITEMS_ALLOWCOSMETICS" 	   [$BDSBASE]

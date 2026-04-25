@@ -1,0 +1,20 @@
+r_decal_cullsize 1
+exec joystick.cfg
+exec autoexec.cfg
+stuffcmds
+startupmenu
+sv_unlockedchapters 99
+
+con_enable 1
+wait 2; showconsole; incrementvar mat_aaquality 0 1 1; hideconsole
+
+vgui_cache_res_files 0
+tf_dashboard_slide_time 0.003
+tf_mm_dashboard_slide_panel_step 0
+tf_hud_target_id_alpha 255
+tf_hud_target_id_disable_floating_health 1
+cl_hud_playerclass_use_playermodel 0
+
+//match hud off, fuck that shit
+tf_use_match_hud 0
+match_hud_off //for mastercomfig
